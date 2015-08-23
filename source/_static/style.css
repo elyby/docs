@@ -4,7 +4,7 @@ body {
     background: #ebe8e1!important;
 }
 
-h1, h2, h3, h4, h5, h6, legend {
+h1, h2, h3, h4, h5, h6, legend, .wy-side-nav-search > a, .wy-nav-top a {
     font-family: "Roboto Condensed", "Roboto Slab", sans-serif;
     font-weight: normal;
 }
@@ -20,9 +20,18 @@ h1, h2, h3, h4, h5, h6, legend {
 
 .wy-nav-side {
     background-color: #232323;
+    overflow-y: auto;
 }
 
 .wy-table-responsive table td,
 .wy-table-responsive table th {
     white-space: normal;
+}
+
+.wy-side-nav-search > a {
+    font-size: 21px;
+}
+
+.wy-nav-top {
+    line-height: 30px;
 }
