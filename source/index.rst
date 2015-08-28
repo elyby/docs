@@ -21,4 +21,5 @@
    skin-system
    minecraft-auth
    oauth
+   api
 
