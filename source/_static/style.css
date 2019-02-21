@@ -4,7 +4,16 @@ body {
     background: #ebe8e1!important;
 }
 
-h1, h2, h3, h4, h5, h6, legend, .wy-side-nav-search > a, .wy-nav-top a {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+legend,
+.wy-side-nav-search > a,
+.wy-nav-top a,
+.caption-text {
     font-family: "Roboto Condensed", "Roboto Slab", sans-serif;
     font-weight: normal;
 }
@@ -34,4 +43,10 @@ h1, h2, h3, h4, h5, h6, legend, .wy-side-nav-search > a, .wy-nav-top a {
 
 .wy-nav-top {
     line-height: 30px;
+}
+
+.wy-menu .caption-text {
+    color: #379070;
+    font-size: 18px;
+    text-transform: none;
 }

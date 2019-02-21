@@ -70,19 +70,19 @@ URL-адреса запросов
 Примеры запросов
 ~~~~~~~~~~~~~~~~
 
-.. code-block:: http
+.. code-block:: text
 
    http://skinsystem.ely.by/skins/erickskrauch.png?version=2&minecraft_version=1.7.2
 
 Получает скин игрока **erickskrauch** с версии Minecraft 1.7.2.
 
-.. code-block:: http
+.. code-block:: text
 
    http://skinsystem.ely.by/cloaks/notch?version=2&minecraft_version=1.6.4
 
 Получает плащ игрока **notch** с версии Minecraft 1.6.4. Обратите внимание, что расширение ".png" не передано.
 
-.. code-block:: http
+.. code-block:: text
 
    http://skinsystem.ely.by/textures/EnoTiK?version=2&authlib_version=1.5.17
 
@@ -112,13 +112,13 @@ URL-адреса запросов
 Примеры запросов:
 """""""""""""""""
 
-.. code-block:: http
+.. code-block:: text
 
    http://skinsystem.ely.by/skins/?version=2&minecraft_version=1.5.2&name=erickskrauch.png
 
 Получает скин игрока **erickskrauch** с версии Minecraft 1.5.2.
 
-.. code-block:: http
+.. code-block:: text
 
    http://skinsystem.ely.by/cloaks/?version=2&minecraft_version=1.4.7&name=notch
 
