@@ -13,7 +13,6 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys
 import os
 import sphinx_rtd_theme
 import datetime
@@ -259,3 +258,20 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+redirect_files = ['api.html', 'minecraft-auth.html', 'oauth.html', 'skin-system.html']
+
+from shutil import copyfile
+
+def copy_legacy_redirects(app, _):
+    if app.builder.name != 'html':
+        return
+
+    for html_src_path in redirect_files:
+        target_path = os.path.join(app.outdir, html_src_path)
+        src_path = os.path.join(app.srcdir, html_src_path)
+        if os.path.isfile(src_path):
+            copyfile(src_path, target_path)
+
+def setup(app):
+    app.connect('build-finished', copy_legacy_redirects)
