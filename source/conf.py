@@ -13,7 +13,6 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import os
 import sphinx_rtd_theme
 import datetime
 
@@ -259,18 +258,31 @@ texinfo_documents = [
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
 
-static_files = ['_config.yml', 'api.html', 'minecraft-auth.html', 'oauth.html', 'skin-system.html']
+static_files = [
+    '../CNAME',
+    '../_config.yml',
+    'api.html',
+    'minecraft-auth.html',
+    'oauth.html',
+    'skin-system.html',
+]
 
 from shutil import copyfile
+from os import path
+from sphinx.application import Sphinx
 
 def copy_static_files(app, _):
+    # type: (Sphinx, None) -> None
     if app.builder.name != 'html':
         return
 
     for src_name in static_files:
-        target_path = os.path.join(app.outdir, src_name)
-        src_path = os.path.join(app.srcdir, src_name)
-        if os.path.isfile(src_path):
+        src_path = path.join(app.srcdir, src_name)
+        target_path = path.join(app.outdir, src_name)
+        if path.dirname(path.normpath(target_path)) == path.dirname(app.outdir):
+            target_path = path.join(app.outdir, path.basename(target_path))
+
+        if path.isfile(src_path):
             copyfile(src_path, target_path)
 
 def setup(app):
