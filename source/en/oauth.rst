@@ -7,7 +7,7 @@ The implementation of this protocol will allow your users to authorize using the
 Application registration
 ========================
 
-First you need to `create a new application <https://account.ely.by/dev/applications/new>` _. Select **Website** as the
+First you need to `create a new application <https://account.ely.by/dev/applications/new>`_. Select **Website** as the
 application type. For the *Redirect URI* you can get away with just specifying the domain, but to increase security
 it's advised to use the full redirect path. Here are examples of valid addresses:
 
