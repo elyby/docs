@@ -3,8 +3,8 @@
 
 На этой странице вы найдёте информацию о самостоятельной реализации системы скинов на базе сервиса Ely.by.
 
-Система скинов Ely.by, в отличие от других, не заменяет, а дополняет официальную систему скинов, тем самым игроки с
-лицензией не теряют свои скины, а игроки без лицензии смогут установить себе скин и видеть скины других игроков.
+Система скинов Ely.by не заменяет, а дополняет официальную систему скинов, тем самым игроки с лицензией не теряют
+свои скины, а игроки без лицензии смогут установить себе скин и видеть скины других игроков.
 
 Мы стремимся соответствовать официальной системе скинов и не поддерживаем ушки и HD-скины. Поддержка плащей имеется,
 но мы не позволяем игрокам самостоятельно их надевать.
@@ -15,13 +15,16 @@ URL-адреса запросов
 .. note:: Вы можете найти более подробную информацию о реализации системы скинов в
           `репозитории проекта Chrly <https://github.com/elyby/chrly>`_.
 
-Система скинов располагается по URL :samp:`http://skinsystem.ely.by`. На сервере доступно 4 основных обработчика:
+Система скинов располагается по URL :samp:`http://skinsystem.ely.by`. Параметр :samp:`nickname` не чувствителен
+к регистру. Для получения информации о текстурах используются следующие 4 обработчика:
 
+.. _skin-request:
 .. function:: /skins/{nickname}.png
 
    Этот URL отвечает за загрузку скинов. В качестве параметра **nickname** необходимо передать ник игрока.
    Расширение :samp:`.png` можно опустить.
 
+.. _cape-request:
 .. function:: /cloaks/{nickname}.png
 
    Этот URL отвечает за загрузку плащей. В качестве параметра **nickname** необходимо передать ник игрока.
@@ -35,15 +38,15 @@ URL-адреса запросов
    .. code-block:: javascript
 
       {
-          "SKIN": {
-              "url": "http://example.com/skin.png",
-              "metadata": {
-                  "model": "slim"
-              }
-          },
-          "CAPE": {
-              "url": ""
+        "SKIN": {
+          "url": "http://example.com/skin.png",
+          "metadata": {
+            "model": "slim"
           }
+        },
+        "CAPE": {
+          "url": "http://example.com/cape.png"
+        }
       }
 
    В зависимости от доступных игроку текстур, могут отсутствовать поля :samp:`SKIN` или :samp:`CAPE`.
@@ -54,85 +57,70 @@ URL-адреса запросов
    Этот запрос используется в нашем `плагине серверной системы скинов <http://ely.by/server-skins-system>`_ для загрузки
    текстур с оригинальной подписью Mojang. Полученные в ответе текстуры могут быть без изменений переданы в
    немодифицированный игровой клиент, т.к. все параметры совпадают с оригинальными. В ответе также будет присутсвовать
-   дополнительное :samp:`property` с :samp:`name` равным **ely**.
+   дополнительное property с :samp:`name` равным **ely**.
 
-.. note:: Ник не чувствителен к регистру и внутри обработчика в любом случае приводится к нижнему регистру.
+   .. code-block:: javascript
 
-Кроме того, для всех запросов необходимо в GET параметрах передать следующие значения:
+      {
+        "id": "ffc8fdc95824509e8a57c99b940fb996",
+        "name": "ErickSkrauch",
+        "properties": [
+          {
+            "name": "textures",
+            "signature": "QH+1rlQJYk8tW+8WlSJnzxZZUL5RIkeOO33dq84cgNoxwCkzL95Zy5pbPMFhoiMXXablqXeqyNRZDQa+OewgDBSZxm0BmkNmwdTLzCPHgnlNYhwbO4sirg3hKjCZ82ORZ2q7VP2NQIwNvc3befiCakhDlMWUuhjxe7p/HKNtmKA7a/JjzmzwW7BWMv8b88ZaQaMaAc7puFQcu2E54G2Zk2kyv3T1Bm7bV4m7ymbL8McOmQc6Ph7C95/EyqIK1a5gRBUHPEFIEj0I06YKTHsCRFU1U/hJpk98xXHzHuULJobpajqYXuVJ8QEVgF8k8dn9VkS8BMbXcjzfbb6JJ36v7YIV6Rlt75wwTk2wr3C3P0ij55y0iXth1HjwcEKsg54n83d9w8yQbkUCiTpMbOqxTEOOS7G2O0ZDBJDXAKQ4n5qCiCXKZ4febv4+dWVQtgfZHnpGJUD3KdduDKslMePnECOXMjGSAOQou//yze2EkL2rBpJtAAiOtvBlm/aWnDZpij5cQk+pWmeHWZIf0LSSlsYRUWRDk/VKBvUTEAO9fqOxWqmSgQRUY2Ea56u0ZsBb4vEa1UY6mlJj3+PNZaWu5aP2E9Unh0DIawV96eW8eFQgenlNXHMmXd4aOra4sz2eeOnY53JnJP+eVE4cB1hlq8RA2mnwTtcy3lahzZonOWc=",
+            "value": "eyJ0aW1lc3RhbXAiOjE0ODYzMzcyNTQ4NzIsInByb2ZpbGVJZCI6ImM0ZjFlNTZmNjFkMTQwYTc4YzMyOGQ5MTY2ZWVmOWU3IiwicHJvZmlsZU5hbWUiOiJXaHlZb3VSZWFkVGhpcyIsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS83Mzk1NmE4ZTY0ZWU2ZDhlYzY1NmFkYmI0NDA0ZjhlYmZmMzQxMWIwY2I5MGIzMWNiNDc2ZWNiOTk2ZDNiOCJ9fX0="
+          },
+          {
+            "name": "ely",
+            "value": "but why are you asking?"
+          }
+        ]
+      }
 
-:version: Версия протокола, по которому идёт запрос на скины. На данный момент таковым является 2 протокол, т.е. вам
-          нужно всегда указывать version=2.
+------------------------------------------------------------------------------------------------------------------------
 
-:minecraft_version: Версия Minecraft, с которой идёт запрос. Этот параметр можно не передавать в том случае, если вы
-                    передаёте параметр authlib_version.
+Для сбора аналитической информации об использовании нашего сервера системы скинов мы также ожидаем получения следующих
+параметров запроса, передаваемых в качестве дополнительных GET параметров:
 
-:authlib_version: Версия authlib, с которой выполняется запрос. Этот параметр актуален для версий Minecraft 1.7.6+, когда
+:version: Версия протокола, по которому идёт запрос на скины. На данный момент таковой является :samp:`2` версия,
+          т.е. вам необходимо указать :samp:`version=2`.
+
+:minecraft_version: Версия Minecraft, с которой идёт запрос.
+
+:authlib_version: Версия используемой Authlib. Этот параметр актуален для версий Minecraft 1.7.6+, когда
                   для загрузки скинов стала использоваться отдельная библиотека, а не реализация внутри игры.
 
-                  Параметр может быть передан вместо параметра **minecraft_version**.
-
-Если в запросе не будет параметра **version** и **minecraft_version** или **authlib_version**, сервер ответит 400
-ошибкой и скин не будет загружен.
-
-Примеры запросов
-~~~~~~~~~~~~~~~~
+Пример запроса на текстур с передачей параметров выше:
 
 .. code-block:: text
 
-   http://skinsystem.ely.by/skins/erickskrauch.png?version=2&minecraft_version=1.7.2
+   http://skinsystem.ely.by/textures/erickskrauch?version=2&minecraft_version=1.14.0&authlib_version=1.5.25
 
-Получает скин игрока **erickskrauch** с версии Minecraft 1.7.2.
+Вспомогательные URL
+===================
 
-.. code-block:: text
+Также запрос скина и плаща можно выполнить, передавая ник через GET параметр. Эта возможность используется для
+передачи аналитических параметров на версиях игры до 1.5.2, когда ник просто дополнялся в конец строки, а не
+использовалась подстановка :samp:`%s`. Для этого вся строка выстраивается таким образом, чтобы последним параметром
+шёл :samp:`name`, после добавления ника к которому получалась валидный запрос на текстуру.
 
-   http://skinsystem.ely.by/cloaks/notch?version=2&minecraft_version=1.6.4
+.. function:: /skins?name={nickname}.png
 
-Получает плащ игрока **notch** с версии Minecraft 1.6.4. Обратите внимание, что расширение ".png" не передано.
+   Смотрите `запрос на получение скина <#skin-request>`_.
 
-.. code-block:: text
+.. function:: /cloaks?name={nickname}.png
 
-   http://skinsystem.ely.by/textures/EnoTiK?version=2&authlib_version=1.5.17
+   Смотрите `запрос на получение плаща <#cape-request>`_.
 
-Получает текстуры игрока **EnoTiK** с версии authlib 1.5.17 (версия Minecraft 1.8).
-
-Вспомогательные адреса запросов
-===============================
-
-Кроме того, во 2 версии протокола системы скинов определены несколько специальных URL, которые проксируют трафик внутрь
-основных запросов, перечисленных выше.
-
-Ник как GET параметр
-~~~~~~~~~~~~~~~~~~~~
-
-Эти URL, в отличие от основных запросов, позволяют передать ник игрока в качестве одного из GET параметров. Такие запросы
-полезены для версии Minecraft 1.5.2 и ниже, когда внутри кода игры не использовалась подстановка %s для ника, а производилась
-простая конкатенация строк. Таким образом можно передать все необходимые GET параметры, указав ник последним.
-
-.. function:: /skins/?name={nickname}.png
-
-   Тот же запрос на скин. Вместо параметра **nickname** необходимо передать ник игрока. Расширение .png можно опустить.
-
-.. function:: /cloaks/?name={nickname}.png
-
-   Тот же запрос на плащ. Вместо параметра **nickname** необходимо передать ник игрока. Расширение .png можно опустить.
-
-Примеры запросов:
-"""""""""""""""""
+Пример запросов на текстуры с передачей параметров выше:
 
 .. code-block:: text
 
-   http://skinsystem.ely.by/skins/?version=2&minecraft_version=1.5.2&name=erickskrauch.png
-
-Получает скин игрока **erickskrauch** с версии Minecraft 1.5.2.
-
-.. code-block:: text
-
-   http://skinsystem.ely.by/cloaks/?version=2&minecraft_version=1.4.7&name=notch
-
-Получает плащ игрока **notch** с версии Minecraft 1.4.7. Обратите внимание, что расширение ".png" не передано.
+   http://skinsystem.ely.by/skins?version=2&minecraft_version=1.5.2&name=erickskrauch.png
+   http://skinsystem.ely.by/cloaks?version=2&minecraft_version=1.4.7&name=notch
 
 Старый формат запроса
-~~~~~~~~~~~~~~~~~~~~~
+=====================
 
 В 1 версии протокола системы скинов применялся другой способ загрузки скинов. Все запросы шли по URL
 **http://ely.by/minecraft.php** и все данные передавались через GET параметры.
