@@ -1,17 +1,17 @@
 Skins system
 ------------
 
-On this page you'll find information about available endpoints of Ely.by's service of skins system. You can use any of
+On this page you'll find information about available endpoints of Ely.by's skins system service. You can use any of
 them as an secondary or primary source of skins for your project.
 
-Ely.by's service of skins system provides `proxying of textures from Minecraft premium users <#textures-proxy>`_,
-which means that when using this service players will see both premium Minecraft users' skins and Ely.by users' skins.
+Ely.by's skins system service provides `proxying of textures from Minecraft premium users <#textures-proxy>`_,
+which means that using this service, your players will see both premium Minecraft users' skins and Ely.by users' skins.
 
 We strive to comply with the official skins system and do not support ears and HD-skins. The system supports capes,
 but doesn't allow players to wear them on their own.
 
-If you have suggestions for improvements of existing functionality, please
-`create a new Issue <https://github.com/elyby/chrly/issues/new>`_ in the
+If you have suggestions for improving the existing functionality, please
+`create a new Issue <https://github.com/elyby/chrly/issues/new>`_ at the
 `Chrly project repository <https://github.com/elyby/chrly>`_.
 
 Requests URLs
@@ -20,7 +20,7 @@ Requests URLs
 .. note:: You can find more detailed information about the implementation of the skins system server in the
           `Chrly project repository <https://github.com/elyby/chrly>`_.
 
-The skins system is placed on the domain :samp:`http://skinsystem.ely.by`. The :samp:`nickname` parameter
+The skins system is located at the :samp:`http://skinsystem.ely.by` domain. The :samp:`nickname` parameter
 is case-insensitive.
 
 The following endpoints are used to get information about textures:
@@ -28,22 +28,22 @@ The following endpoints are used to get information about textures:
 .. _skin-request:
 .. function:: /skins/{nickname}.png
 
-   This URL is responsible for skins downloading. The **nickname** param must be replaced with the player's nickname.
+   This URL is responsible for downloading skins. The **nickname** param must be replaced with the player's nickname.
    The :samp:`.png` extension can be omitted.
 
-   The server will return a :samp:`404` status response in case when textures aren't found.
+   If textures aren't found, the server will return a :samp:`404` status response.
 
 .. _cape-request:
 .. function:: /cloaks/{nickname}.png
 
-   This URL is responsible for capes downloading. The **nickname** param must be replaced with the player's nickname.
+   This URL is responsible for downloading capes. The **nickname** param must be replaced with the player's nickname.
    The :samp:`.png` extension can be omitted.
 
-   The server will return a :samp:`404` status response in case when textures aren't found.
+   If textures aren't found, the server will return a :samp:`404` status response.
 
 .. function:: /textures/{nickname}
 
-   By this URL you can get textures for the **nickname** specified in the request. The result is a JSON document
+   Via this URL you can get textures for the **nickname** specified in the request. The result'll be a JSON document
    of the following format:
 
    .. code-block:: javascript
@@ -60,15 +60,15 @@ The following endpoints are used to get information about textures:
         }
       }
 
-   Depending on available textures for the player, there may be no :samp:`SKIN` or :samp:`CAPE` fields.
-   If the skin model isn't :samp:`slim`, the :samp:`metadata` field will also be omitted.
+   Depending on the availability of textures for the player, fields :samp:`SKIN` or :samp:`CAPE` may be absent.
+   Unless the skin model is :samp:`slim`, the :samp:`metadata` field will be omitted.
 
-   The server will return an empty response with :samp:`204` status in case when textures aren't found.
+   The server will return an empty response with :samp:`204` status, if textures aren't found.
 
 .. function:: /textures/signed/{nickname}
 
    This request is used in our `server skins system plugin <http://ely.by/server-skins-system>`_ to load textures with
-   the original Mojang's signature. The textures received in the reply can be transferred to the unmodified game client
+   the original Mojang's signature. The textures received in the reply can be transferred to an unmodified game client
    without any changes. The answer will also include additional property with :samp:`name` equal to **ely**.
 
    .. code-block:: javascript
@@ -92,22 +92,22 @@ The following endpoints are used to get information about textures:
    By default textures proxying isn't used for this query. To enable it, add an additional GET parameter
    :samp:`?proxy=true`.
 
-   The server will return an empty response with :samp:`204` status in case when textures aren't found.
+   The server will return an empty response with :samp:`204` status, if textures aren't found.
 
 ------------------------------------------------------------------------------------------------------------------------
 
-You can also pass a number of additional GET parameters when making any of the above requests. They will be used
+You can also pass a range of additional GET parameters while making any of the above requests. They will be used
 to analyze the usage of the service by different versions of the game.
 
-:version: The version of the protocol that the skins are being requested. This is currently version :samp:`2`,
+:version: The version of the protocol by which skins will be requested. The current version is :samp:`2`,
           i.e. you need to specify :samp:`version=2`.
 
 :minecraft_version: The version of Minecraft that the request is made from.
 
 :authlib_version: The version of the Authlib used. This option is relevant for Minecraft versions 1.7.6+,
-                  where a separate library is used to load skins rather than an in-game code.
+                  where a separate library is used to load skins instead of in-game code.
 
-An example of a textures query with passing of parameters described above:
+Here is an example of a textures request with parameters described above:
 
 .. code-block:: text
 
@@ -117,8 +117,8 @@ Additional URLs
 +++++++++++++++
 
 You can also perform a skin and cape request by passing the nickname through the GET parameter. This feature is used
-to pass analytical parameters on the game versions up to 1.5.2, when the nickname is simply appended to the end of the
-line. To do this, the entire string is arranged in such a way that the last parameter was :samp:`name`, after appending
+to pass analytical parameters of game versions up to 1.5.2, where the nickname is simply appended to the end of the
+line. To do this, the entire string is arranged in such a way that the last parameter is :samp:`name`, after appending
 a nickname to which you get a full request string for textures.
 
 .. function:: /skins?name={nickname}.png
@@ -129,7 +129,7 @@ a nickname to which you get a full request string for textures.
 
    See the `cape request <#cape-request>`_.
 
-Example of requests for textures with parameters above:
+Examples of requests for textures with parameters from above:
 
 .. code-block:: text
 
@@ -141,16 +141,16 @@ Example of requests for textures with parameters above:
 Textures proxying
 =================
 
-Ely.by's service of skins system obtains textures from the official skin system in case no information about textures
-for the requested user name was found in the database. The request will also be proxied if a skin entry is found,
+Ely.by's skins system service obtains textures from the official skin system in a case where no information about textures
+for the requested username was found in the database. The request will also be proxied if a skin entry is found,
 but it's default.
 
-To improve the throughput of the proxying algorithm, information about textures is cached in the 2 stages:
+To improve the throughput of the proxying algorithm, information about textures is cached in 2 stages:
 
 * Player's names and UUIDs matches are stored
   `for 30 days <https://help.mojang.com/customer/portal/articles/928638#targetText=How%20often%20can%20I%20change%20my%20username%3F>`_.
 
-* Information about textures is updated not more often than
+* Information about textures isn't updated more often than
   `once a minute <https://wiki.vg/Mojang_API#UUID_-.3E_Profile_.2B_Skin.2FCape>`_.
 
 If you own a Minecraft premium account, but your nickname is busy, please contact our
@@ -159,5 +159,5 @@ If you own a Minecraft premium account, but your nickname is busy, please contac
 Ready-made implementations
 ==========================
 
-Ready-made patch implementations and installation instructions can be found in the
+Ready-made patch implementations and installation instructions can be found at the
 `download section of the main Ely.by website <http://ely.by/load>`_.
