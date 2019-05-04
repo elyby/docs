@@ -14,37 +14,33 @@ If you have suggestions for improving the existing functionality, please
 `create a new Issue <https://github.com/elyby/chrly/issues/new>`_ at the
 `Chrly project repository <https://github.com/elyby/chrly>`_.
 
-Requests URLs
-=============
-
 .. note:: You can find more detailed information about the implementation of the skins system server in the
           `Chrly project repository <https://github.com/elyby/chrly>`_.
 
-The skins system is located at the :samp:`http://skinsystem.ely.by` domain. The :samp:`nickname` parameter
-is case-insensitive.
+Requests URLs
+=============
 
-The following endpoints are used to get information about textures:
+The skins system is located at the :samp:`http://skinsystem.ely.by` domain.
+
+In all queries, the :samp:`nickname` param must be replaced by the player's name. The value is case-insensitive.
 
 .. _skin-request:
 .. function:: /skins/{nickname}.png
 
-   This URL is responsible for downloading skins. The **nickname** param must be replaced with the player's nickname.
-   The :samp:`.png` extension can be omitted.
-
-   If textures aren't found, the server will return a :samp:`404` status response.
+   URL for downloading skin texture. The :samp:`.png` extension can be omitted. If textures aren't found,
+   the server will return a :samp:`404` status response.
 
 .. _cape-request:
 .. function:: /cloaks/{nickname}.png
 
-   This URL is responsible for downloading capes. The **nickname** param must be replaced with the player's nickname.
-   The :samp:`.png` extension can be omitted.
-
-   If textures aren't found, the server will return a :samp:`404` status response.
+   URL for downloading cape texture. The :samp:`.png` extension can be omitted. If textures aren't found,
+   the server will return a :samp:`404` status response.
 
 .. function:: /textures/{nickname}
 
-   Via this URL you can get textures for the **nickname** specified in the request. The result'll be a JSON document
-   of the following format:
+   Via this URL you can get textures in the format specified in the :samp:`textures` field of JSON property with the
+   same name in response to a
+   `request for signed textures <https://wiki.vg/Mojang_API#UUID_-.3E_Profile_.2B_Skin.2FCape>`_.
 
    .. code-block:: javascript
 
@@ -68,7 +64,7 @@ The following endpoints are used to get information about textures:
 .. function:: /textures/signed/{nickname}
 
    This request is used in our `server skins system plugin <http://ely.by/server-skins-system>`_ to load textures with
-   the original Mojang's signature. The textures received in the reply can be transferred to an unmodified game client
+   the original Mojang's signature. The textures received this way can be transferred to an unmodified game client
    without any changes. The answer will also include additional property with :samp:`name` equal to **ely**.
 
    .. code-block:: javascript
@@ -141,9 +137,9 @@ Examples of requests for textures with parameters from above:
 Textures proxying
 =================
 
-Ely.by's skins system service obtains textures from the official skin system in a case where no information about textures
-for the requested username was found in the database. The request will also be proxied if a skin entry is found,
-but it's default.
+Ely.by's skins system service obtains textures from the official skin system in a case where no information about
+textures for the requested username was found in the database. The request will also be proxied if a skin entry is
+found, but it's default.
 
 To improve the throughput of the proxying algorithm, information about textures is cached in 2 stages:
 
