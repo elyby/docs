@@ -27,13 +27,13 @@ In all queries, the :samp:`nickname` param must be replaced by the player's name
 .. _skin-request:
 .. function:: /skins/{nickname}.png
 
-   URL for downloading skin texture. The :samp:`.png` extension can be omitted. If textures aren't found,
+   URL for downloading a skin texture. The :samp:`.png` extension can be omitted. If textures aren't found,
    the server will return a :samp:`404` status response.
 
 .. _cape-request:
 .. function:: /cloaks/{nickname}.png
 
-   URL for downloading cape texture. The :samp:`.png` extension can be omitted. If textures aren't found,
+   URL for downloading a cape texture. The :samp:`.png` extension can be omitted. If textures aren't found,
    the server will return a :samp:`404` status response.
 
 .. function:: /textures/{nickname}
