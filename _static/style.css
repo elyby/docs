@@ -1,0 +1,52 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed&subset=cyrillic,latin);
+
+body {
+    background: #ebe8e1!important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+legend,
+.wy-side-nav-search > a,
+.wy-nav-top a,
+.caption-text {
+    font-family: "Roboto Condensed", "Roboto Slab", sans-serif;
+    font-weight: normal;
+}
+
+.wy-side-nav-search,
+.wy-nav-top {
+    background-color: #207E5C;
+}
+
+.wy-menu-vertical a:active {
+    background-color: #1A6449;
+}
+
+.wy-nav-side {
+    background-color: #232323;
+    overflow-y: auto;
+}
+
+.wy-table-responsive table td,
+.wy-table-responsive table th {
+    white-space: normal;
+}
+
+.wy-side-nav-search > a {
+    font-size: 21px;
+}
+
+.wy-nav-top {
+    line-height: 30px;
+}
+
+.wy-menu .caption-text {
+    color: #379070;
+    font-size: 18px;
+    text-transform: none;
+}

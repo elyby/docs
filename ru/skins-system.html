@@ -1,0 +1,381 @@
+
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Система скинов &mdash; Ely.by Docs</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Авторизация по протоколу OAuth2" href="oauth.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Ely.by Documentation
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">English articles:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../en/oauth.html">Authorization via OAuth2 protocol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../en/skins-system.html">Skins system</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Статьи на русском:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="api.html">Ely.by API (симуляция Mojang API)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="minecraft-auth.html">Авторизация для Minecraft</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oauth.html">Авторизация по протоколу OAuth2</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Система скинов</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#url">URL-адреса запросов</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Вспомогательные URL</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#textures-proxy">Проксирование текстур</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">Готовые реализации</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Ely.by Documentation</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Система скинов</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>Система скинов<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>На этой странице вы найдёте информацию о доступных запросах к сервису системы скинов Ely.by. Вы можете использовать
+любой из них как дополнительный или основной источник скинов для своего проекта.</p>
+<p>Сервис системы скинов Ely.by обеспечивает <a class="reference external" href="#textures-proxy">проксирование текстур владельцев лицензии Minecraft</a>,
+что означает, что при использовании этого сервиса игроки будут видеть как скины премиум пользователей Minecraft,
+так и скины пользователей сервиса Ely.by.</p>
+<p>Мы стремимся соответствовать официальной системе скинов и не поддерживаем ушки и HD-скины. Система поддерживает плащи,
+но не позволяет игрокам самостоятельно их надевать.</p>
+<p>Если у вас есть предложения по развитию существующего функционала, пожалуйста,
+<a class="reference external" href="https://github.com/elyby/chrly/issues/new">создайте новый Issue</a> в
+<a class="reference external" href="https://github.com/elyby/chrly">репозитории проекта Chrly</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Вы можете найти более подробную информацию о реализации сервера системы скинов в
+<a class="reference external" href="https://github.com/elyby/chrly">репозитории проекта Chrly</a>.</p>
+</div>
+<div class="section" id="url">
+<h2>URL-адреса запросов<a class="headerlink" href="#url" title="Permalink to this headline">¶</a></h2>
+<p>Система скинов размещена на домене <code class="samp docutils literal notranslate"><span class="pre">http://skinsystem.ely.by</span></code>.</p>
+<p>Во всех запросах параметр <code class="samp docutils literal notranslate"><span class="pre">nickname</span></code> должен быть заменён на ник игрока. Значение не чувствительно к регистру.</p>
+<span class="target" id="skin-request"></span><dl class="py function">
+<dt>
+<code class="sig-name descname">/skins/{nickname}.png</code></dt>
+<dd><p>URL для загрузки текстуры скина. Расширение <code class="samp docutils literal notranslate"><span class="pre">.png</span></code> опционально. Если текстура не будет найдена,
+сервер вернёт ответ с <code class="samp docutils literal notranslate"><span class="pre">404</span></code> статусом.</p>
+</dd></dl>
+
+<span class="target" id="cape-request"></span><dl class="py function">
+<dt>
+<code class="sig-name descname">/cloaks/{nickname}.png</code></dt>
+<dd><p>URL для загрузки текстуры плаща. Расширение <code class="samp docutils literal notranslate"><span class="pre">.png</span></code> опционально. Если текстура не будет найдена,
+сервер вернёт ответ с <code class="samp docutils literal notranslate"><span class="pre">404</span></code> статусом.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-name descname">/textures/{nickname}</code></dt>
+<dd><p>По этому URL вы можете получить текстуры в формате, указанному в поле <code class="samp docutils literal notranslate"><span class="pre">textures</span></code> одноимённого property
+в <a class="reference external" href="https://wiki.vg/Mojang_API#UUID_-.3E_Profile_.2B_Skin.2FCape">ответе на запрос подписанных текстур</a>:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;SKIN&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;url&quot;</span><span class="o">:</span> <span class="s2">&quot;http://example.com/skin.png&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;metadata&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;model&quot;</span><span class="o">:</span> <span class="s2">&quot;slim&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;CAPE&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;url&quot;</span><span class="o">:</span> <span class="s2">&quot;http://example.com/cape.png&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>В зависимости от доступных игроку текстур могут отсутствовать поля <code class="samp docutils literal notranslate"><span class="pre">SKIN</span></code> или <code class="samp docutils literal notranslate"><span class="pre">CAPE</span></code>.
+Если модель скина не является <code class="samp docutils literal notranslate"><span class="pre">slim</span></code>, то поле <code class="samp docutils literal notranslate"><span class="pre">metadata</span></code> также будет отсутствовать.</p>
+<p>Если текстуры не будут найдены, сервер вернёт пустой ответ с <code class="samp docutils literal notranslate"><span class="pre">204</span></code> статусом.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-name descname">/textures/signed/{nickname}</code></dt>
+<dd><p>Этот запрос используется в нашем <a class="reference external" href="http://ely.by/server-skins-system">плагине серверной системы скинов</a> для
+загрузки текстур с оригинальной подписью Mojang. Полученные в ответе текстуры могут быть без изменений переданы в
+немодифицированный игровой клиент. В ответе также будет присутствовать дополнительное property с <code class="samp docutils literal notranslate"><span class="pre">name</span></code>
+равным <strong>ely</strong>.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;ffc8fdc95824509e8a57c99b940fb996&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;ErickSkrauch&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;properties&quot;</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;textures&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;signature&quot;</span><span class="o">:</span> <span class="s2">&quot;QH+1rlQJYk8tW+8WlSJnzxZZUL5RIkeOO33dq84cgNoxwCkzL95Zy5pbPMFhoiMXXablqXeqyNRZDQa+OewgDBSZxm0BmkNmwdTLzCPHgnlNYhwbO4sirg3hKjCZ82ORZ2q7VP2NQIwNvc3befiCakhDlMWUuhjxe7p/HKNtmKA7a/JjzmzwW7BWMv8b88ZaQaMaAc7puFQcu2E54G2Zk2kyv3T1Bm7bV4m7ymbL8McOmQc6Ph7C95/EyqIK1a5gRBUHPEFIEj0I06YKTHsCRFU1U/hJpk98xXHzHuULJobpajqYXuVJ8QEVgF8k8dn9VkS8BMbXcjzfbb6JJ36v7YIV6Rlt75wwTk2wr3C3P0ij55y0iXth1HjwcEKsg54n83d9w8yQbkUCiTpMbOqxTEOOS7G2O0ZDBJDXAKQ4n5qCiCXKZ4febv4+dWVQtgfZHnpGJUD3KdduDKslMePnECOXMjGSAOQou//yze2EkL2rBpJtAAiOtvBlm/aWnDZpij5cQk+pWmeHWZIf0LSSlsYRUWRDk/VKBvUTEAO9fqOxWqmSgQRUY2Ea56u0ZsBb4vEa1UY6mlJj3+PNZaWu5aP2E9Unh0DIawV96eW8eFQgenlNXHMmXd4aOra4sz2eeOnY53JnJP+eVE4cB1hlq8RA2mnwTtcy3lahzZonOWc=&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;eyJ0aW1lc3RhbXAiOjE0ODYzMzcyNTQ4NzIsInByb2ZpbGVJZCI6ImM0ZjFlNTZmNjFkMTQwYTc4YzMyOGQ5MTY2ZWVmOWU3IiwicHJvZmlsZU5hbWUiOiJXaHlZb3VSZWFkVGhpcyIsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS83Mzk1NmE4ZTY0ZWU2ZDhlYzY1NmFkYmI0NDA0ZjhlYmZmMzQxMWIwY2I5MGIzMWNiNDc2ZWNiOTk2ZDNiOCJ9fX0=&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;ely&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;but why are you asking?&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>По умолчанию для этого запроса не применяется проксирование текстур. Чтобы его включить, добавьте дополнительный
+GET параметр <code class="samp docutils literal notranslate"><span class="pre">?proxy=true</span></code>.</p>
+<p>Если текстуры не будут найдены, сервер вернёт пустой ответ с <code class="samp docutils literal notranslate"><span class="pre">204</span></code> статусом.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<p>При совершении любого из вышеописанных запросов вы также можете передать ряд дополнительных GET параметров. Они будут
+использованы для анализа использования сервиса разными версиями игры.</p>
+<dl class="field-list simple">
+<dt class="field-odd">version</dt>
+<dd class="field-odd"><p>Версия протокола, по которому идёт запрос на скины. На данный момент это версия <code class="samp docutils literal notranslate"><span class="pre">2</span></code> ,
+т.е. вам необходимо указать <code class="samp docutils literal notranslate"><span class="pre">version=2</span></code>.</p>
+</dd>
+<dt class="field-even">minecraft_version</dt>
+<dd class="field-even"><p>Версия Minecraft, с которой идёт запрос.</p>
+</dd>
+<dt class="field-odd">authlib_version</dt>
+<dd class="field-odd"><p>Версия используемой Authlib. Этот параметр актуален для версий Minecraft 1.7.6+, где
+для загрузки скинов стала использоваться отдельная библиотека, а не внутриигровой код.</p>
+</dd>
+</dl>
+<p>Пример запроса текстур с передачей вышеописанных параметров:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>http://skinsystem.ely.by/textures/erickskrauch?version=2&amp;minecraft_version=1.14.0&amp;authlib_version=1.5.25
+</pre></div>
+</div>
+<div class="section" id="id5">
+<h3>Вспомогательные URL<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>Также запрос скина и плаща можно выполнить, передавая ник через GET параметр. Эта возможность используется для
+передачи аналитических параметров в версиях игры до 1.5.2, когда ник просто добавлялся в конец строки. Для этого вся
+строка выстраивается таким образом, чтобы последним параметром шёл <code class="samp docutils literal notranslate"><span class="pre">name</span></code>, после добавления ника к которому
+получался полный запрос на текстуру.</p>
+<dl class="py function">
+<dt>
+<code class="sig-name descname">/skins?name={nickname}.png</code></dt>
+<dd><p>Смотрите <a class="reference external" href="#skin-request">запрос на получение скина</a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-name descname">/cloaks?name={nickname}.png</code></dt>
+<dd><p>Смотрите <a class="reference external" href="#cape-request">запрос на получение плаща</a>.</p>
+</dd></dl>
+
+<p>Пример запросов на текстуры с передачей параметров выше:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>http://skinsystem.ely.by/skins?version=2&amp;minecraft_version=1.5.2&amp;name=erickskrauch.png
+http://skinsystem.ely.by/cloaks?version=2&amp;minecraft_version=1.4.7&amp;name=notch
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="textures-proxy">
+<span id="id8"></span><h2>Проксирование текстур<a class="headerlink" href="#textures-proxy" title="Permalink to this headline">¶</a></h2>
+<p>Сервис системы скинов Ely.by получает текстуры из официальной системы скинов в случае, если в базе данных не было
+найдено информации о текстурах для запрошенного имени пользователя. Также запрос будет проксирован, если запись о скине
+будет найдена, но он будет стандартным.</p>
+<p>Для улучшения пропускной способности проксирующего алгоритма, информация о текстурах кешируется в 2 стадии:</p>
+<ul class="simple">
+<li><p>Соответствие ника и UUID хранится в
+<a class="reference external" href="https://help.mojang.com/customer/portal/articles/928638#targetText=How%20often%20can%20I%20change%20my%20username%3F">течение 30 дней</a>.</p></li>
+<li><p>Информация о текстурах обновляется не чаще
+<a class="reference external" href="https://wiki.vg/Mojang_API#UUID_-.3E_Profile_.2B_Skin.2FCape">раза в минуту</a>.</p></li>
+</ul>
+<p>Если вы владеете лицензионным аккаунтом Minecraft, но ваш ник занят, пожалуйста, обратитесь в
+<a class="reference external" href="http://ely.by/site/contact">службу поддержки</a> и после небольшой проверки мы передадим ник в ваше пользование.</p>
+</div>
+<div class="section" id="id12">
+<h2>Готовые реализации<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<p>Готовые реализации патчей и инструкции по их установке могут быть найдены в
+<a class="reference external" href="http://ely.by/load">разделе загрузок на главном сайте Ely.by</a>.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="oauth.html" class="btn btn-neutral float-left" title="Авторизация по протоколу OAuth2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, ErickSkrauch
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+  
+ 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-45299905-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-45299905-2');
+</script>
+
+
+
+</body>
+</html>
