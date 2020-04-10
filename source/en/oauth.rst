@@ -215,7 +215,7 @@ To send ``access_token``, the ``Authorization`` header is used with the value of
    $accessToken = 'some_access_token_value';
 
    $curl = curl_init();
-   curl_setopt($curl, CURLOPT_URL, 'https://account.ely.by/api/oauth2/v1/token');
+   curl_setopt($curl, CURLOPT_URL, 'https://account.ely.by/api/account/v1/info');
    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
    curl_setopt($curl, CURLOPT_HTTPHEADER, [
        'Authorization: Bearer ' . $accessToken,
