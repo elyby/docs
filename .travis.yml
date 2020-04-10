@@ -1,3 +1,5 @@
+os: linux
+dist: xenial
 language: python
 
 cache: pip
@@ -10,8 +12,9 @@ script:
 
 deploy:
   provider: pages
-  skip-cleanup: true
-  local-dir: ./build
-  github-token: $GITHUB_TOKEN
+  strategy: git
+  skip_cleanup: true
+  local_dir: ./build
+  token: $GITHUB_TOKEN
   on:
     branch: master
