@@ -273,23 +273,19 @@ authlib на каждое из популярных ядер для сервер
 Forge, Sponge
 ~~~~~~~~~~~~~
 
-| Процесс идентичен установке на `оригинальный сервер <#vanilla>`_. Вам необходимо модифицировать оригинальный сервер, 
-  не сам Forge!
+| Процесс идентичен установке на `оригинальный сервер <#vanilla>`_. Вам необходимо модифицировать ядро оригинального
+  сервера, не Forge!
 
 .. attention:: Для Forge версий 1.13 и новее необходимо модифицировать файл ``libraries/net/minecraft/server/ВЕРСИЯ/server-ВЕРСИЯ-srg.jar``
-
-.. _spigot:
 
 Bukkit, Spigot
 ~~~~~~~~~~~~~~
 
-| Процесс идентичен установке на `оригинальный сервер <#vanilla>`_, за одним дополнением.
-| Скачайте `Apache commons-io <https://repo1.maven.org/maven2/commons-io/commons-io/2.5/commons-io-2.5.jar>`_
+| Процесс идентичен установке на `оригинальный сервер <#vanilla>`_, за одним дополнением:
+| скачайте `Apache commons-io <https://repo1.maven.org/maven2/commons-io/commons-io/2.5/commons-io-2.5.jar>`_
   и `Apache commons lang3 <https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar>`_
-| Аналогичным с authlib методом переместите содержимое скачанных архивов в файлы сервера.
+  и аналогичным с authlib методом переместите содержимое скачанных архивов в файлы сервера.
   Помните: **не перемещайте папку META-INF**
-
-.. _paper:
 
 Paper (PaperSpigot)
 ~~~~~~~~~~~~~~~~~~~
@@ -297,8 +293,6 @@ Paper (PaperSpigot)
 | Процесс идентичен установке на `Bukkit/Spigot <#bukkit-spigot>`_, за одним изменением:
 | модифицировать необходимо файл ``cache/patched-ВЕРСИЯ.jar``
 | После изменения файла запускайте непосредственно измененный файл, а не оригинальный JAR сервера!
-
-.. _bungeecord:
 
 Bungeecord
 ~~~~~~~~~~
