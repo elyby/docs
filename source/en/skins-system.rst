@@ -66,7 +66,7 @@ In all queries, the :samp:`nickname` param must be replaced by the player's name
    This endpoint is an analog of the
    `player profile query in the Mojang's API <https://wiki.vg/Mojang_API#UUID_-.3E_Profile_.2B_Skin.2FCape>`_, but
    instead of UUID user is queried by his nickname. Just like in the Mojang's API, you can append ``?unsigned=false``
-   part to the URL to get textures with a signature. The response will also include an additional property with ``name``
+   to the URL to get textures with a signature. The response will also include an additional property with ``name``
    **ely**.
 
    If the user has no textures, they'll be requested through the Mojang's API, but the Mojang's signature will be
@@ -90,13 +90,13 @@ In all queries, the :samp:`nickname` param must be replaced by the player's name
           ]
       }
 
-   The server will return an empty response with ``204`` status if the nickname isn't found in the locally nor via the
+   The server will return an empty response with ``204`` status if the nickname wasn't found locally nor via the
    Mojang's API.
 
 .. _signature-verification-key-request:
 .. function:: /signature-verification-key.der
 
-   This endpoint returns a public key that can be used to verify textures signatures. The key is provided in ``DER``
+   This endpoint returns a public key that can be used to verify a texture's signature. The key is provided in ``DER``
    format, so it can be used directly in the Authlib, without modifying the signature checking algorithm.
 
 .. function:: /signature-verification-key.pem
