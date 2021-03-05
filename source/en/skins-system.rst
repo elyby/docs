@@ -61,6 +61,48 @@ In all queries, the :samp:`nickname` param must be replaced by the player's name
 
    The server will return an empty response with :samp:`204` status, if textures aren't found.
 
+.. function:: /profile/{nickname}
+
+   This endpoint is an analog of the
+   `player profile query in the Mojang's API <https://wiki.vg/Mojang_API#UUID_-.3E_Profile_.2B_Skin.2FCape>`_, but
+   instead of UUID user is queried by his nickname. Just like in the Mojang's API, you can append ``?unsigned=false``
+   part to the URL to get textures with a signature. The response will also include an additional property with ``name``
+   **ely**.
+
+   If the user has no textures, they'll be requested through the Mojang's API, but the Mojang's signature will be
+   discarded and textures will be re-signed using `our signature key <#signature-verification-key-request>`_.
+
+   .. code-block:: javascript
+
+      {
+          "id": "ffc8fdc95824509e8a57c99b940fb996",
+          "name": "ErickSkrauch",
+          "properties": [
+              {
+                  "name": "textures",
+                  "signature": "eks3dLJWzod92dLfWH6Z8uc6l3+IvrZtTj3zjwnj0AdVt44ODKoL50N+RabYxf7zF3C7tlJwT1oAtydONrxXUarqUlpVeQzLlfsuqUKBLi0L+/Y9yQLG3AciNqzEWq3hYaOsJrsaJday/hQmKFnpXEFCThTMpSuZhoAZIiH4VG48NhP70U93ejyXF9b1nPYnXP6k7BVB8LYSzcjZfdqY88jQJbbvRzOyX14ZSD0Ma92jceLNKmkTVc2UfRLUNXtQKtVSFUzlAjCXPJW89IIOZTRqLg65qstWwBvn6VuikyUB5EIxM8vuCh7zTkrMOx1v2Q0xIj8YSFcbnBH2bo87SYOIe1bOK57ZEeUJqY6uSgMlWs7dI5D3nmhFptErm72hg55Axdo1xbG4mvnmLYF7SA4yMDSytPPL+kA+sw3pafnvU2IZo38gqJSDOOpkOpdhUoHx85fzRJL8AcLSJiFlCZDl4pSi3cVuKy/xY5ohT/fJ6GEqpbZp3gACymn47zzI42VSh6j1DQnx2wnhqalTv0kE3qpAFpK/htSboQkFCW/bULO3b+vgU87XPlReT7UtH4yGLtixgs5GC8AzBraN8vOMv8TZCX9ab6mBBjOoDJjXa8Tq637TC75GxRHlpAN2jRHYvyp2zJwjUrML3u4eD4osHW+VBfl8D2l3nLJuemQ=",
+                  "value": "eyJ0aW1lc3RhbXAiOjE2MTQ5MzczMjc0MzcsInByb2ZpbGVJZCI6ImZmYzhmZGM5NTgyNDUwOWU4YTU3Yzk5Yjk0MGZiOTk2IiwicHJvZmlsZU5hbWUiOiJFcmlja1NrcmF1Y2giLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly9lbHkuYnkvc3RvcmFnZS9za2lucy82OWM2NzQwZDI5OTNlNWQ2ZjZhN2ZjOTI0MjBlZmMyOS5wbmcifX19"
+              },
+              {
+                  "name": "ely",
+                  "value": "but why are you asking?"
+              }
+          ]
+      }
+
+   The server will return an empty response with ``204`` status if the nickname isn't found in the locally nor via the
+   Mojang's API.
+
+.. _signature-verification-key-request:
+.. function:: /signature-verification-key.der
+
+   This endpoint returns a public key that can be used to verify textures signatures. The key is provided in ``DER``
+   format, so it can be used directly in the Authlib, without modifying the signature checking algorithm.
+
+.. function:: /signature-verification-key.pem
+
+   The same endpoint as the previous one, except that it returns the key in ``PEM`` format.
+
 .. function:: /textures/signed/{nickname}
 
    This request is used in our `server skins system plugin <http://ely.by/server-skins-system>`_ to load textures with
@@ -144,10 +186,10 @@ found, but it's default.
 To improve the throughput of the proxying algorithm, information about textures is cached in 2 stages:
 
 * Player's names and UUIDs matches are stored
-  `for 30 days <https://help.mojang.com/customer/portal/articles/928638#targetText=How%20often%20can%20I%20change%20my%20username%3F>`_.
+  `for 30 days <https://help.minecraft.net/hc/en-us/articles/360034636712-Minecraft-Usernames#article-container:~:text=How%20often%20can%20I%20change%20my%20username%3F>`_.
 
 * Information about textures isn't updated more often than
-  `once a minute <https://wiki.vg/Mojang_API#UUID_-.3E_Profile_.2B_Skin.2FCape>`_.
+  `once a minute <https://wiki.vg/Mojang_API#UUID_-.3E_Profile_.2B_Skin.2FCape:~:text=You%20can%20request%20the%20same%20profile%20once%20per%20minute>`_.
 
 If you own a Minecraft premium account, but your nickname is busy, please contact our
 `support team <http://ely.by/site/contact>`_ and after a short check we'll pass the nickname on to you.

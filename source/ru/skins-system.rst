@@ -61,6 +61,49 @@ URL-адреса запросов
 
    Если текстуры не будут найдены, сервер вернёт пустой ответ с :samp:`204` статусом.
 
+.. function:: /profile/{nickname}
+
+   Данный запрос является аналогом запроса
+   `профиля игрока в API Mojang <https://wiki.vg/Mojang_API#UUID_-.3E_Profile_.2B_Skin.2FCape>`_, только вместо
+   идентификации пользователя по UUID используется его ник. Также, как и в API Mojang, вы можете добавить к запросу
+   ``?unsigned=false``, чтобы получить текстуры с подписью. В ответе также будет присутствовать дополнительное property
+   с ``name`` равным **ely**.
+
+   Если у пользователя нет текстур, то они будут запрошены через прокси Mojang, после чего переподписаны с
+   использованием `нашего ключа подписи <#signature-verification-key-request>`_.
+
+   .. code-block:: javascript
+
+      {
+          "id": "ffc8fdc95824509e8a57c99b940fb996",
+          "name": "ErickSkrauch",
+          "properties": [
+              {
+                  "name": "textures",
+                  "signature": "eks3dLJWzod92dLfWH6Z8uc6l3+IvrZtTj3zjwnj0AdVt44ODKoL50N+RabYxf7zF3C7tlJwT1oAtydONrxXUarqUlpVeQzLlfsuqUKBLi0L+/Y9yQLG3AciNqzEWq3hYaOsJrsaJday/hQmKFnpXEFCThTMpSuZhoAZIiH4VG48NhP70U93ejyXF9b1nPYnXP6k7BVB8LYSzcjZfdqY88jQJbbvRzOyX14ZSD0Ma92jceLNKmkTVc2UfRLUNXtQKtVSFUzlAjCXPJW89IIOZTRqLg65qstWwBvn6VuikyUB5EIxM8vuCh7zTkrMOx1v2Q0xIj8YSFcbnBH2bo87SYOIe1bOK57ZEeUJqY6uSgMlWs7dI5D3nmhFptErm72hg55Axdo1xbG4mvnmLYF7SA4yMDSytPPL+kA+sw3pafnvU2IZo38gqJSDOOpkOpdhUoHx85fzRJL8AcLSJiFlCZDl4pSi3cVuKy/xY5ohT/fJ6GEqpbZp3gACymn47zzI42VSh6j1DQnx2wnhqalTv0kE3qpAFpK/htSboQkFCW/bULO3b+vgU87XPlReT7UtH4yGLtixgs5GC8AzBraN8vOMv8TZCX9ab6mBBjOoDJjXa8Tq637TC75GxRHlpAN2jRHYvyp2zJwjUrML3u4eD4osHW+VBfl8D2l3nLJuemQ=",
+                  "value": "eyJ0aW1lc3RhbXAiOjE2MTQ5MzczMjc0MzcsInByb2ZpbGVJZCI6ImZmYzhmZGM5NTgyNDUwOWU4YTU3Yzk5Yjk0MGZiOTk2IiwicHJvZmlsZU5hbWUiOiJFcmlja1NrcmF1Y2giLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly9lbHkuYnkvc3RvcmFnZS9za2lucy82OWM2NzQwZDI5OTNlNWQ2ZjZhN2ZjOTI0MjBlZmMyOS5wbmcifX19"
+              },
+              {
+                  "name": "ely",
+                  "value": "but why are you asking?"
+              }
+          ]
+      }
+
+   Если запрошенный никнейм не будет найден ни в локальном хранилище, ни у Mojang, сервер вернёт пустой ответ с ``204``
+   статусом.
+
+.. _signature-verification-key-request:
+.. function:: /signature-verification-key.der
+
+   Данный запрос возвращает публичный ключ, который может быть использован для проверки подписи текстур. Ключ
+   предоставляется в формате ``DER``. Этот формат используется внутри Authlib, поэтому ключ может быть в ней использован
+   без модификации алгоритма проверки подписи.
+
+.. function:: /signature-verification-key.pem
+
+   Такой же запрос, что и предыдущий, но возвращает ключ в формате ``PEM``.
+
 .. function:: /textures/signed/{nickname}
 
    Этот запрос используется в нашем `плагине серверной системы скинов <http://ely.by/server-skins-system>`_ для
@@ -145,10 +188,10 @@ URL-адреса запросов
 Для улучшения пропускной способности проксирующего алгоритма, информация о текстурах кешируется в 2 стадии:
 
 * Соответствие ника и UUID хранится в
-  `течение 30 дней <https://help.mojang.com/customer/portal/articles/928638#targetText=How%20often%20can%20I%20change%20my%20username%3F>`_.
+  `течение 30 дней <https://help.minecraft.net/hc/en-us/articles/360034636712-Minecraft-Usernames#article-container:~:text=How%20often%20can%20I%20change%20my%20username%3F>`_.
 
 * Информация о текстурах обновляется не чаще
-  `раза в минуту <https://wiki.vg/Mojang_API#UUID_-.3E_Profile_.2B_Skin.2FCape>`_.
+  `раза в минуту <https://wiki.vg/Mojang_API#UUID_-.3E_Profile_.2B_Skin.2FCape:~:text=You%20can%20request%20the%20same%20profile%20once%20per%20minute>`_.
 
 Если вы владеете лицензионным аккаунтом Minecraft, но ваш ник занят, пожалуйста, обратитесь в
 `службу поддержки <http://ely.by/site/contact>`_ и после небольшой проверки мы передадим ник в ваше пользование.
