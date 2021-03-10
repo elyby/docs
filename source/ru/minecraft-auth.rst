@@ -335,11 +335,31 @@ Paper (PaperSpigot)
 | До: ``java -jar paper-ВЕРСИЯ-БИЛД.jar``
 | После: ``java -jar cache/patched-ВЕРСИЯ.jar``
 
-Bungeecord
+BungeeCord
 ~~~~~~~~~~
 
-Установку необходимо производить только на сервер, на который пользователь выполняет первичных вход. В зависимости от
-используемого ядра сервера, обратитесь к одному из пунктов `выше <#install-server>`_.
+Вам потребуется InClassTranslator, который вы можете найти на просторах сети.
+
+С помощью архиватора откройте ``BungeeCord.jar``. Перейдите в папку ``net/md_5/bungee/connection``
+и распакуйте куда-нибудь файл ``InitialHandler.class``. Откройте распакованный файл через InClassTranslator
+и замените в нём строку ``https://sessionserver.mojang.com/session/minecraft/hasJoined?username=`` на
+``https://authserver.ely.by/session/hasJoined?username=``.
+
+.. figure:: _static/minecraft-auth/bungeecord_inclasstranslator.png
+   :align: center
+   :alt: Порядок редактирования: выбрать нужную строку, изменить, сохранить.
+
+Сохраните изменения и перетащите измененный файл назад в файлы сервера.
+
+.. figure:: _static/minecraft-auth/bungeecord_move.png
+   :align: center
+   :alt: Перетаскивание отредактированного файла назад в архив.
+
+   Обратите внимание: вам необходимо заменить оригинальный файл
+
+.. note:: | Установку необходимо производить не только на сам сервер Bungeecord, но и на все сервера "позади" него.
+            В зависимости от используемого ядра сервера, обратитесь к одному из пунктов `выше <#install-server>`_.
+          | Помните: все сервера "позади" Bungeecord должны иметь параметр ``online-mode`` установленным в ``false``!
 
 Установка на версии ниже 1.7.2
 ==============================
@@ -379,7 +399,7 @@ Minecraft. Переписывать его сюда не имеет смысла
 
 .. figure:: _static/minecraft-auth/installing_by_inclasstranslator.png
    :align: center
-   :alt: Процесс перетягивания: что куда.
+   :alt: Порядок редактирования: выбрать нужную строку, изменить, сохранить.
 
 После этого вам нужно положить изменённый .class обратно в .jar файл игры.
 
