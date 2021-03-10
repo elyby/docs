@@ -336,31 +336,37 @@ Paper (PaperSpigot)
 | После: ``java -jar cache/patched-ВЕРСИЯ.jar``
 
 BungeeCord
-~~~~~~~~~~
+==========
 
-Вам потребуется InClassTranslator, который вы можете найти на просторах сети.
+Хотя BungeeCord и является проксирующим сервером, авторизацию игроков он выполняет самостоятельно. К сожалению, BungeeCord не опирается на использование Authlib, а реализует процесс авторизации самостоятельно, поэтому для установки системы авторизации Ely.by вам понадобится модифицировать скомпилированные ``.class`` файлы.
 
-С помощью архиватора откройте ``BungeeCord.jar``. Перейдите в папку ``net/md_5/bungee/connection``
-и распакуйте куда-нибудь файл ``InitialHandler.class``. Откройте распакованный файл через InClassTranslator
-и замените в нём строку ``https://sessionserver.mojang.com/session/minecraft/hasJoined?username=`` на
-``https://authserver.ely.by/session/hasJoined?username=``.
+Для установки следуйте инструкции ниже:
 
-.. figure:: _static/minecraft-auth/bungeecord_inclasstranslator.png
-   :align: center
-   :alt: Порядок редактирования: выбрать нужную строку, изменить, сохранить.
+#. Скачайте программу InClassTranslator (прямых ссылок не даём, но его легко найти).
 
-Сохраните изменения и перетащите измененный файл назад в файлы сервера.
+#. С помощью архиватора откройте файл ``BungeeCord.jar``.
 
-.. figure:: _static/minecraft-auth/bungeecord_move.png
-   :align: center
-   :alt: Перетаскивание отредактированного файла назад в архив.
+#. Перейдите по пути ``net/md_5/bungee/connection`` и найдите там файл ``InitialHandler.class`` (без каких-либо символов $).
 
-   Обратите внимание: вам необходимо заменить оригинальный файл
+#. Распакуйте этот файл. В самом простом случае сделать это можно просто "вытянув" его из окна архиватора.
 
-.. note:: Установку необходимо производить не только на сам сервер Bungeecord, но и на все сервера "позади" него.
-          В зависимости от используемого ядра сервера, обратитесь к одному из пунктов `выше <#install-server>`_.
+#. Откройте распакованный файл в программе InClassTranslator и замените в нём строку ``https://sessionserver.mojang.com/session/minecraft/hasJoined?username=`` на ``https://authserver.ely.by/session/hasJoined?username=``, как показано на рисунке ниже:
 
-          Помните: все сервера "позади" Bungeecord должны иметь параметр ``online-mode`` установленным в ``false``!
+   .. figure:: _static/minecraft-auth/bungeecord_inclasstranslator.png
+      :align: center
+      :alt: Редактирование в InClassTranslator
+
+#. Сохраните изменения и перетащите измененный файл обратно в архив сервера. Подтвердите замену.
+
+   .. figure:: _static/minecraft-auth/bungeecord_move.png
+      :align: center
+      :alt: Перетаскивание отредактированного файла назад в архив
+
+После выполнения этих действий вы можете указать в файле конфигурации BungeeCord (``config.yml``) значение ``online_mode=true``.
+
+.. important:: Мы также рекомендуем выполнить установку Authlib на все сервера позади BungeeCord. Это может быть необходимо для плагинов, которые используют API Mojang. Инструкция по установке на конечные сервера приведена `выше <#install-server>`_.
+
+   При этом все сервера должны иметь в своей конфигурации (``server.properties``) значение ``online-mode=false``, поскольку пользователи уже авторизованы силами BungeeCord.
 
 Установка на версии ниже 1.7.2
 ==============================
