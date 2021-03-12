@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  Build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install pipenv
+        run: pip install pipenv
+
+      - id: cache-pipenv
+        name: Download cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.local/share/virtualenvs
+          key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
+
+      - name: Install dependencies
+        if: steps.cache-pipenv.outputs.cache-hit != 'true'
+        run: pipenv install --deploy --dev
+
+      - name: Build docs
+        run: pipenv run sphinx-build source build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: build
+          retention-days: 7
+
+  Deploy:
+    runs-on: ubuntu-latest
+    needs: Build
+    # TODO: remove upgrade branch after finishing upgrading process
+    if: contains(fromJson('["refs/heads/master", "refs/heads/upgrade"]'), github.ref)
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - id: download
+        name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+
+      - name: Deploy to the GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          branch: gh-pages
+          folder: ${{ steps.download.outputs.download-path }}
+          single-commit: true
