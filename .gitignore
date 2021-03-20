@@ -6,3 +6,6 @@
 
 ### venv folder
 /venv
+
+### The directory for the locales from the Crowdin
+/locale

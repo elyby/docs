@@ -4,11 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-sphinx-rtd-theme = "~=0.4.3"
-sphinx-autobuild = "~=0.7.1"
-Sphinx = "<4.0,>=3.0"
+Sphinx = ">=3.0,<4.0"
+sphinx-rtd-theme = "~=0.5.1"
 
 [dev-packages]
+lxml = ">=4.6.2,<5.0"
+sphinx-autobuild = ">=2020.09.01"
+sphinx-intl = ">=2.0,<3.0"
 
 [requires]
 python_version = "3.9"

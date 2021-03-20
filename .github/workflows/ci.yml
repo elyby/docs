@@ -31,8 +31,27 @@ jobs:
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: pipenv install --deploy --dev
 
+      - name: Build gettext strings
+        run: pipenv run sphinx-build -b gettext source build/locale
+
+      - name: Push and Pull strings from the Crowdin
+        uses: crowdin/github-action@1.1.0
+        # TODO: remove upgrade branch after finishing upgrading process
+        if: contains(fromJson('["refs/heads/master", "refs/heads/upgrade"]'), github.ref)
+        with:
+          token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+
+          upload_sources: true
+
+          download_translations: true
+          push_translations: false
+          download_language: en # Temporary limit only to English
+
+      - name: Fix permissions to the locale dir
+        run: sudo chown -R $USER:$USER locale
+
       - name: Build docs
-        run: pipenv run sphinx-build source build
+        run: pipenv run python build-multilang.py
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
