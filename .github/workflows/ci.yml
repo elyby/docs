@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  Build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install pipenv
+        run: pip install pipenv
+
+      - id: cache-pipenv
+        name: Download cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.local/share/virtualenvs
+          key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
+
+      - name: Install dependencies
+        if: steps.cache-pipenv.outputs.cache-hit != 'true'
+        run: pipenv install --deploy --dev
+
+      - name: Build gettext strings
+        run: pipenv run sphinx-build -b gettext source build/locale
+
+      - name: Push and Pull strings from the Crowdin
+        uses: crowdin/github-action@1.1.0
+        # TODO: remove upgrade branch after finishing upgrading process
+        if: contains(fromJson('["refs/heads/master", "refs/heads/upgrade"]'), github.ref)
+        with:
+          token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+
+          upload_sources: true
+
+          download_translations: true
+          push_translations: false
+          download_language: en # Temporary limit only to English
+
+      - name: Fix permissions to the locale dir
+        run: sudo chown -R $USER:$USER locale
+
+      - name: Build docs
+        run: pipenv run python build-multilang.py
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: build
+          retention-days: 7
+
+  Deploy:
+    runs-on: ubuntu-latest
+    needs: Build
+    # TODO: remove upgrade branch after finishing upgrading process
+    if: contains(fromJson('["refs/heads/master", "refs/heads/upgrade"]'), github.ref)
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - id: download
+        name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+
+      - name: Deploy to the GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          branch: gh-pages
+          folder: ${{ steps.download.outputs.download-path }}
+          single-commit: true

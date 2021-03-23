@@ -1,0 +1,8 @@
+api_token_env: CROWDIN_PERSONAL_TOKEN
+base_url: https://ely.crowdin.com
+project_id : 2
+preserve_hierarchy: true
+
+files:
+  - source: build/locale/*.pot
+    translation: locale/%two_letters_code%/LC_MESSAGES/%file_name%.po

@@ -24,7 +24,7 @@ Authlib-injector
 
 Если вы запускаете игру через лаунчер, то в его настройках необходимо найти поле для указания дополнительных аргументов JVM, куда необходимо в самое начало вставить строку, приведённую выше.
 
-.. figure:: ../_static/authlib-injector/launcher-jvm-options.png
+.. figure:: images/authlib-injector/launcher-jvm-options.png
    :align: center
    :alt: Редактирование аргументов JVM
 
@@ -40,7 +40,7 @@ Authlib-injector
 
 При запуске сервера вы должны увидеть сообщение об активации authlib-injector:
 
-.. figure:: ../_static/authlib-injector/server-startup-messages.png
+.. figure:: images/authlib-injector/server-startup-messages.png
    :align: center
    :alt: Сообщение при запуске сервера
 
