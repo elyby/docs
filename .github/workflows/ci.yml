@@ -1,8 +1,10 @@
 name: CI
 
 on:
-  - push
-  - pull_request
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 2 * * *'
 
 jobs:
   Build:
@@ -36,18 +38,18 @@ jobs:
 
       - name: Push and Pull strings from the Crowdin
         uses: crowdin/github-action@1.1.0
-        # TODO: remove upgrade branch after finishing upgrading process
-        if: contains(fromJson('["refs/heads/master", "refs/heads/upgrade"]'), github.ref)
+        if: github.ref == 'refs/heads/master'
         with:
           token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
 
-          upload_sources: true
+          upload_sources: ${{ github.event_name == 'push' }}
 
           download_translations: true
           push_translations: false
           download_language: en # Temporary limit only to English
 
       - name: Fix permissions to the locale dir
+        if: github.ref == 'refs/heads/master'
         run: sudo chown -R $USER:$USER locale
 
       - name: Build docs
@@ -60,25 +62,37 @@ jobs:
           path: build
           retention-days: 7
 
-  Deploy:
-    runs-on: ubuntu-latest
-    needs: Build
-    # TODO: remove upgrade branch after finishing upgrading process
-    if: contains(fromJson('["refs/heads/master", "refs/heads/upgrade"]'), github.ref)
+      - id: detect-diffs
+        name: Detect diffs
+        if: github.event_name == 'schedule'
+        run: |
+          gh_pages_exists=$(git ls-remote --heads origin gh-pages)
+          if [[ -z ${gh_pages_exists} ]]; then
+            echo "::warning::gh_pages branch doesn't exists"
+            echo "::set-output name=should-continue::false"
+            exit
+          fi
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+          tmp_dir=$(mktemp -du)
+          git worktree add "$tmp_dir" origin/gh-pages
 
-      - id: download
-        name: Download build artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: build
+          diff_detected=false
+          for l in locale/*; do
+            l=$(basename $l)
+            if ! diff -qbB -- "build/$l" "$tmp_dir/$l" > /dev/null; then
+              diff_detected=true
+              break
+            fi
+          done
+
+          echo "::set-output name=should-continue::$diff_detected"
 
       - name: Deploy to the GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.0
+        if: |
+          (github.event_name == 'push' && github.ref == 'refs/heads/master') ||
+          (github.event_name == 'schedule' && steps.detect-diffs.outputs.should-continue == 'true')
         with:
           branch: gh-pages
-          folder: ${{ steps.download.outputs.download-path }}
+          folder: build
           single-commit: true
