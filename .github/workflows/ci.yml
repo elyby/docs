@@ -66,6 +66,7 @@ jobs:
         name: Detect diffs
         if: github.event_name == 'schedule'
         run: |
+          git fetch origin
           gh_pages_exists=$(git ls-remote --heads origin gh-pages)
           if [[ -z ${gh_pages_exists} ]]; then
             echo "::warning::gh_pages branch doesn't exists"
