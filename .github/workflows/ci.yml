@@ -13,32 +13,27 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
+        id: setup-python
         with:
           python-version: 3.9
+          cache: pipenv
 
       - name: Install pipenv
         run: pip install pipenv
 
-      - id: cache-pipenv
-        name: Download cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.local/share/virtualenvs
-          key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
-
       - name: Install dependencies
-        if: steps.cache-pipenv.outputs.cache-hit != 'true'
+        if: steps.setup-python.outputs.cache-hit != 'true'
         run: pipenv install --deploy --dev
 
       - name: Build gettext strings
         run: pipenv run sphinx-build -b gettext source build/locale
 
       - name: Push and Pull strings from the Crowdin
-        uses: crowdin/github-action@1.1.0
+        uses: crowdin/github-action@1
         if: github.ref == 'refs/heads/master'
         with:
           token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
@@ -57,7 +52,7 @@ jobs:
         run: pipenv run python build-multilang.py
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: build
           path: build
@@ -71,7 +66,7 @@ jobs:
           gh_pages_exists=$(git ls-remote --heads origin gh-pages)
           if [[ -z ${gh_pages_exists} ]]; then
             echo "::warning::gh_pages branch doesn't exists"
-            echo "::set-output name=should-continue::false"
+            echo "should-continue=false" >> $GITHUB_OUTPUT
             exit
           fi
 
@@ -87,12 +82,13 @@ jobs:
             fi
           done
 
-          echo "::set-output name=should-continue::$diff_detected"
+          echo "should-continue=$diff_detected" >> $GITHUB_OUTPUT
 
       - name: Deploy to the GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.0
+        uses: JamesIves/github-pages-deploy-action@4
         if: |
           (github.event_name == 'push' && github.ref == 'refs/heads/master') ||
+          (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/master') ||
           (github.event_name == 'schedule' && steps.detect-diffs.outputs.should-continue == 'true')
         with:
           branch: gh-pages
