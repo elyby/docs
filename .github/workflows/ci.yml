@@ -33,7 +33,7 @@ jobs:
         run: pipenv run sphinx-build -b gettext source build/locale
 
       - name: Push and Pull strings from the Crowdin
-        uses: crowdin/github-action@1
+        uses: crowdin/github-action@v1
         if: github.ref == 'refs/heads/master'
         with:
           token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
@@ -85,7 +85,7 @@ jobs:
           echo "should-continue=$diff_detected" >> $GITHUB_OUTPUT
 
       - name: Deploy to the GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4
+        uses: JamesIves/github-pages-deploy-action@v4
         if: |
           (github.event_name == 'push' && github.ref == 'refs/heads/master') ||
           (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/master') ||
