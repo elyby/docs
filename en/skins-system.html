@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Skins system — Ely.by Docs</title>
+  
+
+  
+  <link rel="stylesheet" href="/_static/css/theme.css" type="text/css">
+  <link rel="stylesheet" href="/_static/pygments.css" type="text/css">
+  <link rel="stylesheet" href="/_static/style.css" type="text/css">
+
+  
+  
+    <link rel="shortcut icon" href="/_static/favicon.ico">
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="/en/_static/documentation_options.js"></script>
+        <script src="/_static/jquery.js"></script>
+        <script src="/_static/underscore.js"></script>
+        <script src="/_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="/_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="/en/genindex.html">
+    <link rel="search" title="Search" href="/en/search.html">
+    <link rel="prev" title="Authorization via OAuth2 protocol" href="/en/oauth.html"> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="/en/index.html" class="icon icon-home"> Ely.by Documentation
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="/en/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs">
+    <input type="hidden" name="check_keywords" value="yes">
+    <input type="hidden" name="area" value="default">
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">English articles:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="/en/api.html">Ely.by API (Mojang API simulation)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/en/authlib-injector.html">Authlib-injector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/en/minecraft-auth.html">Authentication for Minecraft</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/en/oauth.html">Authorization via OAuth2 protocol</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Skins system</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#url">Requests URLs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Additional URLs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#textures-proxy">Textures proxying</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">Ready-made implementations</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Статьи на русском:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="/ru/api.html">Ely.by API (симуляция Mojang API)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/ru/authlib-injector.html">Authlib-injector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/ru/minecraft-auth.html">Авторизация для Minecraft</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/ru/oauth.html">Авторизация по протоколу OAuth2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/ru/skins-system.html">Система скинов</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="/en/index.html">Ely.by Documentation</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="/en/index.html" class="icon icon-home"></a> »</li>
+        
+      <li>Skins system</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>Skins system<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>On this page you’ll find information about available endpoints of Ely.by’s skins system service. You can use any of them as an secondary or primary source of skins for your project.</p>
+<p>Ely.by’s skins system service provides <a class="reference external" href="#textures-proxy">proxying of textures from Minecraft premium users</a>, which means that using this service, your players will see both premium Minecraft users’ skins and Ely.by users’ skins.</p>
+<p>We strive to comply with the official skins system and do not support ears and HD-skins. The system supports capes, but doesn’t allow players to wear them on their own.</p>
+<p>If you have suggestions for improving the existing functionality, please <a class="reference external" href="https://github.com/elyby/chrly/issues/new">create a new Issue</a> at the <a class="reference external" href="https://github.com/elyby/chrly">Chrly project repository</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can find more detailed information about the implementation of the skins system server in the <a class="reference external" href="https://github.com/elyby/chrly">Chrly project repository</a>.</p>
+</div>
+<div class="section" id="url">
+<h2>Requests URLs<a class="headerlink" href="#url" title="Permalink to this headline">¶</a></h2>
+<p>The skins system is located at the <cite>http://skinsystem.ely.by</cite> domain.</p>
+<p>In all queries, the <code class="docutils literal notranslate"><span class="pre">nickname</span></code> param must be replaced by the player’s name. The value is case-insensitive.</p>
+<span class="target" id="skin-request"></span><dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">/skins/{nickname}.png</span></code></dt>
+<dd><p>URL for downloading a skin texture. The <code class="docutils literal notranslate"><span class="pre">.png</span></code> extension can be omitted. If textures aren’t found, the server will return a <code class="docutils literal notranslate"><span class="pre">404</span></code> status response.</p>
+</dd></dl>
+
+<span class="target" id="cape-request"></span><dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">/cloaks/{nickname}.png</span></code></dt>
+<dd><p>URL for downloading a cape texture. The <code class="docutils literal notranslate"><span class="pre">.png</span></code> extension can be omitted. If textures aren’t found, the server will return a <code class="docutils literal notranslate"><span class="pre">404</span></code> status response.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">/textures/{nickname}</span></code></dt>
+<dd><p>Via this URL you can get textures in the format specified in the <code class="docutils literal notranslate"><span class="pre">textures</span></code> field of JSON property with the same name in response to a <a class="reference external" href="https://wiki.vg/Mojang_API#UUID_-.3E_Profile_.2B_Skin.2FCape">request for signed textures</a>:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"SKIN"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">"url"</span><span class="o">:</span> <span class="s2">"http://example.com/skin.png"</span><span class="p">,</span>
+    <span class="s2">"metadata"</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">"model"</span><span class="o">:</span> <span class="s2">"slim"</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s2">"CAPE"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">"url"</span><span class="o">:</span> <span class="s2">"http://example.com/cape.png"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Depending on the availability of textures for the player, fields <code class="docutils literal notranslate"><span class="pre">SKIN</span></code> or <code class="docutils literal notranslate"><span class="pre">CAPE</span></code> may be absent. Unless the skin model is <code class="docutils literal notranslate"><span class="pre">slim</span></code>, the <code class="docutils literal notranslate"><span class="pre">metadata</span></code> field will be omitted.</p>
+<p>The server will return an empty response with <code class="docutils literal notranslate"><span class="pre">204</span></code> status, if textures aren’t found.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">/profile/{nickname}</span></code></dt>
+<dd><p>This endpoint is an analog of the <a class="reference external" href="https://wiki.vg/Mojang_API#UUID_-.3E_Profile_.2B_Skin.2FCape">player profile query in the Mojang’s API</a>, but instead of UUID user is queried by his nickname. Just like in the Mojang’s API, you can append <code class="docutils literal notranslate"><span class="pre">?unsigned=false</span></code> to the URL to get textures with a signature. The response will also include an additional property with <code class="docutils literal notranslate"><span class="pre">name</span></code> <strong>ely</strong>.</p>
+<p>If the user has no textures, they’ll be requested through the Mojang’s API, but the Mojang’s signature will be discarded and textures will be re-signed using <a class="reference external" href="#signature-verification-key-request">our signature key</a>.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">"id"</span><span class="o">:</span> <span class="s2">"ffc8fdc95824509e8a57c99b940fb996"</span><span class="p">,</span>
+    <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"ErickSkrauch"</span><span class="p">,</span>
+    <span class="s2">"properties"</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"textures"</span><span class="p">,</span>
+            <span class="s2">"signature"</span><span class="o">:</span> <span class="s2">"eks3dLJWzod92dLfWH6Z8uc6l3+IvrZtTj3zjwnj0AdVt44ODKoL50N+RabYxf7zF3C7tlJwT1oAtydONrxXUarqUlpVeQzLlfsuqUKBLi0L+/Y9yQLG3AciNqzEWq3hYaOsJrsaJday/hQmKFnpXEFCThTMpSuZhoAZIiH4VG48NhP70U93ejyXF9b1nPYnXP6k7BVB8LYSzcjZfdqY88jQJbbvRzOyX14ZSD0Ma92jceLNKmkTVc2UfRLUNXtQKtVSFUzlAjCXPJW89IIOZTRqLg65qstWwBvn6VuikyUB5EIxM8vuCh7zTkrMOx1v2Q0xIj8YSFcbnBH2bo87SYOIe1bOK57ZEeUJqY6uSgMlWs7dI5D3nmhFptErm72hg55Axdo1xbG4mvnmLYF7SA4yMDSytPPL+kA+sw3pafnvU2IZo38gqJSDOOpkOpdhUoHx85fzRJL8AcLSJiFlCZDl4pSi3cVuKy/xY5ohT/fJ6GEqpbZp3gACymn47zzI42VSh6j1DQnx2wnhqalTv0kE3qpAFpK/htSboQkFCW/bULO3b+vgU87XPlReT7UtH4yGLtixgs5GC8AzBraN8vOMv8TZCX9ab6mBBjOoDJjXa8Tq637TC75GxRHlpAN2jRHYvyp2zJwjUrML3u4eD4osHW+VBfl8D2l3nLJuemQ="</span><span class="p">,</span>
+            <span class="s2">"value"</span><span class="o">:</span> <span class="s2">"eyJ0aW1lc3RhbXAiOjE2MTQ5MzczMjc0MzcsInByb2ZpbGVJZCI6ImZmYzhmZGM5NTgyNDUwOWU4YTU3Yzk5Yjk0MGZiOTk2IiwicHJvZmlsZU5hbWUiOiJFcmlja1NrcmF1Y2giLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly9lbHkuYnkvc3RvcmFnZS9za2lucy82OWM2NzQwZDI5OTNlNWQ2ZjZhN2ZjOTI0MjBlZmMyOS5wbmcifX19"</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"ely"</span><span class="p">,</span>
+            <span class="s2">"value"</span><span class="o">:</span> <span class="s2">"but why are you asking?"</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The server will return an empty response with <code class="docutils literal notranslate"><span class="pre">204</span></code> status if the nickname wasn’t found locally nor via the Mojang’s API.</p>
+</dd></dl>
+
+<span class="target" id="signature-verification-key-request"></span><dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">/signature-verification-key.der</span></code></dt>
+<dd><p>This endpoint returns a public key that can be used to verify a texture’s signature. The key is provided in <code class="docutils literal notranslate"><span class="pre">DER</span></code> format, so it can be used directly in the Authlib, without modifying the signature checking algorithm.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">/signature-verification-key.pem</span></code></dt>
+<dd><p>The same endpoint as the previous one, except that it returns the key in <code class="docutils literal notranslate"><span class="pre">PEM</span></code> format.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">/textures/signed/{nickname}</span></code></dt>
+<dd><p>This request is used in our <a class="reference external" href="https://ely.by/server-skins-system">server skins system plugin</a> to load textures with the original Mojang’s signature. The textures received this way can be transferred to an unmodified game client without any changes. The answer will also include additional property with <code class="docutils literal notranslate"><span class="pre">name</span></code> equal to <strong>ely</strong>.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"id"</span><span class="o">:</span> <span class="s2">"ffc8fdc95824509e8a57c99b940fb996"</span><span class="p">,</span>
+  <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"ErickSkrauch"</span><span class="p">,</span>
+  <span class="s2">"properties"</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"textures"</span><span class="p">,</span>
+      <span class="s2">"signature"</span><span class="o">:</span> <span class="s2">"QH+1rlQJYk8tW+8WlSJnzxZZUL5RIkeOO33dq84cgNoxwCkzL95Zy5pbPMFhoiMXXablqXeqyNRZDQa+OewgDBSZxm0BmkNmwdTLzCPHgnlNYhwbO4sirg3hKjCZ82ORZ2q7VP2NQIwNvc3befiCakhDlMWUuhjxe7p/HKNtmKA7a/JjzmzwW7BWMv8b88ZaQaMaAc7puFQcu2E54G2Zk2kyv3T1Bm7bV4m7ymbL8McOmQc6Ph7C95/EyqIK1a5gRBUHPEFIEj0I06YKTHsCRFU1U/hJpk98xXHzHuULJobpajqYXuVJ8QEVgF8k8dn9VkS8BMbXcjzfbb6JJ36v7YIV6Rlt75wwTk2wr3C3P0ij55y0iXth1HjwcEKsg54n83d9w8yQbkUCiTpMbOqxTEOOS7G2O0ZDBJDXAKQ4n5qCiCXKZ4febv4+dWVQtgfZHnpGJUD3KdduDKslMePnECOXMjGSAOQou//yze2EkL2rBpJtAAiOtvBlm/aWnDZpij5cQk+pWmeHWZIf0LSSlsYRUWRDk/VKBvUTEAO9fqOxWqmSgQRUY2Ea56u0ZsBb4vEa1UY6mlJj3+PNZaWu5aP2E9Unh0DIawV96eW8eFQgenlNXHMmXd4aOra4sz2eeOnY53JnJP+eVE4cB1hlq8RA2mnwTtcy3lahzZonOWc="</span><span class="p">,</span>
+      <span class="s2">"value"</span><span class="o">:</span> <span class="s2">"eyJ0aW1lc3RhbXAiOjE0ODYzMzcyNTQ4NzIsInByb2ZpbGVJZCI6ImM0ZjFlNTZmNjFkMTQwYTc4YzMyOGQ5MTY2ZWVmOWU3IiwicHJvZmlsZU5hbWUiOiJXaHlZb3VSZWFkVGhpcyIsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS83Mzk1NmE4ZTY0ZWU2ZDhlYzY1NmFkYmI0NDA0ZjhlYmZmMzQxMWIwY2I5MGIzMWNiNDc2ZWNiOTk2ZDNiOCJ9fX0="</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"ely"</span><span class="p">,</span>
+      <span class="s2">"value"</span><span class="o">:</span> <span class="s2">"but why are you asking?"</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>By default textures proxying isn’t used for this query. To enable it, add an additional GET parameter <code class="docutils literal notranslate"><span class="pre">?proxy=true</span></code>.</p>
+<p>The server will return an empty response with <code class="docutils literal notranslate"><span class="pre">204</span></code> status, if textures aren’t found.</p>
+</dd></dl>
+
+<hr class="docutils">
+<p>You can also pass a range of additional GET parameters while making any of the above requests. They will be used
+to analyze the usage of the service by different versions of the game.</p>
+<dl class="field-list simple">
+<dt class="field-odd">version</dt>
+<dd class="field-odd"><p>The version of the protocol by which skins will be requested. The current version is <code class="docutils literal notranslate"><span class="pre">2</span></code>, i.e. you need to specify <code class="docutils literal notranslate"><span class="pre">version=2</span></code>.</p>
+</dd>
+<dt class="field-even">minecraft_version</dt>
+<dd class="field-even"><p>The version of Minecraft that the request is made from.</p>
+</dd>
+<dt class="field-odd">authlib_version</dt>
+<dd class="field-odd"><p>The version of the Authlib used. This option is relevant for Minecraft versions 1.7.6+, where a separate library is used to load skins instead of in-game code.</p>
+</dd>
+</dl>
+<p>Here is an example of a textures request with parameters described above:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>http://skinsystem.ely.by/textures/erickskrauch?version=2&amp;minecraft_version=1.14.0&amp;authlib_version=1.5.25
+</pre></div>
+</div>
+<div class="section" id="id6">
+<h3>Additional URLs<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>You can also perform a skin and cape request by passing the nickname through the GET parameter. This feature is used to pass analytical parameters of game versions up to 1.5.2, where the nickname is simply appended to the end of the line. To do this, the entire string is arranged in such a way that the last parameter is <code class="docutils literal notranslate"><span class="pre">name</span></code>, after appending a nickname to which you get a full request string for textures.</p>
+<dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">/skins?name={nickname}.png</span></code></dt>
+<dd><p>See the <a class="reference external" href="#skin-request">skin request</a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">/cloaks?name={nickname}.png</span></code></dt>
+<dd><p>See the <a class="reference external" href="#cape-request">cape request</a>.</p>
+</dd></dl>
+
+<p>Examples of requests for textures with parameters from above:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>http://skinsystem.ely.by/skins?version=2&amp;minecraft_version=1.5.2&amp;name=erickskrauch.png
+http://skinsystem.ely.by/cloaks?version=2&amp;minecraft_version=1.4.7&amp;name=notch
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="textures-proxy">
+<span id="id9"></span><h2>Textures proxying<a class="headerlink" href="#textures-proxy" title="Permalink to this headline">¶</a></h2>
+<p>Ely.by’s skins system service obtains textures from the official skin system in a case where no information about textures for the requested username was found in the database. The request will also be proxied if a skin entry is found, but it’s default.</p>
+<p>To improve the throughput of the proxying algorithm, information about textures is cached in 2 stages:</p>
+<ul class="simple">
+<li><p>Player’s names and UUIDs matches are stored <a class="reference external" href="https://help.minecraft.net/hc/en-us/articles/360034636712-Minecraft-Usernames#article-container:~:text=How%20often%20can%20I%20change%20my%20username%3F">for 30 days</a>.</p></li>
+<li><p>Information about textures isn’t updated more often than <a class="reference external" href="https://wiki.vg/Mojang_API#UUID_-.3E_Profile_.2B_Skin.2FCape:~:text=You%20can%20request%20the%20same%20profile%20once%20per%20minute">once a minute</a>.</p></li>
+</ul>
+<p>If you own a Minecraft premium account, but your nickname is busy, please contact our <a class="reference external" href="https://ely.by/site/contact">support team</a> and after a short check we’ll pass the nickname on to you.</p>
+</div>
+<div class="section" id="id13">
+<h2>Ready-made implementations<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<p>Ready-made patch implementations and installation instructions can be found at the <a class="reference external" href="https://ely.by/load">download section of the main Ely.by website</a>.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="/en/oauth.html" class="btn btn-neutral float-left" title="Authorization via OAuth2 protocol" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr>
+
+  <div role="contentinfo">
+    <p>
+        © Copyright 2024, Ely.by.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+  
+ 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-45299905-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-45299905-2');
+</script>
+
+
+
+</body>
+</html>

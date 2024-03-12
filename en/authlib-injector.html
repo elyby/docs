@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Authlib-injector — Ely.by Docs</title>
+  
+
+  
+  <link rel="stylesheet" href="/_static/css/theme.css" type="text/css">
+  <link rel="stylesheet" href="/_static/pygments.css" type="text/css">
+  <link rel="stylesheet" href="/_static/style.css" type="text/css">
+
+  
+  
+    <link rel="shortcut icon" href="/_static/favicon.ico">
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="/en/_static/documentation_options.js"></script>
+        <script src="/_static/jquery.js"></script>
+        <script src="/_static/underscore.js"></script>
+        <script src="/_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="/_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="/en/genindex.html">
+    <link rel="search" title="Search" href="/en/search.html">
+    <link rel="next" title="Authentication for Minecraft" href="/en/minecraft-auth.html">
+    <link rel="prev" title="Ely.by API (Mojang API simulation)" href="/en/api.html"> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="/en/index.html" class="icon icon-home"> Ely.by Documentation
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="/en/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs">
+    <input type="hidden" name="check_keywords" value="yes">
+    <input type="hidden" name="area" value="default">
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">English articles:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="/en/api.html">Ely.by API (Mojang API simulation)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Authlib-injector</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#client">Installing in a game client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#server">Installing on a server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bungeecord">BungeeCord</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#launchhelper">LaunchHelper</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="/en/minecraft-auth.html">Authentication for Minecraft</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/en/oauth.html">Authorization via OAuth2 protocol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/en/skins-system.html">Skins system</a></li>
+</ul>
+
+            
+          
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Статьи на русском:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="/ru/api.html">Ely.by API (симуляция Mojang API)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/ru/authlib-injector.html">Authlib-injector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/ru/minecraft-auth.html">Авторизация для Minecraft</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/ru/oauth.html">Авторизация по протоколу OAuth2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/ru/skins-system.html">Система скинов</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="/en/index.html">Ely.by Documentation</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="/en/index.html" class="icon icon-home"></a> »</li>
+        
+      <li>Authlib-injector</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="authlib-injector">
+<h1>Authlib-injector<a class="headerlink" href="#authlib-injector" title="Permalink to this headline">¶</a></h1>
+<p><strong>authlib-injector</strong> is a library that allows you to spoof authorization and session server addresses in the Authlib without modifying the library itself. It’s designed as an javaagent.</p>
+<p>This library significantly simplifies the installation of an alternative authorization service in the game client and server, since transformation occurs during application bootstrap process.</p>
+<p>You can download the latest version from the <a class="reference external" href="https://github.com/yushijinhun/authlib-injector/releases/latest">releases page on GitHub</a>.</p>
+<p>Here is the documentation of the key aspects of installing and using the library. For more information, see the <a class="reference external" href="https://github.com/yushijinhun/authlib-injector/wiki">original documentation in Chinese</a>.</p>
+<div class="section" id="client">
+<span id="id2"></span><h2>Installing in a game client<a class="headerlink" href="#client" title="Permalink to this headline">¶</a></h2>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>This section describes how to install the authlib-injector into the game. The game launcher still needs to implement the authorization flow itself in order to pass the <code class="docutils literal notranslate"><span class="pre">accessToken</span></code> to the game.</p>
+</div>
+<p>To install the library, you need to specify it as a javaagent for the game. You can do this by prepending the line <code class="docutils literal notranslate"><span class="pre">-javaagent:/path/to/file/authlib-injector.jar=ely.by</span></code> as a game launching param. As the result, the launch command should look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">java</span> <span class="o">-</span><span class="n">javaagent</span><span class="p">:</span><span class="o">/</span><span class="n">путь</span><span class="o">/</span><span class="n">до</span><span class="o">/</span><span class="n">файла</span><span class="o">/</span><span class="n">authlib</span><span class="o">-</span><span class="n">injector</span><span class="o">.</span><span class="n">jar</span><span class="o">=</span><span class="n">ely</span><span class="o">.</span><span class="n">by</span> <span class="o">-</span><span class="n">jar</span> <span class="n">minecraft</span><span class="o">.</span><span class="n">jar</span>
+</pre></div>
+</div>
+<p>If you run the game via launcher, then in “settings” you need to find a field for specifying additional JVM arguments, where you need to insert the line above.</p>
+<div class="figure align-center">
+<img alt="Редактирование аргументов JVM" src="/_images/launcher-jvm-options.png">
+</div>
+</div>
+<div class="section" id="server">
+<span id="id3"></span><h2>Installing on a server<a class="headerlink" href="#server" title="Permalink to this headline">¶</a></h2>
+<p>Just as in the case with the game client, the library must be specified as javaagent. <a class="reference external" href="https://github.com/yushijinhun/authlib-injector/releases/latest">Download the library</a> and put in the server’s directory. Then add the javaagent call to the server launch command:</p>
+<div class="line-block">
+<div class="line">Before: <code class="docutils literal notranslate"><span class="pre">java</span> <span class="pre">-jar</span> <span class="pre">minecraft_server.jar</span></code></div>
+<div class="line">After: <code class="docutils literal notranslate"><span class="pre">java</span> <span class="pre">-javaagent:authlib-injector.jar=ely.by</span> <span class="pre">-jar</span> <span class="pre">minecraft_server.jar</span></code></div>
+</div>
+<p>During server startup you should see a message about the activation of the authlib-injector:</p>
+<div class="figure align-center">
+<img alt="Сообщение при запуске сервера" src="/_images/server-startup-messages.png">
+</div>
+<div class="section" id="bungeecord">
+<h3>BungeeCord<a class="headerlink" href="#bungeecord" title="Permalink to this headline">¶</a></h3>
+<p>The authlib-injector must be installed directly on the BungeeCord itself, as well as <strong>on all backends</strong> behind it. Note the configuration of the online-mode parameter:</p>
+<ul class="simple">
+<li><p>The BungeeCord’s configuration (<code class="docutils literal notranslate"><span class="pre">config.yml</span></code>) should contain <code class="docutils literal notranslate"><span class="pre">online_mode=true</span></code>.</p></li>
+<li><p>The servers behind the proxy must contain in their configuration (<code class="docutils literal notranslate"><span class="pre">server.properties</span></code>) the value <code class="docutils literal notranslate"><span class="pre">online-mode=false</span></code>.</p></li>
+</ul>
+<p>Using such configuration authorization will work for all logging in players and the internal servers will correctly display player skins.</p>
+</div>
+<div class="section" id="launchhelper">
+<h3>LaunchHelper<a class="headerlink" href="#launchhelper" title="Permalink to this headline">¶</a></h3>
+<p>Not all game hostings allow direct modifications of launch arguments. To get around this limitation, you can use a special server that runs the game server by mixing authlib-injector into it. To install, follow these instructions:</p>
+<ol class="arabic">
+<li><p>Download the corresponding LaunchHelper for your operating system from the <a class="reference external" href="https://github.com/Codex-in-somnio/LaunchHelper/releases/latest">releases page</a>.</p></li>
+<li><p>Upload this file and the <code class="docutils literal notranslate"><span class="pre">authlib-injector.jar</span></code> file to the server folder on your hosting site.</p></li>
+<li><p>Also create a <code class="docutils literal notranslate"><span class="pre">launchhelper.properties</span></code> file and put the following contents into it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">javaAgentJarPath</span><span class="o">=</span><span class="n">authlib</span><span class="o">-</span><span class="n">injector</span><span class="o">.</span><span class="n">jar</span>
+<span class="n">javaAgentOptions</span><span class="o">=</span><span class="n">ely</span><span class="o">.</span><span class="n">by</span>
+<span class="n">execJarPath</span><span class="o">=</span><span class="n">minecraft_server</span><span class="o">.</span><span class="n">jar</span>
+</pre></div>
+</div>
+<p>Where <code class="docutils literal notranslate"><span class="pre">javaAgentJarPath</span></code> contains the path to the authlib-injector.jar file and <code class="docutils literal notranslate"><span class="pre">execJarPath</span></code> contains the name of the server file.</p>
+</li>
+<li><p>In the hosting control panel, specify the <code class="docutils literal notranslate"><span class="pre">LaunchHelper.jar</span></code> as the server file.</p>
+<p>If you can’t change the executable file, you should rename the <code class="docutils literal notranslate"><span class="pre">LaunchHelper.jar</span></code> file to match your hosting requirements (usually, <code class="docutils literal notranslate"><span class="pre">server.jar</span></code>). In this case, you should have the following file structure:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">server.jar</span></code> - the LaunchHelper file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">minecraft_server.jar</span></code> - your server core.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">authlib-injector.jar</span></code> - the authlib-injector file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">launchhelper.properties</span></code> - the configuration file for the LaunchHelper.</p></li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="/en/minecraft-auth.html" class="btn btn-neutral float-right" title="Authentication for Minecraft" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="/en/api.html" class="btn btn-neutral float-left" title="Ely.by API (Mojang API simulation)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr>
+
+  <div role="contentinfo">
+    <p>
+        © Copyright 2024, Ely.by.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+  
+ 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-45299905-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-45299905-2');
+</script>
+
+
+
+</body>
+</html>

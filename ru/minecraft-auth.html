@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="ru">
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Авторизация для Minecraft — Ely.by Docs</title>
+  
+
+  
+  <link rel="stylesheet" href="/_static/css/theme.css" type="text/css">
+  <link rel="stylesheet" href="/_static/pygments.css" type="text/css">
+  <link rel="stylesheet" href="/_static/style.css" type="text/css">
+
+  
+  
+    <link rel="shortcut icon" href="/_static/favicon.ico">
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="/ru/_static/documentation_options.js"></script>
+        <script src="/_static/jquery.js"></script>
+        <script src="/_static/underscore.js"></script>
+        <script src="/_static/doctools.js"></script>
+        <script src="/ru/_static/translations.js"></script>
+    
+    <script type="text/javascript" src="/_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Алфавитный указатель" href="/ru/genindex.html">
+    <link rel="search" title="Поиск" href="/ru/search.html">
+    <link rel="next" title="Авторизация по протоколу OAuth2" href="/ru/oauth.html">
+    <link rel="prev" title="Authlib-injector" href="/ru/authlib-injector.html"> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="/ru/index.html" class="icon icon-home"> Ely.by Documentation
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="/ru/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs">
+    <input type="hidden" name="check_keywords" value="yes">
+    <input type="hidden" name="area" value="default">
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Статьи на русском:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="/ru/api.html">Ely.by API (симуляция Mojang API)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/ru/authlib-injector.html">Authlib-injector</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Авторизация для Minecraft</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Общие положения</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Предусмотренные ошибки</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Авторизация в лаунчере</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Авторизация на сервере</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#authlib">Через authlib</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Для старых версий</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Одиночная игра</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">Готовые библиотеки authlib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-server">Установка authlib на сервер</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vanilla">Оригинальный сервер</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bukkit-spigot">Bukkit/Spigot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#forge-sponge">Forge/Sponge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#paper-paperspigot">Paper (PaperSpigot)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#bungeecord">BungeeCord</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id15">Установка на версии ниже 1.7.2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Пример установки</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="/ru/oauth.html">Авторизация по протоколу OAuth2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/ru/skins-system.html">Система скинов</a></li>
+</ul>
+
+            
+          
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">English articles:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="/en/api.html">Ely.by API (Mojang API simulation)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/en/authlib-injector.html">Authlib-injector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/en/minecraft-auth.html">Authentication for Minecraft</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/en/oauth.html">Authorization via OAuth2 protocol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/en/skins-system.html">Skins system</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="/ru/index.html">Ely.by Documentation</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="/ru/index.html" class="icon icon-home"></a> »</li>
+        
+      <li>Авторизация для Minecraft</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="minecraft">
+<h1>Авторизация для Minecraft<a class="headerlink" href="#minecraft" title="Ссылка на этот заголовок">¶</a></h1>
+<p>Здесь приведена информация по авторизации для лаунчеров и серверов Minecraft через сервис авторизации Ely.by.</p>
+<p>Протокол авторизации реализован максимально похожим на <a class="reference external" href="http://wiki.vg/Authentication">оригинальный протокол авторизации Mojang</a>, но тем не менее эта документация описывает все доступные функции конкретно сервиса авторизации Ely.by.</p>
+<div class="section" id="id1">
+<h2>Общие положения<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a></h2>
+<ul>
+<li><p>Все запросы должны выполняться на URL <strong>https://authserver.ely.by</strong>.</p></li>
+<li><p>При успешном запросе, сервер вернёт ответ со статусом 200. Любой другой код свидетельствует об ошибке.</p></li>
+<li><p>Сервер всегда отвечает JSON данными, кроме случаев системных ошибок и ответов на legacy запросы. Учитывайте это для отображения пользователю правильного сообщения об ошибке.</p></li>
+<li><p>В случае стандартной ошибки, вы получите следующие данные:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">"error"</span><span class="o">:</span> <span class="s2">"Краткое описание ошибки"</span><span class="p">,</span>
+    <span class="s2">"errorMessage"</span><span class="o">:</span> <span class="s2">"Более длинное описание ошибки на английском языке, пригодное для отображения пользователю."</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<div class="section" id="id2">
+<h3>Предусмотренные ошибки<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h3>
+<p>В отличие от оригинального протокола, на Ely применяется меньший зоопарк ошибок:</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 50%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Ошибка (error)</p></th>
+<th class="head"><p>Причина</p></th>
+<th class="head"><p>Решение</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>IllegalArgumentException</p></td>
+<td><p>Вы передали неполный список данных для выполнения запроса.</p></td>
+<td><p>Внимательно перепроверьте что вы шлёте в запросе и что указано в документации.</p></td>
+</tr>
+<tr class="row-odd"><td><p>ForbiddenOperationException</p></td>
+<td><p>Пользователь ввёл/разработчик передал неверные значения.</p></td>
+<td><p>Необходимо вывести пользователю уведомление о неправильно введённых данных.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Для индикации ошибки Not Found используется ответ с 404 статусом.</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>Авторизация в лаунчере<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
+<p>В этом разделе описана авторизация для игрового лаунчера и описывает действия, необходимые для получения <code class="docutils literal notranslate"><span class="pre">accessToken</span></code> для игрового клиента Minecraft. В результате авторизации будет получен JWT-токен с <a class="reference internal" href="/ru/oauth.html#available-scopes"><span class="std std-ref">правами доступа</span></a> <code class="docutils literal notranslate"><span class="pre">minecraft_server_session</span></code>.</p>
+<div class="admonition attention">
+<p class="admonition-title">Внимание</p>
+<p>Мы рекомендуем использовать <a class="reference internal" href="/ru/oauth.html"><span class="doc">протокол авторизации OAuth 2.0</span></a> с запросом <a class="reference internal" href="/ru/oauth.html#available-scopes"><span class="std std-ref">прав доступа</span></a> <code class="docutils literal notranslate"><span class="pre">minecraft_server_session</span></code>, как более безопасный и удобный для пользователя метод.</p>
+</div>
+<dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">POST</span> <span class="pre">/auth/authenticate</span></code></dt>
+<dd><p>Непосредственная авторизация пользователя, используя его логин (ник или E‑mail), пароль и токен двухфакторной аутентификации.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>username</strong> (<em>string</em>) – Никнейм пользователя или его E‑mail (более предпочтительно).</p></li>
+<li><p><strong>password</strong> (<em>string</em>) – Пароль пользователя или комбинация <code class="docutils literal notranslate"><span class="pre">пароль:токен</span></code>.</p></li>
+<li><p><strong>clientToken</strong> (<em>string</em>) – Уникальный токен лаунчера пользователя.</p></li>
+<li><p><strong>requestUser</strong> (<em>bool</em>) – Если поле передано как <code class="docutils literal notranslate"><span class="pre">true</span></code>, то в ответе сервера будет присутствовать поле <code class="docutils literal notranslate"><span class="pre">user</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Система аккаунтов Ely.by поддерживает защиту пользователей посредством двухфакторной аутентификации. В оригинальном протоколе авторизации Mojang не предусмотрено возможности для передачи TOTP-токенов. Для решения этой проблемы и сохранения совместимости с реализацией сервера <a class="reference external" href="https://minecraft.gamepedia.com/Yggdrasil">Yggdrasil</a>, мы предлагаем передавать токен в поле <code class="docutils literal notranslate"><span class="pre">password</span></code> в формате <code class="docutils literal notranslate"><span class="pre">пароль:токен</span></code>.</p>
+<p>К сожалению, не все пользователи осведомлены об этой возможности, поэтому будет лучше при получении ошибки о защищённости аккаунта пользователя двухфакторной аутентификацией явно запросить у него токен и склеить его программно.</p>
+<p>Логика следующая:</p>
+<ol class="arabic">
+<li><p>Если пользователь указал верные логин и пароль, но для его аккаунта включена двухфакторная аутентификация, вы получите ответ с <code class="docutils literal notranslate"><span class="pre">401</span></code> статусом и следующим содержимым:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">"error"</span><span class="o">:</span> <span class="s2">"ForbiddenOperationException"</span><span class="p">,</span>
+    <span class="s2">"errorMessage"</span><span class="o">:</span> <span class="s2">"Account protected with two factor auth."</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p>При получении этой ошибки, необходимо запросить у пользователя ввод TOTP‑токена, после чего повторить запрос на авторизацию с теми же учётными данными, добавив к паролю постфикс в виде <code class="docutils literal notranslate"><span class="pre">:токен</span></code>, где <code class="docutils literal notranslate"><span class="pre">токен</span></code> — это значение, введённое пользователем.</p>
+<p>Если пароль пользователя был «password123», а токен «123456», то после склейки поле <code class="docutils literal notranslate"><span class="pre">password</span></code> примет значение «password123:123456».</p>
+</li>
+<li><p>Если в результате этих действий вы получите ответ с <code class="docutils literal notranslate"><span class="pre">401</span></code> статутом и <code class="docutils literal notranslate"><span class="pre">errorMessage</span></code> «Invalid credentials. Invalid email or password.», то это будет свидетельствовать о том, что переданный токен неверен и его нужно перезапросить у пользователя.</p></li>
+</ol>
+<p>Если все данные будут переданы верно, вы получите следующий ответ:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">"accessToken"</span><span class="o">:</span> <span class="s2">"Длинная_строка_содержащая_access_token"</span><span class="p">,</span>
+    <span class="s2">"clientToken"</span><span class="o">:</span> <span class="s2">"Переданный_в_запросе_client_token"</span><span class="p">,</span>
+    <span class="s2">"availableProfiles"</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">"id"</span><span class="o">:</span> <span class="s2">"UUID_пользователя_без_дефисов"</span><span class="p">,</span>
+            <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"Текущий_username_пользователя"</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">"selectedProfile"</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">"id"</span><span class="o">:</span> <span class="s2">"UUID_пользователя_без_дефисов"</span><span class="p">,</span>
+        <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"Текущий_username_пользователя"</span>
+    <span class="p">},</span>
+    <span class="s2">"user"</span><span class="o">:</span> <span class="p">{</span> <span class="cm">/* Только если передан параметр requestUser */</span>
+        <span class="s2">"id"</span><span class="o">:</span> <span class="s2">"UUID_пользователя_без_дефисов"</span><span class="p">,</span>
+        <span class="s2">"username"</span><span class="o">:</span> <span class="s2">"Текущий_username_пользователя"</span><span class="p">,</span>
+        <span class="s2">"properties"</span><span class="o">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"preferredLanguage"</span><span class="p">,</span>
+                <span class="s2">"value"</span><span class="o">:</span> <span class="s2">"ru"</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">POST</span> <span class="pre">/auth/refresh</span></code></dt>
+<dd><p>Обновляет валидный <code class="docutils literal notranslate"><span class="pre">accessToken</span></code>. Этот запрос позволяет не хранить на клиенте его пароль, а оперировать только сохранённым значением <code class="docutils literal notranslate"><span class="pre">accessToken</span></code> для практически бесконечной возможности проходить авторизацию.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>accessToken</strong> (<em>string</em>) – Уникальный ключ, полученный после авторизации.</p></li>
+<li><p><strong>clientToken</strong> (<em>string</em>) – Уникальный идентификатор клиента, относительно которого получен accessToken.</p></li>
+<li><p><strong>requestUser</strong> (<em>bool</em>) – Если поле передано как <code class="docutils literal notranslate"><span class="pre">true</span></code>, то в ответе сервера будет присутствовать поле <code class="docutils literal notranslate"><span class="pre">user</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p>В оригинальном протоколе так же передаётся значение <code class="docutils literal notranslate"><span class="pre">selectedProfile</span></code>, но в реализации Mojang он не влияет ни на что. Наша реализация сервера авторизации игнорирует этот параметр и опирается на значения <code class="docutils literal notranslate"><span class="pre">accessToken</span></code> и <code class="docutils literal notranslate"><span class="pre">clientToken</span></code>.</p>
+</div>
+<p>В случае получения какой-либо предусмотренной ошибки, следует заново запросить пароль пользователя и произвести обычную авторизацию.</p>
+<p>Успешный ответ:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">"accessToken"</span><span class="o">:</span> <span class="s2">"Новая_длинная_строка_ содержащая_access_token"</span><span class="p">,</span>
+    <span class="s2">"clientToken"</span><span class="o">:</span> <span class="s2">"Переданный_в_запросе_client_token"</span><span class="p">,</span>
+    <span class="s2">"selectedProfile"</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">"id"</span><span class="o">:</span> <span class="s2">"UUID_пользователя_без_дефисов"</span><span class="p">,</span>
+        <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"Текущий_username_пользователя"</span>
+    <span class="p">},</span>
+    <span class="s2">"user"</span><span class="o">:</span> <span class="p">{</span> <span class="cm">/* Только если передан параметр requestUser */</span>
+        <span class="s2">"id"</span><span class="o">:</span> <span class="s2">"UUID_пользователя_без_дефисов"</span><span class="p">,</span>
+        <span class="s2">"username"</span><span class="o">:</span> <span class="s2">"Текущий_username_пользователя"</span><span class="p">,</span>
+        <span class="s2">"properties"</span><span class="o">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"preferredLanguage"</span><span class="p">,</span>
+                <span class="s2">"value"</span><span class="o">:</span> <span class="s2">"ru"</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">POST</span> <span class="pre">/auth/validate</span></code></dt>
+<dd><p>Этот запрос позволяет проверить валиден ли указанный accessToken или нет. Этот запрос не обновляет токен и его время жизни, а только позволяет удостовериться, что он ещё действительный.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры</dt>
+<dd class="field-odd"><p><strong>accessToken</strong> (<em>string</em>) – Токен доступа, полученный после авторизации.</p>
+</dd>
+</dl>
+<p>Успешным ответом будет являться пустое тело. При ошибке будет получен <strong>400</strong> или <strong>401</strong> статус. Пример ответа сервера при отправке истёкшего токена:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">"error"</span><span class="o">:</span> <span class="s2">"ForbiddenOperationException"</span><span class="p">,</span>
+    <span class="s2">"errorMessage"</span><span class="o">:</span> <span class="s2">"Token expired."</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">POST</span> <span class="pre">/auth/signout</span></code></dt>
+<dd><p>Этот запрос позволяет выполнить инвалидацию всех выданных пользователю токенов.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>username</strong> (<em>string</em>) – Никнейм пользователя или его E-mail (более предпочтительно).</p></li>
+<li><p><strong>password</strong> (<em>string</em>) – Пароль пользователя.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Успешным ответом будет являться пустое тело. Ориентируйтесь на поле <strong>error</strong> в теле ответа.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">POST</span> <span class="pre">/auth/invalidate</span></code></dt>
+<dd><p>Запрос позволяет инвалидировать accessToken. В случае, если переданный токен не удастся найти в хранилище токенов, ошибка не будет сгенерирована и вы получите успешный ответ.</p>
+<p>Входные параметры:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>accessToken</strong> (<em>string</em>) – Уникальный ключ, полученный после авторизации.</p></li>
+<li><p><strong>clientToken</strong> (<em>string</em>) – Уникальный идентификатор клиента, относительно которого получен accessToken.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Успешным ответом будет являться пустое тело. Ориентируйтесь на поле <strong>error</strong> в теле ответа.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id4">
+<h2>Авторизация на сервере<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Эти запросы выполняются непосредственно клиентом и сервером при помощи внутреннего кода или библиотеки authlib (начиная с версии 1.7.2). Они актуальны только в том случае, если вы уже произвели авторизацию и запустили игру с валидным accessToken. Вам остаётся только заменить пути внутри игры/библиотеки на приведённые ниже пути.</p>
+<p>Поскольку непосредственно изменить что-либо в работе authlib или игры вы не можете, здесь не приводятся передаваемые значения и ответы сервера. При необходимости вы сможете найти эту информацию самостоятельно в интернете.</p>
+<div class="section" id="authlib">
+<h3>Через authlib<a class="headerlink" href="#authlib" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="admonition important">
+<p class="admonition-title">Важно</p>
+<p>Эта часть документации описывает запросы, выполняемые через authlib в версии игры 1.7.2+. Для более старых версий смотрите раздел ниже.</p>
+</div>
+<p>Все запросы из этой категории выполняются на подуровень /session. Перед каждым из запросов указан тип отправляемого запроса.</p>
+<dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">POST</span> <span class="pre">/session/join</span></code></dt>
+<dd><p>Запрос на этот URL производится клиентом в момент подключения к серверу с online-mode=true.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">GET</span> <span class="pre">/session/hasJoined</span></code></dt>
+<dd><p>Запрос на этот URL выполняет сервер с online-mode=true после того, как клиент, пытающийся к нему подключиться, успешно выполнит join запрос. Текстуры будут подписаны ключом Ely.by.</p>
+<p>Ключ для проверки подписи можно получить через <a class="reference internal" href="/ru/skins-system.html#signature-verification-key-request"><span class="std std-ref">сервер системы скинов</span></a>.</p>
+<div class="admonition attention">
+<p class="admonition-title">Внимание</p>
+<p>В редких случаях поле <code class="docutils literal notranslate"><span class="pre">signature</span></code> будет иметь значение <code class="docutils literal notranslate"><span class="pre">Cg==</span></code>. При таком значении поля подписи проводить её проверку не нужно, т.к. она всегда будет некорректной.</p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="id5">
+<h3>Для старых версий<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="admonition important">
+<p class="admonition-title">Важно</p>
+<p>Эта часть документации описывает запросы, выполняемые более старыми версиями Minecraft, в которых не применялась библиотека Authlib. Это все версии ниже 1.7.2.</p>
+</div>
+<p>Все запросы из этой категории выполняются на подуровень /session/legacy. Перед каждым из запросов указан тип отправляемого запроса.</p>
+<p>Принцип обработки этих запросов такой же, как и для authlib, отличие только во входных параметрах и возвращаемых значения.</p>
+<dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">GET</span> <span class="pre">/session/legacy/join</span></code></dt>
+<dd><p>Запрос на этот URL производится клиентом в момент подключения к серверу с online-mode=true.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">GET</span> <span class="pre">/session/legacy/hasJoined</span></code></dt>
+<dd><p>Запрос на этот URL выполняет сервер с online-mode=true после того, как клиент, пытающийся к нему подключится, успешно выполнит join запрос.</p>
+</dd></dl>
+
+<p>Важно не потерять GET параметр <strong>?user=</strong> в конце обоих запросов, чтобы получились следующие URL: <code class="docutils literal notranslate"><span class="pre">http://minecraft.ely.by/session/legacy/hasJoined?user=</span></code>.</p>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>Одиночная игра<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h2>
+<p>По сути, одиночная игра - это локальный сервер, созданный для одного игрока. По крайней мере это так, начиная с версии 1.6, в которой и был представлен механизм локальных серверов.</p>
+<p>Тем не менее, описанный ниже запрос актуален только для Minecraft 1.7.6+, когда для загрузки скинов стала использоваться так же Authlib.</p>
+<span class="target" id="profile-request"></span><dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">GET</span> <span class="pre">/session/profile/{uuid}</span></code></dt>
+<dd><p>Запрос на этот URL выполняется клиентом в одиночной игре на локальном сервере (созданном посредством самой игры). В URL передаётся UUID пользователя, с которым был запущен клиент, а в ответ получается информация о текстурах игрока в таком же формате, как и при hasJoined запросе.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id7">
+<h2>Готовые библиотеки authlib<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="admonition attention">
+<p class="admonition-title">Внимание</p>
+<p>Ely.by поддерживает библиотеку authlib-injector. Это наиболее простой и универсальный способ установки системы авторизации в игру и игровые сервера. За подробностями обратитесь в <a class="reference internal" href="/ru/authlib-injector.html"><span class="doc">соответствующий раздел документации</span></a>.</p>
+</div>
+<p>Поскольку самостоятельная реализация связана с трудностями поиска исходников, подключения зависимостей и в конце-концов с процессом компиляции, на <a class="reference external" href="https://ely.by/load">странице загрузок нашей системы скинов</a> вы можете загрузить уже готовые библиотеки со всеми необходимыми изменениями. Выберите в выпадающем списке необходимую версию и следуйте инструкции по установке, размещённой на той же странице ниже.</p>
+<p>В более ранних версиях игры система скинов находилась внутри игрового клиента, так что библиотеки ниже обеспечивают лишь авторизацию:</p>
+<ul class="simple">
+<li><p>Minecraft 1.7.5 - <a class="reference download internal" download="" href="/_downloads/ef940186495aa507c548b1a0a96c2867/authlib-1.3.1.jar"><code class="xref download docutils literal notranslate"><span class="pre">authlib</span> <span class="pre">1.3.1</span></code></a></p></li>
+<li><p>Minecraft 1.7.2 - <a class="reference download internal" download="" href="/_downloads/176af30a246da419bd7cc8f9571f5c60/authlib-1.3.jar"><code class="xref download docutils literal notranslate"><span class="pre">authlib</span> <span class="pre">1.3</span></code></a></p></li>
+</ul>
+<p>Для установки вам необходимо заменить оригинальную библиотеку, располагающуюся по пути <code class="docutils literal notranslate"><span class="pre">&lt;директория</span> <span class="pre">установки</span> <span class="pre">minecraft&gt;/libraries/com/mojang/authlib/</span></code>. Убедитесь в том, что версии скачанного и заменяемого файлов совпадают.</p>
+</div>
+<div class="section" id="install-server">
+<span id="id9"></span><h2>Установка authlib на сервер<a class="headerlink" href="#install-server" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Сервер также использует authlib для выполнения авторизации игрока, поэтому соответствующие изменения должны быть также применены и к нему. Ниже приведены инструкции по установки authlib для различных реализаций сервера Minecraft.</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p>Если ни одна из приведённых ниже инструкций не подошла для вашей реализации сервера, пожалуйста, создайте <a class="reference external" href="https://github.com/elyby/docs/issues/new">новый issue</a> и мы допишем инструкцию для вашего сервера.</p>
+</div>
+<div class="section" id="vanilla">
+<span id="id10"></span><h3>Оригинальный сервер<a class="headerlink" href="#vanilla" title="Ссылка на этот заголовок">¶</a></h3>
+<p>С помощью архиватора откройте файл сервера <code class="docutils literal notranslate"><span class="pre">minecraft_server.ВЕРСИЯ.jar</span></code>. Таким же образом откройте архив с authlib для соответствующей версии сервера. Перед вами будет два окна: одно с файлами сервера, другое с файлами authlib. Вам необходимо «перетащить» из архива с authlib все файлы и папки, <strong>за исключением директории META-INF</strong>, и подтвердить замену.</p>
+<div class="figure align-center" id="id17">
+<img alt="Процесс установки Authlib" src="/_images/authlib-install.png">
+<p class="caption"><span class="caption-text">Обратите внимание: «перетягивать» содержимое нужно ниже папок сервера (в область файлов .class).</span><a class="headerlink" href="#id17" title="Постоянная ссылка на рисунок">¶</a></p>
+</div>
+<p>После этих действий вы можете закрыть оба окна и в файле <code class="docutils literal notranslate"><span class="pre">server.properties</span></code> установить значение <code class="docutils literal notranslate"><span class="pre">online-mode=true</span></code>.</p>
+</div>
+<div class="section" id="bukkit-spigot">
+<h3>Bukkit/Spigot<a class="headerlink" href="#bukkit-spigot" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Сперва выполните установку, как она описана для <a class="reference external" href="#vanilla">оригинального сервера</a>. Затем скачайте библиотеки <a class="reference external" href="https://repo1.maven.org/maven2/commons-io/commons-io/2.5/commons-io-2.5.jar">commons-io</a> и <a class="reference external" href="https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar">commons-lang3</a>, после чего аналогичным с authlib образом последовательно переместите содержимое скачанных архивов в файлы сервера.</p>
+</div>
+<div class="section" id="forge-sponge">
+<h3>Forge/Sponge<a class="headerlink" href="#forge-sponge" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Прежде чем производить установку, необходимо определить, какой именно файл подлежит модификации:</p>
+<ul class="simple">
+<li><p><strong>&gt;=1.16</strong>: <code class="docutils literal notranslate"><span class="pre">libraries/net/minecraft/server/ВЕРСИЯ-ЦИФРЫ/server-ВЕРСИЯ-ЦИФРЫ-extra.jar</span></code>.</p></li>
+<li><p><strong>1.13-1.15</strong>: <code class="docutils literal notranslate"><span class="pre">libraries/net/minecraft/server/ВЕРСИЯ/server-ВЕРСИЯ-extra.jar</span></code>.</p></li>
+<li><p><strong>&lt;=1.12</strong>: <code class="docutils literal notranslate"><span class="pre">minecraft_server.ВЕРСИЯ.jar</span></code>.</p></li>
+</ul>
+<p>Когда необходимый файл найден, выполните для него установку authlib, аналогично <a class="reference external" href="#vanilla">оригинальному серверу</a>.</p>
+</div>
+<div class="section" id="paper-paperspigot">
+<h3>Paper (PaperSpigot)<a class="headerlink" href="#paper-paperspigot" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Установка производится по аналогии с <a class="reference external" href="#bukkit-spigot">Bukkit/Spigot</a> в файл <code class="docutils literal notranslate"><span class="pre">cache/patched-ВЕРСИЯ.jar</span></code>. После внесения изменений, запускать сервер нужно через jar-файл из директории <code class="docutils literal notranslate"><span class="pre">cache</span></code>, поскольку в противном случае <strong>Paper восстановит исходное состояние файла</strong>:</p>
+<div class="line-block">
+<div class="line">До: <code class="docutils literal notranslate"><span class="pre">java</span> <span class="pre">-jar</span> <span class="pre">paper-ВЕРСИЯ-БИЛД.jar</span></code></div>
+<div class="line">После: <code class="docutils literal notranslate"><span class="pre">java</span> <span class="pre">-jar</span> <span class="pre">cache/patched-ВЕРСИЯ.jar</span></code></div>
+</div>
+</div>
+</div>
+<div class="section" id="bungeecord">
+<h2>BungeeCord<a class="headerlink" href="#bungeecord" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="admonition hint">
+<p class="admonition-title">Подсказка</p>
+<p>Вы можете воспользоваться библиотекой <a class="reference internal" href="/ru/authlib-injector.html"><span class="doc">authlib-injector</span></a> для установки системы авторизации без модификации внутренностей сервера.</p>
+</div>
+<p>Хотя BungeeCord и является проксирующим сервером, авторизацию игроков он выполняет самостоятельно. К сожалению, BungeeCord не опирается на использование Authlib, а реализует процесс авторизации самостоятельно, поэтому для установки системы авторизации Ely.by вам понадобится модифицировать скомпилированные <code class="docutils literal notranslate"><span class="pre">.class</span></code> файлы.</p>
+<p>Для установки следуйте инструкции ниже:</p>
+<ol class="arabic">
+<li><p>Скачайте программу InClassTranslator (прямых ссылок не даём, но его легко найти).</p></li>
+<li><p>С помощью архиватора откройте файл <code class="docutils literal notranslate"><span class="pre">BungeeCord.jar</span></code>.</p></li>
+<li><p>Перейдите по пути <code class="docutils literal notranslate"><span class="pre">net/md_5/bungee/connection</span></code> и найдите там файл <code class="docutils literal notranslate"><span class="pre">InitialHandler.class</span></code> (без каких-либо символов $).</p></li>
+<li><p>Распакуйте этот файл. В самом простом случае сделать это можно просто «вытянув» его из окна архиватора.</p></li>
+<li><p>Откройте распакованный файл в программе InClassTranslator и замените в нём строку <code class="docutils literal notranslate"><span class="pre">https://sessionserver.mojang.com/session/minecraft/hasJoined?username=</span></code> на <code class="docutils literal notranslate"><span class="pre">https://authserver.ely.by/session/hasJoined?username=</span></code>, как показано на рисунке ниже:</p>
+<div class="figure align-center">
+<img alt="Редактирование в InClassTranslator" src="/_images/bungeecord_inclasstranslator.png">
+</div>
+</li>
+<li><p>Сохраните изменения и перетащите измененный файл обратно в архив сервера. Подтвердите замену.</p>
+<div class="figure align-center">
+<img alt="Перетаскивание отредактированного файла назад в архив" src="/_images/bungeecord_move.png">
+</div>
+</li>
+</ol>
+<p>После выполнения этих действий вы можете указать в файле конфигурации BungeeCord (<code class="docutils literal notranslate"><span class="pre">config.yml</span></code>) значение <code class="docutils literal notranslate"><span class="pre">online_mode=true</span></code>.</p>
+<div class="admonition important">
+<p class="admonition-title">Важно</p>
+<p>Мы также рекомендуем выполнить установку Authlib на все сервера позади BungeeCord. Это может быть необходимо для плагинов, которые используют API Mojang. Инструкция по установке на конечные сервера приведена <a class="reference external" href="#install-server">выше</a>.</p>
+<p>При этом все сервера должны иметь в своей конфигурации (<code class="docutils literal notranslate"><span class="pre">server.properties</span></code>) значение <code class="docutils literal notranslate"><span class="pre">online-mode=false</span></code>, поскольку пользователи уже авторизованы силами BungeeCord.</p>
+</div>
+</div>
+<div class="section" id="id15">
+<h2>Установка на версии ниже 1.7.2<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Для более старых версий существует достаточно большое многообразие различных случаев, раскрыть которые в этой документации не представляется возможным. Вся установка заключается в замене определённых строк в определённых классах через InClassTranslator.</p>
+<p>На форуме RuBukkit есть отличный пост, в котором собрана вся нужна информация по именам классов на различных версиях Minecraft. Переписывать его сюда не имеет смысла, так что просто перейдите на его страницу и найдите нужную версию.</p>
+<p><a href="http://www.rubukkit.org/threads/spisok-klassov-i-klientov-dlja-mcp.25108/#post-303710" target="_blank">RuBukkit -
+Список классов и клиентов для MCP</a>.</p>
+<div class="section" id="id16">
+<h3>Пример установки<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Предположим, что вы хотите установить авторизацию на сервер версии 1.5.2.</p>
+<p>Сначала вы переходите по вышеприведённой ссылке, выбираете нужную версию (1.5.2) и видите список классов:</p>
+<ul class="simple">
+<li><p><strong>bdk.class</strong> - путь до joinserver</p></li>
+<li><p><strong>jg.class</strong> - путь до checkserver</p></li>
+</ul>
+<p>Затем вы должны взять .jar файл клиента и открыть его любым архиватором. После чего вам необходимо найти файл <strong>bdk.class</strong>. Для этого удобно воспользоваться поиском.</p>
+<p>После того, как вы нашли файл, его нужно извлечь из архива - просто перетащите его оттуда в удобную для вас дирикторию.</p>
+<p>Дальше запустите InClassTranslator и в нём откройте этот класс. Слева будет список найденных в файле строк, которые вы можете изменить. Нужно заменить только строку, отвечающую за запрос на подключение к серверу:</p>
+<div class="figure align-center">
+<img alt="Порядок редактирования: выбрать нужную строку, изменить, сохранить." src="/_images/installing_by_inclasstranslator.png">
+</div>
+<p>После этого вам нужно положить изменённый .class обратно в .jar файл игры.</p>
+<p>Ту же самую операцию вам необходимо провести и с сервером, только заменить ссылку на hasJoined.</p>
+<hr class="docutils">
+<p>После этих действий вам нужно в настройках включить online-mode=true и сервер станет пускать на себя только тех игроков, которые будут авторизованы через Ely.by.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="/ru/oauth.html" class="btn btn-neutral float-right" title="Авторизация по протоколу OAuth2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="/ru/authlib-injector.html" class="btn btn-neutral float-left" title="Authlib-injector" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr>
+
+  <div role="contentinfo">
+    <p>
+        © Copyright 2024, Ely.by.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+  
+ 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-45299905-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-45299905-2');
+</script>
+
+
+
+</body>
+</html>

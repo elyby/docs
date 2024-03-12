@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Authorization via OAuth2 protocol — Ely.by Docs</title>
+  
+
+  
+  <link rel="stylesheet" href="/_static/css/theme.css" type="text/css">
+  <link rel="stylesheet" href="/_static/pygments.css" type="text/css">
+  <link rel="stylesheet" href="/_static/style.css" type="text/css">
+
+  
+  
+    <link rel="shortcut icon" href="/_static/favicon.ico">
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="/en/_static/documentation_options.js"></script>
+        <script src="/_static/jquery.js"></script>
+        <script src="/_static/underscore.js"></script>
+        <script src="/_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="/_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="/en/genindex.html">
+    <link rel="search" title="Search" href="/en/search.html">
+    <link rel="next" title="Skins system" href="/en/skins-system.html">
+    <link rel="prev" title="Authentication for Minecraft" href="/en/minecraft-auth.html"> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="/en/index.html" class="icon icon-home"> Ely.by Documentation
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="/en/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs">
+    <input type="hidden" name="check_keywords" value="yes">
+    <input type="hidden" name="area" value="default">
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">English articles:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="/en/api.html">Ely.by API (Mojang API simulation)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/en/authlib-injector.html">Authlib-injector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/en/minecraft-auth.html">Authentication for Minecraft</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Authorization via OAuth2 protocol</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Application registration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Authorization initiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#authorization-code-grant">Exchange auth code for a access key</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#authorization-code-grant-response">Server response</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">Getting user information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#refresh-token-grant">Refreshing access token</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">Available libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">Possible errors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#auth-start-errors">Errors during authorization initiation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#issue-token-errors">Errors when exchanging code for a key</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">Errors when requesting user information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">Errors while updating access token</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="/en/skins-system.html">Skins system</a></li>
+</ul>
+
+            
+          
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Статьи на русском:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="/ru/api.html">Ely.by API (симуляция Mojang API)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/ru/authlib-injector.html">Authlib-injector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/ru/minecraft-auth.html">Авторизация для Minecraft</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/ru/oauth.html">Авторизация по протоколу OAuth2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/ru/skins-system.html">Система скинов</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      
+        
+      
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="/en/index.html">Ely.by Documentation</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="/en/index.html" class="icon icon-home"></a> »</li>
+        
+      <li>Authorization via OAuth2 protocol</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="oauth2">
+<h1>Authorization via OAuth2 protocol<a class="headerlink" href="#oauth2" title="Permalink to this headline">¶</a></h1>
+<p>On this page you’ll find how to implement OAuth2 authorization on your project through the Ely.by Accounts service. The implementation of this protocol will allow your users to authorize using their Ely.by account.</p>
+<div class="section" id="id1">
+<h2>Application registration<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>First you need to <a class="reference external" href="https://account.ely.by/dev/applications/new">create a new application</a>. Select <strong>Website</strong> as the application type. For the <em>Redirect URI</em> you can get away with just specifying the domain, but to increase security it’s advised to use the full redirect path. Here are examples of valid addresses:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">http://site.com</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">http://site.com/oauth/ely</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">http://site.com/oauth.php?provider=ely</span></code></p></li>
+</ul>
+<p>After a successful creation of an application, you’ll be taken to the page containing a list of all your applications. If you click on the name of an application you’ll see its <code class="docutils literal notranslate"><span class="pre">clientId</span></code> identifier and its <code class="docutils literal notranslate"><span class="pre">clientSecret</span></code> secret. They’ll become important in later steps.</p>
+</div>
+<div class="section" id="id3">
+<h2>Authorization initiation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>To initiate the authorization flow, you’ll have to redirect the user to the following URL:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>https://account.ely.by/oauth2/v1?client_id=&lt;clientId&gt;&amp;redirect_uri=&lt;redirectUri&gt;&amp;response_type=code&amp;scope=&lt;scopesList&gt;
+</pre></div>
+</div>
+<table class="colwidths-given docutils align-default" id="id21">
+<caption><span class="caption-text">Valid query parameters</span><a class="headerlink" href="#id21" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 98%">
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Value example</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><em>clientId</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ely</span></code></p></td>
+<td><p><strong>Required</strong>. ClientId that was received during registration.</p></td>
+</tr>
+<tr class="row-odd"><td><p><em>redirect_uri</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">http://site.com/oauth.php</span></code></p></td>
+<td><p><strong>Required</strong>. Return-forwarding address, which matches the address specified during the application registration</p></td>
+</tr>
+<tr class="row-even"><td><p><em>response_type</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">code</span></code></p></td>
+<td><p><strong>Required</strong>. Response type. At the moment, only <code class="docutils literal notranslate"><span class="pre">code</span></code> is supported.</p></td>
+</tr>
+<tr class="row-odd"><td><p><em>scope</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">account_info</span> <span class="pre">account_email</span></code></p></td>
+<td><p><strong>Required</strong>. The list of permissions that you want to access, separated by spaces. See all available permissions in the <a class="reference external" href="#available-scopes">section below</a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><em>state</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">isfvubuysdboinsbdfvit</span></code></p></td>
+<td><p>Randomly generated string. Used as a session identifier to increase security. Will be returned unchanged after authorization is completed.</p></td>
+</tr>
+<tr class="row-odd"><td><p><em>description</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">यो</span> <span class="pre">अनुप्रयोग</span> <span class="pre">विवरण</span></code></p></td>
+<td><p>If your application is available in several languages, you can use this field to override the default description in accordance with user’s preferred language.</p></td>
+</tr>
+<tr class="row-even"><td><p><em>prompt</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">consent</span></code> or <code class="docutils literal notranslate"><span class="pre">select_account</span></code></p></td>
+<td><p>Forcibly display the request for permissions (<code class="docutils literal notranslate"><span class="pre">consent</span></code>) or forcibly request an account selection (<code class="docutils literal notranslate"><span class="pre">select_account</span></code>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><em>login_hint</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">erickskrauch</span></code> or <code class="docutils literal notranslate"><span class="pre">erickskrauch@ely.by</span></code></p></td>
+<td><p>If a user has several accounts, then specifying username or user email in this parameter will automatically select corresponding account. This is useful in a case of re-login after the token has expired.</p></td>
+</tr>
+</tbody>
+</table>
+<span id="available-scopes"></span><table class="colwidths-given docutils align-default" id="id22">
+<caption><span class="caption-text">List of available scopes</span><a class="headerlink" href="#id22" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 1%">
+<col style="width: 99%">
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>account_info</strong></p></td>
+<td><p>Get user information.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>account_email</strong></p></td>
+<td><p>Response to a request for user information will also contain user’s E-mail address.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>offline_access</strong></p></td>
+<td><p>With an <code class="docutils literal notranslate"><span class="pre">access_token</span></code> you will also recieve a <code class="docutils literal notranslate"><span class="pre">refresh_token</span></code>. See more at <a class="reference external" href="#refresh-token-grant">the corresponding section</a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>minecraft_server_session</strong></p></td>
+<td><p>It will be possible to use <code class="docutils literal notranslate"><span class="pre">access_token</span></code> as a session identifier for the Minecraft.</p></td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils">
+<p>After creating the link, place it in your template:</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"&lt;ваша_ссылка&gt;"</span><span class="p">&gt;</span>Войти через Ely.by<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>After clicking on the URL a user will be redirected to our login page after which they’ll be redirected back to the address specified in the <code class="docutils literal notranslate"><span class="pre">redirect_uri</span></code> parameter.</p>
+<p>Reverse redirection returns as <code class="docutils literal notranslate"><span class="pre">&lt;redirect_uri&gt;?code=&lt;auth_code&gt;&amp;state=&lt;state&gt;</span></code> for a successful authorization and <code class="docutils literal notranslate"><span class="pre">&lt;redirect_uri?error=&lt;error_identifier&gt;&amp;error_message=&lt;error_description&gt;</span></code> for a failed one.</p>
+<p>Examples of successful and unsuccessful redirects:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>http://site.com/oauth/ely.php?code=dkpEEVtXBdIcgdQWak4SOPEpTJIvYa8KIq5cW9GJ&amp;state=ajckasdcjasndckbsadc
+http://site.com/oauth/ely.php?error=access_denied&amp;error_message=The+resource+owner+or+authorization+server+denied+the+request.
+</pre></div>
+</div>
+</div>
+<div class="section" id="authorization-code-grant">
+<span id="id6"></span><h2>Exchange auth code for a access key<a class="headerlink" href="#authorization-code-grant" title="Permalink to this headline">¶</a></h2>
+<p>After receiving an authorization code (<code class="docutils literal notranslate"><span class="pre">auth_code</span></code>), you’ll need to exchange it for an authorization key (<code class="docutils literal notranslate"><span class="pre">access_key</span></code>). To do this, you must perform a POST request to the URL:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>https://account.ely.by/api/oauth2/v1/token
+</pre></div>
+</div>
+<p>And pass in following parameters:</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 1%">
+<col style="width: 99%">
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">client_id</span></code></p></td>
+<td><p>ClientID that was received during registration.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">client_secret</span></code></p></td>
+<td><p>ClientSecret that was received during application registration.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">redirect_uri</span></code></p></td>
+<td><p>The exact URI that was used for user redirection.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">grant_type</span></code></p></td>
+<td><p>In this case, <code class="docutils literal notranslate"><span class="pre">authorization_code</span></code> should be used.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">code</span></code></p></td>
+<td><p>Authorization code received in GET params after successful redirect.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>An example of the exchange in PHP:</strong></p>
+<div class="highlight-php notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="c1">// В этой переменной будут храниться ваши параметры OAuth2</span>
+<span class="nv">$oauthParams</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'client_id'</span> <span class="o">=&gt;</span> <span class="s1">'ely'</span><span class="p">,</span> <span class="c1">// Ваш ClientId, полученный при регистрации</span>
+    <span class="s1">'client_secret'</span> <span class="o">=&gt;</span> <span class="s1">'Pk4uCtZw5WVlSUpvteJuTZkVqHXZ6aNtTaLPXa7X'</span><span class="p">,</span> <span class="c1">// Ваш ClientSecret, полученный при регистрации</span>
+    <span class="s1">'redirect_uri'</span> <span class="o">=&gt;</span> <span class="s1">'http://someresource.by/oauth/some.php'</span><span class="p">,</span> <span class="c1">// Адрес, на который вы ожидаете получить пользователя обратно (текущий url)</span>
+    <span class="s1">'grant_type'</span> <span class="o">=&gt;</span> <span class="s1">'authorization_code'</span><span class="p">,</span>
+<span class="p">];</span>
+
+<span class="c1">// Если возникла ошибка, то прерываем выполнение скрипта</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'error'</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">'error_message'</span><span class="p">];</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Выполняем код ниже только если пришёл код авторизации</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">is_null</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'code'</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="nv">$oauthParams</span><span class="p">[</span><span class="s1">'code'</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">'code'</span><span class="p">];</span>
+
+    <span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="s1">'https://account.ely.by/api/oauth2/v1/token'</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nb">http_build_query</span><span class="p">(</span><span class="nv">$oauthParams</span><span class="p">));</span>
+    <span class="nv">$out</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">),</span> <span class="k">true</span><span class="p">);</span>
+    <span class="nb">curl_close</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Notes to the code:</p>
+<ul class="simple">
+<li><p>First, we declare the <code class="docutils literal notranslate"><span class="pre">$oauthParams</span></code> variable which will store the values that we got after registering the application.</p></li>
+<li><p>Then we check if there was an error. In which case, we immediately stop the execution.</p></li>
+<li><p>Then we create a POST request to exchange the <code class="docutils literal notranslate"><span class="pre">code</span></code> for an <code class="docutils literal notranslate"><span class="pre">access_token</span></code>, passing all required fields in the process.</p></li>
+<li><p>Then we execute the request, get the answer and parse it from JSON into the associative array.</p></li>
+</ul>
+<div class="section" id="authorization-code-grant-response">
+<span id="id7"></span><h3>Server response<a class="headerlink" href="#authorization-code-grant-response" title="Permalink to this headline">¶</a></h3>
+<p>In case of a successful request, the response body will contain the result of exchanging the authorization code for an <code class="docutils literal notranslate"><span class="pre">access_token</span></code>. Data is a JSON document and can be easily interpreted by tools of a used programming language.</p>
+<p>The JSON document body will contain the following fields:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">"access_token"</span><span class="o">:</span> <span class="s2">"4qlktsEiwgspKEAotazem0APA99Ee7E6jNryVBrZ"</span><span class="p">,</span>
+    <span class="s2">"refresh_token"</span><span class="o">:</span> <span class="s2">"m0APA99Ee7E6jNryVBrZ4qlktsEiwgspKEAotaze"</span><span class="p">,</span> <span class="c1">// Представлен только в случае запроса с правами offline_access</span>
+    <span class="s2">"token_type"</span><span class="o">:</span> <span class="s2">"Bearer"</span><span class="p">,</span>
+    <span class="s2">"expires_in"</span><span class="o">:</span> <span class="mf">86400</span> <span class="c1">// Количество секунд, на которое выдан токен</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>At this process authorization procedure is over. The resulting <code class="docutils literal notranslate"><span class="pre">access_token</span></code> can be used to obtain user information and to interact with our API.</p>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>Getting user information<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>If the received token has the <code class="docutils literal notranslate"><span class="pre">account_info</span></code> scope, then you can request information about the user’s account. To do it, you have to send a request to the URL:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>https://account.ely.by/api/account/v1/info
+</pre></div>
+</div>
+<p>To send <code class="docutils literal notranslate"><span class="pre">access_token</span></code>, the <code class="docutils literal notranslate"><span class="pre">Authorization</span></code> header is used with the value of <code class="docutils literal notranslate"><span class="pre">Bearer</span> <span class="pre">{access_token}</span></code>.</p>
+<p><strong>An example of getting user information in PHP:</strong></p>
+<div class="highlight-php notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="nv">$accessToken</span> <span class="o">=</span> <span class="s1">'some_access_token_value'</span><span class="p">;</span>
+
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="s1">'https://account.ely.by/api/account/v1/info'</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'Authorization: Bearer '</span> <span class="o">.</span> <span class="nv">$accessToken</span><span class="p">,</span>
+<span class="p">]);</span>
+<span class="nv">$result</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">),</span> <span class="k">true</span><span class="p">);</span>
+<span class="nb">curl_close</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>In response, you will receive a JSON document with the following contents:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">"id"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">"uuid"</span><span class="p">:</span> <span class="s2">"ffc8fdc9-5824-509e-8a57-c99b940fb996"</span><span class="p">,</span>
+    <span class="nt">"username"</span><span class="p">:</span> <span class="s2">"ErickSkrauch"</span><span class="p">,</span>
+    <span class="nt">"registeredAt"</span><span class="p">:</span> <span class="mi">1470566470</span><span class="p">,</span>
+    <span class="nt">"profileLink"</span><span class="p">:</span> <span class="s2">"http:\/\/ely.by\/u1"</span><span class="p">,</span>
+    <span class="nt">"preferredLanguage"</span><span class="p">:</span> <span class="s2">"be"</span><span class="p">,</span>
+    <span class="nt">"email"</span><span class="p">:</span> <span class="s2">"erickskrauch@ely.by"</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">email</span></code> field will only be present when the <code class="docutils literal notranslate"><span class="pre">account_email</span></code> scope has been requested.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the future, the number of returned fields may increase, but existing ones will remain the same.</p>
+</div>
+</div>
+<div class="section" id="refresh-token-grant">
+<span id="id9"></span><h2>Refreshing access token<a class="headerlink" href="#refresh-token-grant" title="Permalink to this headline">¶</a></h2>
+<p>If you have requested the scope <code class="docutils literal notranslate"><span class="pre">offline_access</span></code> during authorization, then along with your <code class="docutils literal notranslate"><span class="pre">access_token</span></code> you’ll also get <code class="docutils literal notranslate"><span class="pre">refresh_token</span></code>. This token doesn’t expire and can be used to obtain a new access token when that one expires.</p>
+<p>To perform a token update, you have to send a POST request to the same URL that was used for <a class="reference external" href="#authorization-code-grant">exchanging the auth code for an access token</a>, but with the next parameters:</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 1%">
+<col style="width: 99%">
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">client_id</span></code></p></td>
+<td><p>ClientID that was received during registration.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">client_secret</span></code></p></td>
+<td><p>ClientSecret that was received during application registration.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">scope</span></code></p></td>
+<td><p>The same scopes that were obtained for the initial access token. An attempt to extend this list will cause an error.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">refresh_token</span></code></p></td>
+<td><p>The token itself that was obtained along with the access token.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example of a token refreshing in PHP:</strong></p>
+<div class="highlight-php notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="c1">// refresh_token, полученный при завершении авторизации</span>
+<span class="nv">$refreshToken</span> <span class="o">=</span> <span class="s1">'m0APA99Ee7E6jNryVBrZ4qlktsEiwgspKEAotaze'</span><span class="p">;</span>
+
+<span class="nv">$requestParams</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'client_id'</span> <span class="o">=&gt;</span> <span class="s1">'ely'</span><span class="p">,</span> <span class="c1">// Ваш ClientId, полученный при регистрации</span>
+    <span class="s1">'client_secret'</span> <span class="o">=&gt;</span> <span class="s1">'Pk4uCtZw5WVlSUpvteJuTZkVqHXZ6aNtTaLPXa7X'</span><span class="p">,</span> <span class="c1">// Ваш ClientSecret, полученный при регистрации</span>
+    <span class="s1">'scope'</span> <span class="o">=&gt;</span> <span class="s1">'account_info account_email'</span><span class="p">,</span>
+    <span class="s1">'refresh_token'</span> <span class="o">=&gt;</span> <span class="nv">$refreshToken</span><span class="p">,</span>
+    <span class="s1">'grant_type'</span> <span class="o">=&gt;</span> <span class="s1">'refresh_token'</span><span class="p">,</span>
+<span class="p">];</span>
+
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="s1">'https://account.ely.by/api/oauth2/v1/token'</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nb">http_build_query</span><span class="p">(</span><span class="nv">$requestParams</span><span class="p">));</span>
+<span class="nv">$result</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">),</span> <span class="k">true</span><span class="p">);</span>
+<span class="nb">curl_close</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The answer will have exactly the same body as the result of <a class="reference external" href="#authorization-code-grant-response">exchanging auto code for an access token</a>. The <code class="docutils literal notranslate"><span class="pre">refresh_token</span></code> field will be absent.</p>
+</div>
+<div class="section" id="id12">
+<h2>Available libraries<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<p>A simpler way is to use a ready-made library, to which you’ll only have to provide registration parameters. Listed below are libraries for various programming languages. You can extend this list by providing your own library.</p>
+<ul class="simple">
+<li><p><strong>PHP</strong>:</p>
+<ul>
+<li><p>[Official] <a class="reference external" href="https://github.com/elyby/league-oauth2-provider">https://github.com/elyby/league-oauth2-provider</a></p></li>
+</ul>
+</li>
+<li><p><strong>Ruby</strong>:</p>
+<ul>
+<li><p>[Official] <a class="reference external" href="https://github.com/elyby/omniauth-ely">https://github.com/elyby/omniauth-ely</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id13">
+<h2>Possible errors<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<p>Below are the typical errors that you may receive after transmitting incorrect data to the authorization server. If you encounter an error that is not described in this documentation, please report it via <a class="reference external" href="https://ely.by/site/contact">feedback form</a>.</p>
+<div class="section" id="auth-start-errors">
+<span id="id15"></span><h3>Errors during authorization initiation<a class="headerlink" href="#auth-start-errors" title="Permalink to this headline">¶</a></h3>
+<p>This section describes the errors displayed when a user is redirected from your site to our authorization initiation page.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Invalid request ({parameter} required).
+</pre></div>
+</div>
+<p>This error means that you did not pass all the required parameters. To solve this error just add the missing parameter.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Invalid response type '{invalid_response_type_value}'.
+</pre></div>
+</div>
+<p>This error indicates that you passed an unsupported type of <code class="docutils literal notranslate"><span class="pre">response_type</span></code>. Currently, the only supported value is <code class="docutils literal notranslate"><span class="pre">code</span></code>.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Invalid scope '{invalid_scope}'.
+</pre></div>
+</div>
+<p>The error indicates that an unknown scope was requested. Make sure you request <a class="reference external" href="#available-scopes">supported scopes</a>.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Can not find application you are trying to authorize.
+</pre></div>
+</div>
+<p>This error indicates that the passed parameters do not correspond to any of the registered applications. To solve the problem, fix your <code class="docutils literal notranslate"><span class="pre">client_id</span></code> and <code class="docutils literal notranslate"><span class="pre">redirect_uri</span></code> values.</p>
+</div>
+<div class="section" id="issue-token-errors">
+<span id="id17"></span><h3>Errors when exchanging code for a key<a class="headerlink" href="#issue-token-errors" title="Permalink to this headline">¶</a></h3>
+<p>If an error occurs, instead of the expected response with the <code class="docutils literal notranslate"><span class="pre">200</span></code> status, you will receive a <code class="docutils literal notranslate"><span class="pre">40x</span></code> code and the following 2 fields:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">"error"</span><span class="p">:</span> <span class="s2">"invalid_request"</span><span class="p">,</span>
+    <span class="nt">"error_description"</span><span class="p">:</span> <span class="s2">"The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed. Check the \"code\" parameter."</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">error</span></code> field contains the system error identifier, and <code class="docutils literal notranslate"><span class="pre">error_description</span></code> describes the error in English language.</p>
+<p><strong>Possible error values:</strong></p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 1%">
+<col style="width: 99%">
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">invalid_request</span></code></p></td>
+<td><p>Not all the required request parameters were passed or the <code class="docutils literal notranslate"><span class="pre">code</span></code> value was not found in the issued codes database.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">unsupported_grant_type</span></code></p></td>
+<td><p>This error indicates that you tried to authorize using an unknown for our OAuth2 server Grant-type.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">invalid_client</span></code></p></td>
+<td><p>This error occurs when the trio of values <code class="docutils literal notranslate"><span class="pre">client_id</span></code>, <code class="docutils literal notranslate"><span class="pre">client_secret</span></code> and <code class="docutils literal notranslate"><span class="pre">redirect_uri</span></code> didn’t match with any of the registered applications.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id18">
+<h3>Errors when requesting user information<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<p>Response status <code class="docutils literal notranslate"><span class="pre">401</span></code> indicates that the <code class="docutils literal notranslate"><span class="pre">Authorization</span></code> header is not present in the request or its value formed incorrectly. The response body will be as follows:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">"name"</span><span class="p">:</span> <span class="s2">"Unauthorized"</span><span class="p">,</span>
+    <span class="nt">"status"</span><span class="p">:</span> <span class="mi">401</span><span class="p">,</span>
+    <span class="nt">"message"</span><span class="p">:</span> <span class="s2">"Your request was made with invalid credentials."</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>A response with the <code class="docutils literal notranslate"><span class="pre">403</span></code> status indicates that the token transferred in the <code class="docutils literal notranslate"><span class="pre">Authorization</span></code> header does not contain the <code class="docutils literal notranslate"><span class="pre">account_info</span></code> scope or it has expired. The response will be in the following format:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">"name"</span><span class="p">:</span> <span class="s2">"Forbidden"</span><span class="p">,</span>
+    <span class="nt">"status"</span><span class="p">:</span> <span class="mi">403</span><span class="p">,</span>
+    <span class="nt">"message"</span><span class="p">:</span> <span class="s2">"You are not allowed to perform this action."</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id19">
+<h3>Errors while updating access token<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<p>When updating the access token you may encounter the same errors from <a class="reference external" href="#issue-token-errors">exchanging auth code for an access token</a>, as well as several new ones:</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 1%">
+<col style="width: 99%">
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">invalid_request</span></code></p></td>
+<td><p>Not all the required request parameters were passed or the <code class="docutils literal notranslate"><span class="pre">refresh_token</span></code> value wasn’t found in the issued tokens database.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">invalid_scope</span></code></p></td>
+<td><p>The unsupported scope was listed or requested more scopes than the original token had.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="/en/skins-system.html" class="btn btn-neutral float-right" title="Skins system" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="/en/minecraft-auth.html" class="btn btn-neutral float-left" title="Authentication for Minecraft" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr>
+
+  <div role="contentinfo">
+    <p>
+        © Copyright 2024, Ely.by.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+  
+ 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-45299905-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-45299905-2');
+</script>
+
+
+
+</body>
+</html>

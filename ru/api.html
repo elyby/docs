@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="ru">
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Ely.by API (симуляция Mojang API) — Ely.by Docs</title>
+  
+
+  
+  <link rel="stylesheet" href="/_static/css/theme.css" type="text/css">
+  <link rel="stylesheet" href="/_static/pygments.css" type="text/css">
+  <link rel="stylesheet" href="/_static/style.css" type="text/css">
+
+  
+  
+    <link rel="shortcut icon" href="/_static/favicon.ico">
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="/ru/_static/documentation_options.js"></script>
+        <script src="/_static/jquery.js"></script>
+        <script src="/_static/underscore.js"></script>
+        <script src="/_static/doctools.js"></script>
+        <script src="/ru/_static/translations.js"></script>
+    
+    <script type="text/javascript" src="/_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Алфавитный указатель" href="/ru/genindex.html">
+    <link rel="search" title="Поиск" href="/ru/search.html">
+    <link rel="next" title="Authlib-injector" href="/ru/authlib-injector.html">
+    <link rel="prev" title="Добро пожаловать в документацию Ely.by!" href="/ru/index.html"> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="/ru/index.html" class="icon icon-home"> Ely.by Documentation
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="/ru/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs">
+    <input type="hidden" name="check_keywords" value="yes">
+    <input type="hidden" name="area" value="default">
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Статьи на русском:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Ely.by API (симуляция Mojang API)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Запросы</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#uuid">UUID по нику на время</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Никнейм по UUID + история изменений</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Список никнеймов в их UUID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Запрос информации о профиле по UUID</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Возможные ошибки</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#illegalargumentexception">IllegalArgumentException</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="/ru/authlib-injector.html">Authlib-injector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/ru/minecraft-auth.html">Авторизация для Minecraft</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/ru/oauth.html">Авторизация по протоколу OAuth2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/ru/skins-system.html">Система скинов</a></li>
+</ul>
+
+            
+          
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">English articles:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="/en/api.html">Ely.by API (Mojang API simulation)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/en/authlib-injector.html">Authlib-injector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/en/minecraft-auth.html">Authentication for Minecraft</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/en/oauth.html">Authorization via OAuth2 protocol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="/en/skins-system.html">Skins system</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="/ru/index.html">Ely.by Documentation</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="/ru/index.html" class="icon icon-home"></a> »</li>
+        
+      <li>Ely.by API (симуляция Mojang API)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ely-by-api-mojang-api">
+<h1>Ely.by API (симуляция Mojang API)<a class="headerlink" href="#ely-by-api-mojang-api" title="Ссылка на этот заголовок">¶</a></h1>
+<p>Здесь приведена информация об API, совместимом с функционалом <a class="reference external" href="http://wiki.vg/Mojang_API">Mojang Api</a>. Обращаем ваше внимание на то, что это не полноценное API Ely.by, а только набор дополнительных запросов, реализованных на базе нашего <a class="reference internal" href="/ru/minecraft-auth.html"><span class="doc">сервера авторизации</span></a>.</p>
+<div class="section" id="id1">
+<h2>Запросы<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p>API не имеет ограничения на количество запросов. У нас есть просто настроенный fail2ban, который будет банить особо надоедливых клиентов. Такие дела.</p>
+</div>
+<p>В этой секции будут описаны запросы и их же варианты для Mojang API. Все запросы выполняются на базовый url <code class="docutils literal notranslate"><span class="pre">https://authserver.ely.by</span></code>.</p>
+<div class="section" id="uuid">
+<h3>UUID по нику на время<a class="headerlink" href="#uuid" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Данный запрос позволяет узнать UUID пользователя по его нику на указанный момент времени. Время задаётся через GET параметр at с unix timestamp.</p>
+<dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">GET</span> <span class="pre">/api/users/profiles/minecraft/{username}</span></code></dt>
+<dd><p>Где <code class="docutils literal notranslate"><span class="pre">{username}</span></code> — искомый ник пользователя. Он может быть передан в любом регистре (В Mojang API только строгое совпадение).</p>
+<p>Обратите так же внимание, что параметры legacy и demo никогда не будут возвращены, т.к. эти параметры не имеют в Ely альтернативы и специфичны только для сервисов Mojang.</p>
+</dd></dl>
+
+<p>В случае успешного запроса вы получите следующий ответ сервера:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"id"</span><span class="o">:</span> <span class="s2">"ffc8fdc95824509e8a57c99b940fb996"</span><span class="p">,</span>
+  <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"ErickSkrauch"</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>В случае, если переданный ник не будет найден, вы получите ответ с <code class="docutils literal notranslate"><span class="pre">204</span></code> статусом и пустым телом.</p>
+</div>
+<div class="section" id="id2">
+<h3>Никнейм по UUID + история изменений<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Данный запрос позволяет узнать все ники, использованные пользователем по его UUID.</p>
+<dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">GET</span> <span class="pre">/api/user/profiles/{uuid}/names</span></code></dt>
+<dd><p>Где <code class="docutils literal notranslate"><span class="pre">{uuid}</span></code> — валидный UUID. Валидным будет считаться UUID, написанный через дефисы или без них. В случае передачи невалидной строки, будет возвращён <a class="reference internal" href="#illegalargumentexception">IllegalArgumentException</a> с сообщением <code class="docutils literal notranslate"><span class="pre">"Invalid</span> <span class="pre">uuid</span> <span class="pre">format."</span></code>.</p>
+</dd></dl>
+
+<p>В случае успешного запроса вы получите следующий ответ сервера:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"Admin"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"ErickSkrauch"</span><span class="p">,</span>
+    <span class="s2">"changedToAt"</span><span class="o">:</span> <span class="mf">1440707723000</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p>Т.к. на Ely.by не реализован алгоритм запоминания момента смены ника, будет возвращаться только 1 элемент. Чуть позже мы добавим полноценную поддержку запоминания момента смены ника.</p>
+</div>
+<p>В случае, если переданный UUID не будет найден, вы получите ответ с <code class="docutils literal notranslate"><span class="pre">204</span></code> статусом и пустым телом.</p>
+</div>
+<div class="section" id="id3">
+<h3>Список никнеймов в их UUID<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Этот запрос позволяет запросить список UUID пользователей по списку ников.</p>
+<dl class="py function">
+<dt>
+<code class="sig-name descname"><span class="pre">POST</span> <span class="pre">/api/profiles/minecraft</span></code></dt>
+<dd><p>В теле запроса или POST параметрах необходимо передать валидный JSON массив искомых ников.</p>
+<p>В массиве должно быть не более 100 ников, в противном случае будет возвращён <a class="reference internal" href="#illegalargumentexception">IllegalArgumentException</a> с сообщением <code class="docutils literal notranslate"><span class="pre">"Not</span> <span class="pre">more</span> <span class="pre">that</span> <span class="pre">100</span> <span class="pre">profile</span> <span class="pre">name</span> <span class="pre">per</span> <span class="pre">call</span> <span class="pre">is</span> <span class="pre">allowed."</span></code>. В случае, если переданная строка окажется невалидным JSON объектом, будет возвращено это же исключение, только с текстом <code class="docutils literal notranslate"><span class="pre">"Passed</span> <span class="pre">array</span> <span class="pre">of</span> <span class="pre">profile</span> <span class="pre">names</span> <span class="pre">is</span> <span class="pre">an</span> <span class="pre">invalid</span> <span class="pre">JSON</span> <span class="pre">string."</span></code>.</p>
+<p>Пример тела запроса:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s2">"ErickSkrauch"</span><span class="p">,</span> <span class="s2">"EnoTiK"</span><span class="p">,</span> <span class="s2">"KmotherfuckerF"</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<p>В случае успешного запроса вы получите следующий ответ сервера:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">"id"</span><span class="o">:</span> <span class="s2">"ffc8fdc95824509e8a57c99b940fb996"</span><span class="p">,</span>
+    <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"ErickSkrauch"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="s2">"id"</span><span class="o">:</span> <span class="s2">"b8407ae8218658ef96bb0cb3813acdfd"</span><span class="p">,</span>
+    <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"EnoTiK"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="s2">"id"</span><span class="o">:</span> <span class="s2">"39f42ba723de56d98867eabafc5e8e91"</span><span class="p">,</span>
+    <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"KmotherfuckerF"</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Данные возвращаются в том же порядке, в каком и были запрошены.</p>
+<p>В случае, если один из переданных никнеймов не найден в базе данных, для него не будет возвращено значения (он будет просто пропущен). Учитывайте эту ситуацию при парсинге ответа.</p>
+</div>
+<div class="section" id="id4">
+<h3>Запрос информации о профиле по UUID<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
+<p>См. <a class="reference internal" href="/ru/minecraft-auth.html#profile-request"><span class="std std-ref">запрос профиля для сервера авторизации</span></a>.</p>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>Возможные ошибки<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="illegalargumentexception">
+<span id="id6"></span><h3>IllegalArgumentException<a class="headerlink" href="#illegalargumentexception" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Данная ошибка возникает при попытке передать на сервер данные в неправильном формате.</p>
+<p>Пример подобной ошибки:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">"error"</span><span class="o">:</span> <span class="s2">"IllegalArgumentException"</span><span class="p">,</span>
+  <span class="s2">"errorMessage"</span><span class="o">:</span> <span class="s2">"Invalid uuid format."</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">errorMessage</span></code> не всегда совпадает с таковым у Mojang, но в основном это касается только специфичных только для Ely ошибок. Оригинальные же запросы и ожидаемые от них ошибки повторяют тексты Mojang.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="/ru/authlib-injector.html" class="btn btn-neutral float-right" title="Authlib-injector" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="/ru/index.html" class="btn btn-neutral float-left" title="Добро пожаловать в документацию Ely.by!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr>
+
+  <div role="contentinfo">
+    <p>
+        © Copyright 2024, Ely.by.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+  
+ 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-45299905-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-45299905-2');
+</script>
+
+
+
+</body>
+</html>
