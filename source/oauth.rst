@@ -284,6 +284,11 @@
 
   - [Официальная] https://github.com/elyby/omniauth-ely
 
+* **Node.js**:
+
+  - [Неофициальная]
+https://github.com/GGSkyOne/elyby
+
 Возможные ошибки
 ================
 
