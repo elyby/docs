@@ -286,8 +286,7 @@
 
 * **Node.js**:
 
-  - [Неофициальная]
-https://github.com/GGSkyOne/elyby
+  - [Сообщество] https://github.com/GGSkyOne/elyby
 
 Возможные ошибки
 ================
