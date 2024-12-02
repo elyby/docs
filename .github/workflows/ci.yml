@@ -15,14 +15,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install required system packages
-        run: sudo apt install -y libxml2-dev libxslt-dev
-
       - name: Set up Python
         uses: actions/setup-python@v5
         id: setup-python
         with:
-          python-version: 3.12
+          python-version: 3.10
           cache: pipenv
 
       - name: Install pipenv
