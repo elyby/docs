@@ -1,0 +1,318 @@
+# Authentication for Minecraft {#minecraft}
+This article contains information on authentication in Minecraft launchers and servers via the Ely.by authorization service.
+
+The authentication protocol is implemented as similar as possible to the [original Mojang authentication protocol](http://wiki.vg/Authentication), but this documentation describes all features specific to the Ely.by service.
+
+## General Provisions {#definitions}
+* All requests must be sent to `https://authserver.ely.by`.
+* A successful response will have a `200` status code. Any other code indicates an error.
+* The server always responds with JSON data, except for system errors and legacy requests. Use this to display proper error messages.
+* Standard error response format:
+    ```json
+    {
+        "error": "Short error description",
+        "errorMessage": "Detailed error message in English for user display."
+    }
+    ```
+
+### Expected Errors {#errors}
+Unlike the original protocol, Ely.by uses a simplified set of errors:
+
+#### IllegalArgumentException
+**Cause**: Incomplete or incorrect request parameters.  
+**Solution**: Verify the request against the documentation.
+
+#### ForbiddenOperationException
+**Cause**: Invalid user input or developer-provided data.  
+**Solution**: Prompt the user to correct their input.
+
+#### Not Found {#not-found}
+Indicated by a `404` status response.
+
+## Authentication in the Launcher {#launcher}
+This section describes obtaining an `accessToken` for the Minecraft client. Successful authentication returns a **JWT token** with the `minecraft_server_session` [scope](./oauth.md#available-scopes).
+
+:::warning
+We recommend using the [OAuth 2.0 protocol](./oauth.md) with the `minecraft_server_session` scope for better security and user experience.
+:::
+
+### User Authentication {#auth-authenticate}
+Direct authentication using username/email, password, and optional 2FA token.
+
+> **POST /auth/authenticate**  
+>  
+> **Parameters**:  
+> * **username** (*string*): User's nickname or email (preferred).  
+> * **password** (*string*): Password or `password:token` combination for 2FA.  
+> * **clientToken** (*string*): Unique launcher identifier.  
+> * **requestUser** (*bool*): Include `user` field in response if `true`.  
+
+The Ely.by accounts system supports additional user security with two-factor authentication. The Mojang’s authentication protocol doesn’t provide the possibility to pass TOTP tokens. To solve this problem and maintain compatibility with Yggdrasil’s server implementation, we suggest passing the token in the password field as password:token.
+
+Unfortunately, not all users are aware of this feature, so it would be better to explicitly request the user’s token and concatenate it in the code when receiving an error about the user’s account being protected by two-factor authentication.
+
+The logic is as follows:  
+1. If the account has 2FA enabled, a `401` error is returned:
+    ```json
+    {
+        "error": "ForbiddenOperationException",
+        "errorMessage": "Account protected with two factor auth."
+    }
+    ```
+2. Upon receiving this error, you should ask the user to enter a TOTP token, and then repeat the authentication request with the same credentials, adding a postfix to the password in the form `:token`, where token is the value entered by the user.
+If the user’s password was “password123” and the token was “123456”, the `password` field value will become “password123:123456” after concatenating.  
+3. If as a result of these actions you get a response with `401` status and `errorMessage` “Invalid credentials. Invalid email or password.”, it will indicate that the token passed is incorrect and must be re-requested from the user.
+
+If all data is passed correctly, you will receive the following response:
+```json
+{
+    "accessToken": "long_access_token_string",
+    "clientToken": "provided_client_token",
+    "availableProfiles": [
+        {
+            "id": "user_uuid_without_dashes",
+            "name": "current_username"
+        }
+    ],
+    "selectedProfile": {
+        "id": "user_uuid_without_dashes",
+        "name": "current_username"
+    },
+    "user": { /* Included if requestUser is set */
+        "id": "user_uuid_without_dashes",
+        "username": "current_username",
+        "properties": [
+            {
+                "name": "preferredLanguage",
+                "value": "ru"
+            }
+        ]
+    }
+}
+```
+
+### Token Refresh {#auth-refresh}
+Renew a valid `accessToken` without requiring the user's password.
+
+> **POST /auth/refresh**  
+>  
+> **Parameters**:  
+> * **accessToken** (*string*): Current access token.  
+> * **clientToken** (*string*): Client identifier.  
+> * **requestUser** (*bool*): Include `user` field in response if `true`.  
+
+:::note
+The original protocol also passes the value of `selectedProfile`, but in Mojang’s implementation it doesn’t affect anything. Our authentication server implementation ignores this parameter and relies on `accessToken` and `clientToken` values.
+:::
+
+If you receive any of the provided errors, you should re-request the user password and perform normal authentication.
+
+Successful response:
+```json
+{
+    "accessToken": "new_access_token_string",
+    "clientToken": "provided_client_token",
+    "selectedProfile": {
+        "id": "user_uuid_without_dashes",
+        "name": "current_username"
+    },
+    "user": { /* Included if requestUser=true */
+        "id": "user_uuid_without_dashes",
+        "username": "current_username",
+        "properties": [
+            {
+                "name": "preferredLanguage",
+                "value": "ru"
+            }
+        ]
+    }
+}
+```
+
+### Token Validation {#auth-validate}
+This request allows you to check whether the specified accessToken is valid or not. This request does not update the token or its lifetime, but only makes sure that it is still valid.
+
+> **POST /auth/validate**  
+>  
+> **Parameters**:  
+> * **accessToken** (*string*): The access token received after authentication.  
+
+AA successful response will be an empty body. An error will result in a `400` or `401` status. Example of server response when sending an expired token:
+```json
+{
+    "error": "ForbiddenOperationException",
+    "errorMessage": "Token expired."
+}
+```
+
+### Invalidate All User Tokens {#auth-signout}
+Invalidate all tokens issued to a user.
+
+> **POST /auth/signout**  
+>  
+> **Parameters**:  
+> * **username** (*string*): User's username or email (preferred).  
+> * **password** (*string*): User's password.  
+
+A successful response will be an empty body. Refer to the `error` field in the response body.
+
+### Invalidate Specific Token {#auth-invalidate}
+The request allows you to invalidate the **accessToken**. In case the passed token cannot be found in the token store, **no error will be generated** and you will receive a successful response.
+
+> **POST /auth/invalidate**  
+>  
+> **Parameters**:  
+> * **accessToken** (*string*): A unique key obtained after authentication.  
+> * **clientToken** (*string*): The unique identifier of the client with respect to which the accessToken was received.  
+
+A successful response will be an empty body. Refer to the `error` field in the response body.
+
+## Server Authentication {#server}
+These requests are executed directly by the client and server using internal code or the authlib library (since version 1.7.2). They are only relevant if you have already authorized and run the game with a valid accessToken. You only need to replace the paths inside the game/library with the paths below.
+
+Since you cannot directly change anything in authlib or the game, the values passed and server responses are not given here. If necessary, you can find this information yourself on the internet.
+
+### Via Authlib {#authlib}
+:::info
+This part of the documentation describes the requests executed via authlib in game version 1.7.2+. For older versions, see [the section below](#legacy).
+:::
+
+All requests in this category are executed on the `/session` sublayer. Each request is preceded by the type of request to be sent.
+
+> **POST /session/join**  
+>
+> A request to this URL is sent by the client at the time of connection to the server that has online-mode=true.  
+
+> **GET /session/hasJoined**  
+>
+> The request to this URL is sent by the server that has online-mode=true after the client tries to connect to it completes the join request. The textures will be signed with the Ely.by key.  
+
+:::tip
+The signature verification key can be obtained from the [skins system](./skins-system.md#signature-verification-key-request).  
+:::danger
+In rare cases the `signature` property will have the value `Cg==`. If the signature field has such value, there is no need to verify it, because it will always be incorrect.
+:::
+
+### For older versions {#legacy}
+:::info
+This part of the documentation describes requests sent by older versions of Minecraft where the Authlib library wasn’t used. These include all versions below 1.7.2.
+:::
+
+All requests in this category are executed on the `/session/legacy` sublayer. Each request is preceded by the type of request to be sent.
+
+The principle of processing these requests is the same as for **the authlib**, the only difference is in the input parameters and return values.
+
+> **GET /session/legacy/join**  
+>
+> A request to this URL is sent by the client at the time of connection to the server that has online-mode=true.  
+
+> **GET /session/legacy/hasJoined?user=**  
+>
+> The request to this URL is sent by the server that has online-mode=true after the client trying to connect to it successfully completes the join request.  
+
+It is important not to forget the GET parameter ?user= at the end of both requests to get the following URLs: `http://minecraft.ely.by/session/legacy/hasJoined?user=`.
+
+## Single Player {#singleplayer}
+In essence, a single-player game is a local server created for a single player. At least it has been so since version 1.6, in which the local server mechanism was introduced.
+
+However, the following request is relevant only for Minecraft 1.7.6+, when Authlib started to be used for loading skins.
+
+### Profile Request {#profile-request}
+> **GET /session/profile/\{uuid\}**  
+> 
+> A request to this URL is sent by the client in a single-player game on a local server (created through the game itself). The UUID of the user with whom the client was launched is passed to the URL, and the response is information about the player’s textures in the same format as the `hasJoined` request.
+
+## Prebuilt Authlib Libraries {#premade-authlib}
+:::tip
+Ely.by supports the authlib-injector library. This is the simplest and most universal way to install the authentication system in the game and its servers. For details, see [the corresponding documentation section](./authlib-injector.md).  
+:::
+
+Since manual implementation has difficulties in finding sources, connecting dependencies and finally compiling the result, on the [download page of our skin system](https://ely.by/load) you can download pre-built libraries with all necessary modifications. Select the desired version from the drop-down list and follow the installation instructions on the same page below.
+
+In earlier versions of the game, the skin system was inside the game client, so the libraries below only provide authentication:  
+- Minecraft 1.7.5: [authlib 1.3.1](/authlib/authlib-1.3.1.jar)  
+- Minecraft 1.7.2: [authlib 1.3](/authlib/authlib-1.3.jar)  
+
+To install, you need to replace the original library located at `<Minecraft installation directory>/libraries/com/mojang/authlib/`. Make sure that the versions of the already present and replacement files match.
+:::warning
+Many launchers and server startup scripts check the integrity of the game files at startup and may not allow such modification
+:::
+
+### Installing Authlib on a server {#authlib-server}
+The server also uses **authlib** to perform player authentication, so the appropriate changes should be applied to it as well. Below are instructions on how to install **authlib** for different Minecraft server implementations.
+
+### Vanilla Server {#authlib-server-vanilla}
+Use an archiver to open the server file `minecraft_server.VERSION.jar`. In the same way, open the archive with authlib for the corresponding server version. You will see two windows in front of you: one with the server files, the other with the authlib files. You need to “drag and drop” all files and folders from the authlib archive, **except for the META-INF** directory, and confirm the replacement. 
+<figure>
+![Installing Authlib](/img/authlib-install.png)
+<figcaption>Please note: you should “drag and drop” the content below the server folders (into the .class file area).</figcaption>
+</figure>
+After these steps, you can close both windows and set `online-mode=true` in the `server.properties` file.
+
+### Bukkit/Spigot {#authlib-server-spigot}
+First perform the installation as described for the [original server](#authlib-server-vanilla). Then download the libraries [commons-io](https://repo1.maven.org/maven2/commons-io/commons-io/2.5/commons-io-2.5.jar) and [commons-lang3](https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar), and then move the contents of the downloaded archives into the server files in the same way as authlib
+
+### Forge/Sponge {#authlib-server-forge}
+Before performing the installation, it is necessary to determine which file is to be modified:
+- **≥1.16**: Modify `libraries/net/minecraft/server/VERSION-DIGITS/server-VERSION-DIGITS-extra.jar`.  
+- **1.13-1.15**: Modify `libraries/net/minecraft/server/VERSION/server-VERSION-extra.jar`.  
+- **\≤1.12**: Modify `minecraft_server.VERSION.jar`.  
+
+When the required file is found, perform an authlib installation for it, similar to [original server](#authlib-server-vanilla).
+
+### Paper (PaperSpigot) {#authlib-server-paper}
+Installation is done similarly to [Bukkit/Spigot](#authlib-server-spigot) into the `cache/patched-VERSION.jar` file. After making changes, the server must be started via the jar file from the cache directory, because otherwise Paper will restore the original state of the file:
+```bash
+# Before
+java -jar paper-ВЕРСИЯ-БИЛД.jar
+# After
+java -jar cache/patched-ВЕРСИЯ.jar
+```
+
+### BungeeCord {#authlib-server-bungeecord}
+:::tip
+You can use the [authlib-injector](./authlib-injector.md) library to install the authentication system without modifying the server internals.  
+:::
+
+Although BungeeCord is a proxy server, it performs player authentication on its own. Unfortunately, BungeeCord does not rely on Authlib, but implements the authentication process by itself, so you will need to modify the compiled `.class` files to install the Ely.by authentication system.
+
+Follow the instructions below to install:
+1. Download the InClassTranslator program (we don’t give direct links, but it’s easy to find).
+2. Use an archiver to open the `BungeeCord.jar` file.
+3. Go to the path `net/md_5/bungee/connection` and find there the file `InitialHandler.class` (without any $ symbols).
+4. Unpack this file. In the simplest case you can do it by simply “pulling” it out of the archiver window.
+5. Open the extracted file in the InClassTranslator program and replace the line `https://sessionserver.mojang.com/session/minecraft/hasJoined?username=` with `https://authserver.ely.by/session/hasJoined?username=` as shown in the figure below:
+    ![Replacing the string using InClassTranslator](/img/bungeecord_inclasstranslator.png)
+6. Save the changes and drag the modified file back into the server archive. Confirm the replacement.
+    ![Packing class-file into the jar file](/img/bungeecord_move.png)
+
+After performing these steps, you can specify the value `online_mode=true` in the BungeeCord configuration file (`config.yml`).
+
+:::info
+We also recommend performing an Authlib installation on all servers behind BungeeCord. This may be necessary for plugins that use the Mojang API. Instructions for installing on proxied servers are given [above](#authlib-server).
+
+All servers must have `online-mode=false` in their configuration (`server.properties`), since users are already authorized by BungeeCord.
+:::
+
+## Installation on versions below 1.7.2 {#install-legacy}
+For older versions there are quite a large variety of different cases, and it is not possible to cover them in this documentation. The whole setup consists of replacing certain strings in certain classes via **InClassTranslator**.
+
+There is a [great post](http://www.rubukkit.org/threads/spisok-klassov-i-klientov-dlja-mcp.25108/#post-303710) (warning: in Russian, use any translator!) on the RuBukkit forum, which contains all the necessary information on class names on different versions of Minecraft. There is no point in retyping it here, so just go to its page and find the right version
+
+### Installation example {#install-legacy-example}
+Suppose you want to install authentication on a server with version **1.5.2**.
+
+First you follow the link above, select the version you want (1.5.2) and see the list of classes:
+* `bdk.class` - path to `joinserver`
+* `jg.class` - path to `checkserver`
+
+Then you have to take the .jar file of the client and open it with any archiver. After that you need to find the **bdk.class** file. For this purpose it is convenient to use search.
+Once you have found the file, you need to extract it from the archive - just drag and drop it from there to a convenient dirctory.
+Next, run **InClassTranslator** and open this class in it. On the left will be a list of lines found in the file, which you can change. You only need to change the line responsible for the request to connect to the server:
+
+![](/img/installing_by_inclasstranslator.png)
+After that, you need to put the modified .class back into the game’s .jar file.
+
+You need to perform the same operation with the server, only replace the reference with `hasJoined`.
+
+After these actions you need to enable `online-mode=true` in the settings and the server will allow only those players who will be authorized through Ely.by.
