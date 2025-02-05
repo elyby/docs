@@ -1,6 +1,6 @@
 # Ely.by API (Mojang API simulation)
 
-This article contains information about the API compatible with the [Mojang API](http://wiki.vg/Mojang_API) functionality. Please note that this is not a full-fledged API of Ely.by, but only a set of additional requests implemented based on our `[authorization server](./minecraft-auth.md)`.
+This article contains information about the API compatible with the [Mojang API](http://wiki.vg/Mojang_API) functionality. Please note that this is not a full-fledged API of Ely.by, but only a set of additional requests implemented based on our `[authorization server](./minecraft-auth)`.
 
 ## Requests
 :::note
@@ -90,7 +90,7 @@ The data is returned in the same order they were requested.
 If one of the passed usernames isn’t found in the database, no value will be returned for it (it will be skipped). Keep this in mind when parsing the response.
 
 ### Profile info by UUID {#profile-by-uuid}
-See the `[profile request for the authorization server](./minecraft-auth.md#profile-request)`.
+See the `[profile request for the authorization server](./minecraft-auth#profile-request)`.
 
 ## Possible errors {#possible-errors}
 
