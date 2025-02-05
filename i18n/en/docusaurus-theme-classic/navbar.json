@@ -1,0 +1,10 @@
+{
+  "title": {
+    "message": "Документация Ely.by",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "Логотип Ely.by",
+    "description": "The alt text of navbar logo"
+  }
+}

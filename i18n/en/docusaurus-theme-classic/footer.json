@@ -1,0 +1,42 @@
+{
+  "link.title.Проекты": {
+    "message": "Projects",
+    "description": "The title of the footer links column with title=Проекты in the footer"
+  },
+  "link.title.Сообщество": {
+    "message": "Community",
+    "description": "The title of the footer links column with title=Сообщество in the footer"
+  },
+  "link.item.label.Система скинов Ely.by": {
+    "message": "Ely.by Skin System",
+    "description": "The label of footer link with label=Система скинов Ely.by linking to https://ely.by"
+  },
+  "link.item.label.Аккаунты Ely.by": {
+    "message": "Ely.by Accounts",
+    "description": "The label of footer link with label=Аккаунты Ely.by linking to https://account.ely.by"
+  },
+  "link.item.label.X (Twitter)": {
+    "message": "X (Twitter)",
+    "description": "The label of footer link with label=X (Twitter) linking to https://x.com/erickskrauch"
+  },
+  "link.item.label.YouTube": {
+    "message": "YouTube",
+    "description": "The label of footer link with label=YouTube linking to https://www.youtube.com/c/ElyByOfficial"
+  },
+  "link.item.label.VK": {
+    "message": "VK",
+    "description": "The label of footer link with label=VK linking to https://vk.com/elyby"
+  },
+  "link.item.label.Discord": {
+    "message": "Discord",
+    "description": "The label of footer link with label=Discord linking to https://ely.by"
+  },
+  "link.item.label.GitHub": {
+    "message": "GitHub",
+    "description": "The label of footer link with label=GitHub linking to https://github.com/elyby"
+  },
+  "copyright": {
+    "message": "Copyright © 2024 Ely.by. Built with Docusaurus.",
+    "description": "The footer copyright"
+  }
+}
