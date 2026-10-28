@@ -9,9 +9,7 @@ API не имеет ограничения на количество запро�
 
 В этой секции будут описаны запросы и их же варианты для Mojang API. Все запросы выполняются на базовый url `https://authserver.ely.by`.
 
-<a id="uuid" className="legacy-anchor"></a>
-
-### UUID по нику на время {#uuid-by-username}
+### UUID по нику на время {#uuid}
 Данный запрос позволяет узнать UUID пользователя по его нику на указанный момент времени. Время задаётся через GET параметр `at` с unix timestamp.
 
 > **GET /api/users/profiles/minecraft/\{username\}**
@@ -34,7 +32,7 @@ API не имеет ограничения на количество запро�
 
 > **GET /api/user/profiles/\{uuid\}/names**
 >
-> Где `{uuid}` — валидный UUID. Валидным будет считаться UUID, написанный через дефисы или без них. В случае передачи невалидной строки, будет возвращён [IllegalArgumentException](#illegal-argument-exception) с сообщением `"Invalid uuid format."`.
+> Где `{uuid}` — валидный UUID. Валидным будет считаться UUID, написанный через дефисы или без них. В случае передачи невалидной строки, будет возвращён [IllegalArgumentException](#illegalargumentexception) с сообщением `"Invalid uuid format."`.
 
 В случае успешного запроса вы получите следующий ответ сервера:
 ```json
@@ -62,7 +60,7 @@ API не имеет ограничения на количество запро�
 >
 > В теле запроса или POST параметрах необходимо передать валидный JSON массив искомых ников.
 > 
-> В массиве должно быть не более 100 ников, в противном случае будет возвращён [IllegalArgumentException](#illegal-argument-exception) с сообщением `"Not more than that 100 profile names per call is allowed."`. В случае, если переданная строка окажется невалидным JSON объектом, будет возвращено это же исключение, только с текстом `"Passed array of profile names is an invalid JSON string."`.
+> В массиве должно быть не более 100 ников, в противном случае будет возвращён [IllegalArgumentException](#illegalargumentexception) с сообщением `"Not more than that 100 profile names per call is allowed."`. В случае, если переданная строка окажется невалидным JSON объектом, будет возвращено это же исключение, только с текстом `"Passed array of profile names is an invalid JSON string."`.
 > 
 > Пример тела запроса:
 > ```json
@@ -96,9 +94,7 @@ API не имеет ограничения на количество запро�
 
 ## Возможные ошибки {#possible-errors}
 
-<a id="illegalargumentexception" className="legacy-anchor"></a>
-
-### IllegalArgumentException {#illegal-argument-exception}
+### IllegalArgumentException {#illegalargumentexception}
 Данная ошибка возникает при попытке передать на сервер данные в неправильном формате.
 
 Пример подобной ошибки:
