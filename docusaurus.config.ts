@@ -40,19 +40,14 @@ const config: Config = {
     tagline: 'Документация публичных проектов Ely.by',
     favicon: 'img/favicon.ico',
 
-    // Set the production url of your site here
     url: 'https://docs.ely.by',
-    // Set the /<baseUrl>/ pathname under which your site is served
-    // For GitHub pages deployment, it is often '/<projectName>/'
     baseUrl: '/',
     // Generate "page.html" files instead of "page/index.html" so that the URLs
     // of the old Sphinx-based documentation (/ru/api.html) keep working as is
     trailingSlash: false,
 
-    // GitHub pages deployment config.
-    // If you aren't using GitHub pages, you don't need these.
-    organizationName: 'elyby', // Usually your GitHub org/user name.
-    projectName: 'todo', // Usually your repo name.
+    organizationName: 'elyby',
+    projectName: 'elyby-docs',
 
     onBrokenLinks: 'throw',
 
@@ -82,10 +77,6 @@ const config: Config = {
                     routeBasePath: '/',
                     // Must run before the default plugins, which turn images into JSX elements
                     beforeDefaultRemarkPlugins: [remarkFigure],
-                    // Please change this to your repo.
-                    // Remove this to remove the "edit this page" links.
-                    // editUrl:
-                    //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
                 },
                 theme: {
                     customCss: './src/css/custom.css',
@@ -140,11 +131,6 @@ const config: Config = {
                         {
                             label: 'VK',
                             href: 'https://vk.com/elyby',
-                        },
-                        {
-                            label: 'Discord',
-                            // todo
-                            href: 'https://ely.by',
                         },
                         {
                             label: 'GitHub',
