@@ -16,8 +16,9 @@
         "typecheck": "tsc"
     },
     "dependencies": {
-        "@docusaurus/core": "^3.9",
-        "@docusaurus/preset-classic": "^3.9",
+        "@docusaurus/core": "^3.10",
+        "@docusaurus/faster": "^3.10",
+        "@docusaurus/preset-classic": "^3.10",
         "@mdx-js/react": "^3",
         "clsx": "^2",
         "docusaurus-plugin-image-zoom": "^3",
@@ -26,9 +27,9 @@
         "react-dom": "^19"
     },
     "devDependencies": {
-        "@docusaurus/module-type-aliases": "^3.9",
-        "@docusaurus/tsconfig": "^3.9",
-        "@docusaurus/types": "^3.9",
+        "@docusaurus/module-type-aliases": "^3.10",
+        "@docusaurus/tsconfig": "^3.10",
+        "@docusaurus/types": "^3.10",
         "@types/mdast": "^4",
         "typescript": "^5"
     },

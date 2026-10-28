@@ -51,6 +51,13 @@ const config: Config = {
 
     onBrokenLinks: 'throw',
 
+    future: {
+        faster: true,
+        v4: {
+            removeLegacyPostBuildHeadAttribute: true,
+        },
+    },
+
     customFields: {
         buildYear: new Date().getFullYear(),
     },

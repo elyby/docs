@@ -1,4 +1,4 @@
-# Authlib-injector {#authlib-injector}
+# Authlib-injector
 
 **authlib-injector** — это библиотека, позволяющая подменить адреса серверов авторизации и сессии в Authlib, не модифицируя непосредственно саму библиотеку. Выполнена как javaagent.
 
@@ -8,7 +8,7 @@
 
 Здесь приведена документация к ключевым аспектам установки и использования библиотеки. Для более подробной информации обратитесь к [оригинальной документации на китайском языке](https://github.com/yushijinhun/authlib-injector/wiki).
 
-## Установка в игровой клиент {#client}
+## Установка в игровой клиент {/* #client */}
 :::warning
 Обратите внимание, что этот раздел описывает установку authlib-injector в игру. Игровой лаунчер по-прежнему должен самостоятельно реализовать процесс авторизации, чтобы после передать `accessToken` в игру.
 :::
@@ -21,7 +21,7 @@ java -javaagent:/path/to/file/authlib-injector.jar=ely.by -jar minecraft.jar
 
 ![Редактирование аргументов JVM](/img/launcher-jvm-options.png)
 
-## Установка на сервер {#server}
+## Установка на сервер {/* #server */}
 Также как и в случае с игровым клиентом, библиотеку необходимо указать в качестве javaagent. [Скачайте библиотеку](https://github.com/yushijinhun/authlib-injector/releases/latest) и поместите её в директорию с сервером. После этого добавьте вызов javaagent в команду запуска сервера:
 
 До: `java -jar minecraft_server.jar`
@@ -32,7 +32,7 @@ java -javaagent:/path/to/file/authlib-injector.jar=ely.by -jar minecraft.jar
 
 ![Сообщение при запуске сервера](/img/server-startup-messages.png)
 
-### BungeeCord {#bungeecord}
+### BungeeCord {/* #bungeecord */}
 authlib-injector должен быть установлен непосредственно на сам BungeeCord, а также **на все сервера** позади него. Обратите внимание на конфигурацию параметра online‑mode:
 
 * В конфигурации BungeeCord (`config.yml`) должно стоять значение `online_mode=true`.
@@ -40,7 +40,7 @@ authlib-injector должен быть установлен непосредст
 
 Благодаря такой конфигурации установки, авторизация будет работать для всех входящих игроков, а на внутренних серверах будут корректно отображаться скины игроков.
 
-### LaunchHelper {#launchhelper}
+### LaunchHelper {/* #launchhelper */}
 Не все игровые хостинги позволяют напрямую модифицировать аргументы, с которыми запускается сервер. Чтобы обойти это ограничение, можно использовать специальный сервер, который запускает игровой сервер, подмешивая туда authlib-injector. Для установки следуйте инструкции:
 
 1. Скачайте версию LaunchHelper для вашей операционной системы со [страницы загрузок](https://github.com/Codex-in-somnio/LaunchHelper/releases/latest).
