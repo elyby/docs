@@ -1,4 +1,5 @@
-# Authlib-Injector {#authlib-injector}
+# Authlib-injector {#authlib-injector}
+
 **authlib-injector** — это библиотека, позволяющая подменить адреса серверов авторизации и сессии в Authlib, не модифицируя непосредственно саму библиотеку. Выполнена как javaagent.
 
 Данная библиотека значительно упрощает установку альтернативных сервисов авторизации в игровой клиент и сервер, поскольку она универсально применяет трансформацию в процессе работы программы.
@@ -9,30 +10,31 @@
 
 ## Установка в игровой клиент {#client}
 :::warning
-Обратите внимание, что этот раздел описывает установку **authlib-injector** в игру. Игровой лаунчер по-прежнему должен самостоятельно реализовать процесс авторизации, чтобы после передать `accessToken` в игру.
+Обратите внимание, что этот раздел описывает установку authlib-injector в игру. Игровой лаунчер по-прежнему должен самостоятельно реализовать процесс авторизации, чтобы после передать `accessToken` в игру.
 :::
+
 Для применения библиотеки, необходимо указать её в качестве javaagent для игры. Сделать это можно, добавив в начало команды запуска игры строку `-javaagent:/путь/до/файла/authlib-injector.jar=ely.by`. В результате изменений строка запуска игры должна выглядеть следующим образом:
 ```bash
-java -javaagent:/путь/к/файлу/authlib-injector.jar=ely.by -jar minecraft.jar
+java -javaagent:/путь/до/файла/authlib-injector.jar=ely.by -jar minecraft.jar
 ```
 Если вы запускаете игру через лаунчер, то в его настройках необходимо найти поле для указания дополнительных аргументов JVM, куда необходимо в самое начало вставить строку, приведённую выше.
 
-![Лаунчер Minecraft с окном настроек и аргументом -javaagent... в поле аргументов JVM](/img/launcher-jvm-options.png)
+![Редактирование аргументов JVM](/img/launcher-jvm-options.png)
 
 ## Установка на сервер {#server}
 Также как и в случае с игровым клиентом, библиотеку необходимо указать в качестве javaagent. [Скачайте библиотеку](https://github.com/yushijinhun/authlib-injector/releases/latest) и поместите её в директорию с сервером. После этого добавьте вызов javaagent в команду запуска сервера:
-```bash
-# До
-java -jar minecraft_server.jar
-# После
-java -javaagent:authlib-injector.jar=ely.by -jar minecraft_server.jar
-```
+
+До: `java -jar minecraft_server.jar`
+
+После: `java -javaagent:authlib-injector.jar=ely.by -jar minecraft_server.jar`
+
 При запуске сервера вы должны увидеть сообщение об активации authlib-injector:
 
-![Authlib-injector log strings at the server startup](/img/server-startup-messages.png)
+![Сообщение при запуске сервера](/img/server-startup-messages.png)
 
 ### BungeeCord {#bungeecord}
 authlib-injector должен быть установлен непосредственно на сам BungeeCord, а также **на все сервера** позади него. Обратите внимание на конфигурацию параметра online‑mode:
+
 * В конфигурации BungeeCord (`config.yml`) должно стоять значение `online_mode=true`.
 * В конфигурации всех серверов позади прокси (`server.properties`) должно быть указано значение `online-mode=false`.
 
@@ -49,9 +51,11 @@ authlib-injector должен быть установлен непосредст
     javaAgentOptions=ely.by
     execJarPath=minecraft_server.jar
     ```
-    Где `javaAgentJarPath` содержит путь до файла `authlib-injector.jar`, а `execJarPath` содержит имя файла сервера.
+    Где `javaAgentJarPath` содержит путь до файла authlib-injector.jar, а `execJarPath` содержит имя файла сервера.
 1. В панели управления хостингом укажите `LaunchHelper.jar` в качестве запускаемого файла сервера.
-Если возможности указать исполнимый файл явно нет, то следует переименовать файл `LaunchHelper.jar` в соответствие с требованиями вашего хостинга (обычно, это `server.jar`). В этом случае у вас должна получиться следующая структура файлов:
+
+    Если возможности указать исполнимый файл явно нет, то следует переименовать файл `LaunchHelper.jar` в соответствие с требованиями вашего хостинга (обычно, это `server.jar`). В этом случае у вас должна получиться следующая структура файлов:
+
     * `server.jar` - файл LaunchHelper.
     * `minecraft_server.jar` - предпочитаемое ядро сервера.
     * `authlib-injector.jar` - файл authlib-injector.
