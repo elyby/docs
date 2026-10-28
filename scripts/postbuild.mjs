@@ -1,7 +1,7 @@
 // Assembles the site root after "docusaurus build".
 // Every locale is built into its own build/<prefix>/ directory (see i18n.localeConfigs in
 // docusaurus.config.ts), so files that must live in the site root are placed here.
-import {cpSync, copyFileSync, existsSync, readdirSync, readFileSync, writeFileSync} from 'node:fs';
+import {cpSync, copyFileSync, existsSync, readdirSync, readFileSync, rmSync, writeFileSync} from 'node:fs';
 import {dirname, join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
@@ -87,10 +87,44 @@ ${locales.map(({prefix, lang}) => `        <li><a href="/${prefix}/" hreflang="$
 </html>
 `);
 
+// Every locale build produces its own sitemap.xml. They are merged into a single /sitemap.xml, where each page
+// lists its translations (hreflang), so search engines know which pages are the same in different languages
+const pages = new Map(); // path inside a locale ("/api") => [{prefix, lang, loc}]
+for (const {prefix, lang} of locales) {
+    const sitemapPath = join(buildDir, prefix, 'sitemap.xml');
+    if (!existsSync(sitemapPath)) {
+        continue;
+    }
+
+    for (const [, loc] of readFileSync(sitemapPath, 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g)) {
+        const path = loc.slice(`${SITE_URL}/${prefix}`.length) || '/';
+        pages.set(path, [...(pages.get(path) ?? []), {prefix, lang, loc}]);
+    }
+
+    rmSync(sitemapPath);
+}
+
+const sitemapUrls = [...pages.values()].flatMap((translations) => translations.map(({loc}) => [
+    '    <url>',
+    `        <loc>${loc}</loc>`,
+    ...translations.map((alternate) => `        <xhtml:link rel="alternate" hreflang="${alternate.lang}" href="${alternate.loc}"/>`),
+    ...translations.filter(({prefix}) => prefix === DEFAULT_PREFIX).map((alternate) => `        <xhtml:link rel="alternate" hreflang="x-default" href="${alternate.loc}"/>`),
+    '    </url>',
+].join('\n')));
+
+// The locale sitemaps are removed after merging, so don't overwrite the result when the script runs again
+if (pages.size > 0) {
+    writeFileSync(join(buildDir, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${sitemapUrls.join('\n')}
+</urlset>
+`);
+}
+
 writeFileSync(join(buildDir, 'robots.txt'), `User-agent: *
 Allow: /
 
-${locales.filter(({prefix}) => existsSync(join(buildDir, prefix, 'sitemap.xml'))).map(({prefix}) => `Sitemap: ${SITE_URL}/${prefix}/sitemap.xml`).join('\n')}
+Sitemap: ${SITE_URL}/sitemap.xml
 `);
 
 console.log(`[postbuild] Site root assembled for locales: ${locales.map(({prefix}) => prefix).join(', ')}`);
