@@ -18,11 +18,11 @@
 ### Предусмотренные ошибки {#errors}
 В отличие от оригинального протокола, на Ely применяется меньший зоопарк ошибок:
 
-#### IllegalArgumentException
+#### IllegalArgumentException {#illegal-argument-exception}
 **Причина**: Вы передали неполный список данных для выполнения запроса.
 **Решение**: Внимательно перепроверьте что вы шлёте в запросе и что указано в документации.
 
-#### ForbiddenOperationException
+#### ForbiddenOperationException {#forbidden-operation-exception}
 **Причина**: Пользователь ввёл/разработчик передал неверные значения.
 **Решение**: Необходимо вывести пользователю уведомление о неправильно введённых данных.
 
@@ -240,8 +240,12 @@ Ely.by поддерживает библиотеку authlib-injector. Это н
 Многие лаунчеры и скрипты запуска серверов проверяют целостность файлов игры при запуске и могут не допускать подобную модификацию
 :::
 
+<a id="install-server" className="legacy-anchor"></a>
+
 ### Установка authlib на сервер {#authlib-server}
 Сервер также использует **authlib** для выполнения авторизации игрока, поэтому соответствующие изменения должны быть также применены и к нему. Ниже приведены инструкции по установки **authlib** для различных реализаций сервера Minecraft.
+
+<a id="vanilla" className="legacy-anchor"></a>
 
 #### Оригинальный сервер {#authlib-server-vanilla}
 С помощью архиватора откройте файл сервера `minecraft_server.ВЕРСИЯ.jar`. Таким же образом откройте архив с authlib для соответствующей версии сервера. Перед вами будет два окна: одно с файлами сервера, другое с файлами authlib. Вам необходимо «перетащить» из архива с authlib все файлы и папки, **за исключением директории META-INF**, и подтвердить замену.
@@ -251,8 +255,12 @@ Ely.by поддерживает библиотеку authlib-injector. Это н
 </figure>
 После этих действий вы можете закрыть оба окна и в файле `server.properties` установить значение `online-mode=true`.
 
+<a id="bukkit-spigot" className="legacy-anchor"></a>
+
 #### Bukkit/Spigot {#authlib-server-spigot}
 Сперва выполните установку, как она описана для [оригинального сервера](#authlib-server-vanilla). Затем скачайте библиотеки [commons-io](https://repo1.maven.org/maven2/commons-io/commons-io/2.5/commons-io-2.5.jar) и [commons-lang3](https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar), после чего аналогичным с authlib образом последовательно переместите содержимое скачанных архивов в файлы сервера.
+
+<a id="forge-sponge" className="legacy-anchor"></a>
 
 #### Forge/Sponge {#authlib-server-forge}
 Прежде чем производить установку, необходимо определить, какой именно файл подлежит модификации:
@@ -262,6 +270,8 @@ Ely.by поддерживает библиотеку authlib-injector. Это н
 
 Когда необходимый файл найден, выполните для него установку authlib, аналогично [оригинальному серверу](#authlib-server-vanilla).
 
+<a id="paper-paperspigot" className="legacy-anchor"></a>
+
 #### Paper (PaperSpigot и производные) {#authlib-server-paper}
 Установка производится по аналогии с [Bukkit/Spigot](#authlib-server-spigot) в файл `cache/patched-ВЕРСИЯ.jar`. После внесения изменений, запускать сервер нужно через jar-файл из директории cache, поскольку в противном случае Paper восстановит исходное состояние файла:
 ```bash
@@ -270,6 +280,8 @@ java -jar paper-ВЕРСИЯ-БИЛД.jar
 # После
 java -jar cache/patched-ВЕРСИЯ.jar
 ```
+
+<a id="bungeecord" className="legacy-anchor"></a>
 
 #### BungeeCord (и производные) {#authlib-server-bungeecord}
 :::tip

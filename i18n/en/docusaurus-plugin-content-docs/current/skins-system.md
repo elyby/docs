@@ -1,4 +1,4 @@
-# Skins system
+# Skins system {#skins-system}
 
 On this page you’ll find information about available endpoints of Ely.by’s skins system service. You can use any of them as an secondary or primary source of skins for your project.
 
@@ -26,7 +26,7 @@ URL for downloading a skin texture. The `.png` extension can be omitted. If text
 
 URL for downloading a cape texture. The `.png` extension can be omitted. If textures aren’t found, the server will return a `404` status response.
 
-### Textures request
+### Textures request {#textures-request}
 > **GET /textures/\{nickname\}**
 
 Via this URL you can get textures in the format specified in the `textures` field of JSON property with the same name in response to [request for signed textures](https://wiki.vg/Mojang_API#UUID_-.3E_Profile_.2B_Skin.2FCape):
@@ -47,7 +47,7 @@ Depending on the availability of textures for the player, fields `SKIN` or `CAPE
 
 The server will return an empty response with `204` status, if textures aren’t found.
 
-### Profile request
+### Profile request {#profile-request}
 > **GET /profile/\{nickname\}**
 
 This endpoint is an analog of the [player profile query in the Mojang’s API](https://wiki.vg/Mojang_API#UUID_-.3E_Profile_.2B_Skin.2FCape), but instead of UUID user is queried by his nickname. Just like in the Mojang’s API, you can append `?unsigned=false` to the URL to get textures with a signature. The response will also include an additional property with `name` ely.
@@ -81,7 +81,7 @@ This endpoint returns a public key that can be used to verify a texture’s sign
 
 The same endpoint as the previous one, except that it returns the key in `PEM` format.
 
-### Signed Textures Request
+### Signed Textures Request {#signed-textures-request}
 > **GET /textures/signed/\{nickname\}**
 
 This request is used in our [server skins system plugin](https://ely.by/server-skins-system) to load textures with the original Mojang’s signature. The textures received this way can be transferred to an unmodified game client without any changes. The answer will also include additional property with `name` equal to **ely**.
@@ -106,7 +106,7 @@ By default textures proxying isn’t used for this query. To enable it, add an a
 
 The server will return an empty response with `204` status, if textures aren’t found.
 
-### Additional parameters
+### Additional parameters {#additional-parameters}
 You can also pass a range of additional **GET** parameters while making any of the above requests. They will be used to analyze the usage of the service by different versions of the game.
 
 * `version`: The version of the protocol by which skins will be requested. The current version is `2`, i.e. you need to specify `version=2`.
@@ -118,7 +118,7 @@ Here is an example of a textures request with parameters described above:
 http://skinsystem.ely.by/textures/erickskrauch?version=2&minecraft_version=1.14.0&authlib_version=1.5.25
 ```
 
-### Additional URLs
+### Additional URLs {#auxiliary-urls}
 You can also perform a skin and cape request by passing the nickname through the GET parameter. This feature is used to pass analytical parameters of game versions up to 1.5.2, where the nickname is simply appended to the end of the line. To do this, the entire string is arranged in such a way that the last parameter is `name`, after appending a nickname to which you get a full request string for textures.
 
 > **GET /skins?name=\{nickname\}.png**
@@ -143,5 +143,5 @@ To improve the throughput of the proxying algorithm, information about textures 
 
 If you own a Minecraft premium account, but your nickname is busy, please contact our [support team](https://ely.by/site/contact) and after a short check we’ll pass the nickname on to you.
 
-## Ready-made implementations
+## Ready-made implementations {#implementations}
 Ready-made patch implementations and installation instructions can be found at the [download section of the main Ely.by website](https://ely.by/load).

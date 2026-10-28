@@ -28,3 +28,12 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+/*
+ * Invisible anchors that preserve the section ids of the old Sphinx-based documentation,
+ * so external links like "/ru/minecraft-auth.html#install-server" still lead to the right section
+ */
+.legacy-anchor {
+  display: block;
+  scroll-margin-top: calc(var(--ifm-navbar-height) + 0.5rem);
+}

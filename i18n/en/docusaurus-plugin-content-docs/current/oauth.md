@@ -1,4 +1,4 @@
-# Authorization via OAuth2 protocol
+# Authorization via OAuth2 protocol {#oauth2}
 On this page you’ll find how to implement OAuth2 authorization on your project through the Ely.by Accounts service. The implementation of this protocol will allow your users to authorize using their Ely.by account.
 
 ## Application registration {#app-registration}
@@ -50,6 +50,8 @@ https://example.com/oauth/ely.php?error=access_denied&error_message=The+resource
 | **offline_access**           | With an access_token you will also recieve a refresh_token. See more at [the corresponding section](#refresh-token).                                |
 | **minecraft_server_session** | It will be possible to use `access_token` as a session identifier for the Minecraft.                                                                                        |
 
+<a id="authorization-code-grant" className="legacy-anchor"></a>
+
 ## Exchange auth code for a access key {#access_key}
 After receiving an authorization code (`auth_code`), you’ll need to exchange it for an authorization key (`access_key`). To do this, you must perform a POST request to the URL:
 ```url
@@ -97,6 +99,8 @@ Then we check if there was an error. In which case, we immediately stop the exec
 Then we create a POST request to exchange the `code` for an `access_token`, passing all required fields in the process.
 Then we execute the request, get the answer and parse it from JSON into the associative array.
 :::
+
+<a id="authorization-code-grant-response" className="legacy-anchor"></a>
 
 ### Server response {#access_key_result}
 In case of a successful request, the response body will contain the result of exchanging the authorization code for an `access_token`. Data is a JSON document and can be easily interpreted by tools of a used programming language.
@@ -148,6 +152,8 @@ Note that the email field will only be present when the account_email scope has 
 In the future, the number of returned fields may increase, but existing ones will remain the same.
 :::
 
+<a id="refresh-token-grant" className="legacy-anchor"></a>
+
 ## Refreshing access token {#refresh-token}
 If you have requested the scope `offline_access` during authorization, then along with your `access_token` you’ll also get `refresh_token`. This token doesn’t expire and can be used to obtain a new access token when that one expires.
 
@@ -193,6 +199,8 @@ A simpler way is to use a ready-made library, to which you’ll only have to pro
 ## Possible errors {#errors}
 Below are the typical errors that you may receive after transmitting incorrect data to the authorization server. If you encounter an error that is not described in this documentation, please report it via [feedback form](https://ely.by/site/contact).
 
+<a id="auth-start-errors" className="legacy-anchor"></a>
+
 ### Errors during authorization initiation {#errors-init-auth}
 This section describes the errors displayed when a user is redirected from your site to our authorization initiation page.
 
@@ -226,7 +234,7 @@ If an error occurs, instead of the expected response with the `200` status, you 
 ```
 The `error` field contains the system error identifier, and `error_description` describes the error in English language.
 
-#### Possible error values
+#### Possible error values {#issue-token-error-values}
 * `invalid_request`: Not all the required request parameters were passed or the `code` value was not found in the issued codes database.
 * `unsupported_grant_type`: This error indicates that you tried to authorize using an unknown for our OAuth2 server Grant-type.
 * `invalid_client`: This error occurs when the trio of values `client_id`, `client_secret` and `redirect_uri` didn’t match with any of the registered applications.

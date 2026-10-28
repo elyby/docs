@@ -1,4 +1,4 @@
-# Authlib-Injector
+# Authlib-Injector {#authlib-injector}
 **authlib-injector** is a library that allows you to spoof authorization and session server addresses in the Authlib without modifying the library itself. It’s designed as an javaagent.
 
 This library significantly simplifies the installation of an alternative authorization service in the game client and server, since transformation occurs during application bootstrap process.

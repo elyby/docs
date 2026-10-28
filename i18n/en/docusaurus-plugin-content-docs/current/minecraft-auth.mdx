@@ -18,11 +18,11 @@ The authentication protocol is implemented as similar as possible to the [origin
 ### Expected Errors {#errors}
 Unlike the original protocol, Ely.by uses a simplified set of errors:
 
-#### IllegalArgumentException
+#### IllegalArgumentException {#illegal-argument-exception}
 **Cause**: Incomplete or incorrect request parameters.  
 **Solution**: Verify the request against the documentation.
 
-#### ForbiddenOperationException
+#### ForbiddenOperationException {#forbidden-operation-exception}
 **Cause**: Invalid user input or developer-provided data.  
 **Solution**: Prompt the user to correct their input.
 
@@ -238,8 +238,12 @@ To install, you need to replace the original library located at `<Minecraft inst
 Many launchers and server startup scripts check the integrity of the game files at startup and may not allow such modification
 :::
 
+<a id="install-server" className="legacy-anchor"></a>
+
 ### Installing Authlib on a server {#authlib-server}
 The server also uses **authlib** to perform player authentication, so the appropriate changes should be applied to it as well. Below are instructions on how to install **authlib** for different Minecraft server implementations.
+
+<a id="vanilla" className="legacy-anchor"></a>
 
 ### Vanilla Server {#authlib-server-vanilla}
 Use an archiver to open the server file `minecraft_server.VERSION.jar`. In the same way, open the archive with authlib for the corresponding server version. You will see two windows in front of you: one with the server files, the other with the authlib files. You need to “drag and drop” all files and folders from the authlib archive, **except for the META-INF** directory, and confirm the replacement. 
@@ -249,8 +253,12 @@ Use an archiver to open the server file `minecraft_server.VERSION.jar`. In the s
 </figure>
 After these steps, you can close both windows and set `online-mode=true` in the `server.properties` file.
 
+<a id="bukkit-spigot" className="legacy-anchor"></a>
+
 ### Bukkit/Spigot {#authlib-server-spigot}
 First perform the installation as described for the [original server](#authlib-server-vanilla). Then download the libraries [commons-io](https://repo1.maven.org/maven2/commons-io/commons-io/2.5/commons-io-2.5.jar) and [commons-lang3](https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar), and then move the contents of the downloaded archives into the server files in the same way as authlib
+
+<a id="forge-sponge" className="legacy-anchor"></a>
 
 ### Forge/Sponge {#authlib-server-forge}
 Before performing the installation, it is necessary to determine which file is to be modified:
@@ -260,6 +268,8 @@ Before performing the installation, it is necessary to determine which file is t
 
 When the required file is found, perform an authlib installation for it, similar to [original server](#authlib-server-vanilla).
 
+<a id="paper-paperspigot" className="legacy-anchor"></a>
+
 ### Paper (PaperSpigot) {#authlib-server-paper}
 Installation is done similarly to [Bukkit/Spigot](#authlib-server-spigot) into the `cache/patched-VERSION.jar` file. After making changes, the server must be started via the jar file from the cache directory, because otherwise Paper will restore the original state of the file:
 ```bash
@@ -268,6 +278,8 @@ java -jar paper-ВЕРСИЯ-БИЛД.jar
 # After
 java -jar cache/patched-ВЕРСИЯ.jar
 ```
+
+<a id="bungeecord" className="legacy-anchor"></a>
 
 ### BungeeCord {#authlib-server-bungeecord}
 :::tip

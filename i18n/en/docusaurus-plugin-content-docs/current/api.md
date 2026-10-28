@@ -1,13 +1,15 @@
-# Ely.by API (Mojang API simulation)
+# Ely.by API (Mojang API simulation) {#ely-by-api-mojang-api}
 
-This article contains information about the API compatible with the [Mojang API](http://wiki.vg/Mojang_API) functionality. Please note that this is not a full-fledged API of Ely.by, but only a set of additional requests implemented based on our `[authorization server](./minecraft-auth)`.
+This article contains information about the API compatible with the [Mojang API](http://wiki.vg/Mojang_API) functionality. Please note that this is not a full-fledged API of Ely.by, but only a set of additional requests implemented based on our `[authorization server](./minecraft-auth.mdx)`.
 
-## Requests
+## Requests {#requests}
 :::note
 The API has no rate limit. We just have a configured fail2ban that will ban especially annoying clients. That’s the way.
 :::
 
 This section will describe the requests and their corresponding variants for Mojang API. Base URL for requests is `https://authserver.ely.by`.
+
+<a id="uuid" className="legacy-anchor"></a>
 
 ### UUID by username at a time {#uuid-by-username}
 This request allows you to find out the UUID of a user by their username at a specified point in time. The time is specified via GET parameter at as a Unix timestamp.
@@ -90,9 +92,11 @@ The data is returned in the same order they were requested.
 If one of the passed usernames isn’t found in the database, no value will be returned for it (it will be skipped). Keep this in mind when parsing the response.
 
 ### Profile info by UUID {#profile-by-uuid}
-See the `[profile request for the authorization server](./minecraft-auth#profile-request)`.
+See the `[profile request for the authorization server](./minecraft-auth.mdx#profile-request)`.
 
 ## Possible errors {#possible-errors}
+
+<a id="illegalargumentexception" className="legacy-anchor"></a>
 
 ### IllegalArgumentException {#illegal-argument-exception}
 This error occurs when attempting to send data to the server in an incorrect format.
