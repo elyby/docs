@@ -14,6 +14,9 @@ const config: Config = {
     // Set the /<baseUrl>/ pathname under which your site is served
     // For GitHub pages deployment, it is often '/<projectName>/'
     baseUrl: '/',
+    // Generate "page.html" files instead of "page/index.html" so that the URLs
+    // of the old Sphinx-based documentation (/ru/api.html) keep working as is
+    trailingSlash: false,
 
     // GitHub pages deployment config.
     // If you aren't using GitHub pages, you don't need these.
@@ -34,6 +37,16 @@ const config: Config = {
     i18n: {
         defaultLocale: 'ru',
         locales: ['en', 'ru'],
+        // Each locale lives under its own prefix to preserve the URLs of the old documentation.
+        // The site root is assembled by the "postbuild" script (see scripts/postbuild.mjs)
+        localeConfigs: {
+            ru: {
+                baseUrl: '/ru/',
+            },
+            en: {
+                baseUrl: '/en/',
+            },
+        },
     },
 
     presets: [
