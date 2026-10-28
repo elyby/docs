@@ -10,6 +10,9 @@ files:
   # Documentation pages
   - source: /docs/**/*
     translation: /i18n/%two_letters_code%/docusaurus-plugin-content-docs/current/**/%original_file_name%
+    # Translate whole paragraphs instead of single sentences: the sentence splitting breaks on abbreviations
+    # like "т.к." or "см." and loses the context
+    content_segmentation: false
     # Crowdin language => Docusaurus locale (i18n directory name). Must match the localeConfigs
     # in docusaurus.config.ts and LOCALES_MAPPING in scripts/crowdin-locales.mjs
     languages_mapping: &languages_mapping
