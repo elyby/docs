@@ -3,9 +3,9 @@
 
 ## Регистрация приложения {#app-registration}
 Для начала вам необходимо [создать новое приложение](https://account.ely.by/dev/applications/new). Выберите тип приложения **Веб‑сайт**. В качестве *адреса переадресации* можно указать только домен, но для повышения безопасности лучше использовать полный путь переадресации. Примеры допустимых адресов:
-* `http://site.com`
-* `http://site.com/oauth/ely`
-* `http://site.com/oauth.php?provider=ely`
+* `https://example.com`
+* `https://example.com/oauth/ely`
+* `https://example.com/oauth.php?provider=ely`
 
 После успешного добавления приложения вы попадёте на страницу со списком всех ваших приложений. Кликнув по названию приложения вы увидите его идентификатор `clientId` и секрет `clientSecret`. Они буду использоваться на следующих шагах.
 
@@ -17,7 +17,7 @@ https://account.ely.by/oauth2/v1?client_id=<clientId>&redirect_uri=<redirectUri>
 
 Сформировав ссылку, разместите её в вашем шаблоне:
 ```html
-<a href="<ваша_ссылка>">Войти через Ely.by</a>
+<a href="<your_link>">Sign in with Ely.by</a>
 ```
 По нажатию на ссылку, пользователь попадёт на нашу страницу авторизации, откуда после он будет перенаправлен обратно по адресу, указанному в параметре `redirect_uri`.
 
@@ -25,15 +25,15 @@ https://account.ely.by/oauth2/v1?client_id=<clientId>&redirect_uri=<redirectUri>
 
 Пример успешного и неудачного редиректов:
 ```url
-http://site.com/oauth/ely.php?code=dkpEEVtXBdIcgdQWak4SOPEpTJIvYa8KIq5cW9GJ&state=ajckasdcjasndckbsadc
-http://site.com/oauth/ely.php?error=access_denied&error_message=The+resource+owner+or+authorization+server+denied+the+request.
+https://example.com/oauth/ely.php?code=dkpEEVtXBdIcgdQWak4SOPEpTJIvYa8KIq5cW9GJ&state=ajckasdcjasndckbsadc
+https://example.com/oauth/ely.php?error=access_denied&error_message=The+resource+owner+or+authorization+server+denied+the+request.
 ```
 
 ### Допустимые параметры запроса {#auth-init-params}
 | **Параметр**      | **Пример значения**                     | **Описание**                                                                                                                                                                     |
 |--------------------|-----------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | *clientId*        | `ely`                                  | **Обязательное**. ClientId, полученный при регистрации.                                                                                                                         |
-| *redirect_uri*    | `http://site.com/oauth.php`            | **Обязательное**. Адрес обратной переадресации, совпадающий с адресом, указанным при регистрации приложения.                                                                    |
+| *redirect_uri*    | `https://example.com/oauth.php`            | **Обязательное**. Адрес обратной переадресации, совпадающий с адресом, указанным при регистрации приложения.                                                                    |
 | *response_type*   | `code`                                 | **Обязательное**. Тип ответа. На данный момент поддерживается только `code`.                                                                                                    |
 | *scope*           | `account_info account_email`           | **Обязательное**. Перечень разрешений, доступ к которым вы хотите получить, разделённые пробелом. Смотрите все доступные права в [разделе ниже](#available-scopes).              |
 | *state*           | `isfvubuysdboinsbdfvit`                | Случайно сгенерированная строка. Используется для увеличения безопасности в качестве идентификатора сессии. Будет возвращена в неизменённом виде после завершения авторизации.  |
@@ -69,21 +69,21 @@ https://account.ely.by/api/oauth2/v1/token
 
 ```php
 <?php
-// В этой переменной будут храниться ваши параметры OAuth2
+// This variable stores your OAuth2 parameters
 $oauthParams = [
-    'client_id' => 'ely', // Ваш ClientId, полученный при регистрации
-    'client_secret' => 'Pk4uCtZw5WVlSUpvteJuTZkVqHXZ6aNtTaLPXa7X', // Ваш ClientSecret, полученный при регистрации
-    'redirect_uri' => 'http://someresource.by/oauth/some.php', // Адрес, на который вы ожидаете получить пользователя обратно (текущий url)
+    'client_id' => 'ely', // Your ClientId received during the registration
+    'client_secret' => 'Pk4uCtZw5WVlSUpvteJuTZkVqHXZ6aNtTaLPXa7X', // Your ClientSecret received during the registration
+    'redirect_uri' => 'http://someresource.by/oauth/some.php', // The address where you expect the user to come back (the current url)
     'grant_type' => 'authorization_code',
 ];
 
-// Если возникла ошибка, то прерываем выполнение скрипта
+// If an error occurred, stop the script execution
 if (isset($_GET['error'])) {
     echo $_GET['error_message'];
     return;
 }
 
-// Выполняем код ниже только если пришёл код авторизации
+// Execute the code below only if the authorization code was received
 if (!is_null($_GET['code'])) {
     $oauthParams['code'] = $_GET['code'];
 
@@ -110,9 +110,9 @@ if (!is_null($_GET['code'])) {
 ```json
 {
     "access_token": "4qlktsEiwgspKEAotazem0APA99Ee7E6jNryVBrZ",
-    "refresh_token": "m0APA99Ee7E6jNryVBrZ4qlktsEiwgspKEAotaze", // Представлен только в случае запроса с правами offline_access
+    "refresh_token": "m0APA99Ee7E6jNryVBrZ4qlktsEiwgspKEAotaze", // Present only if the offline_access scope was requested
     "token_type": "Bearer",
-    "expires_in": 86400 // Количество секунд, на которое выдан токен
+    "expires_in": 86400 // The number of seconds the token is issued for
 }
 ```
 На этом процедура авторизации закончена. Полученный `access_token` может быть использован для получения информации о пользователе и взаимодействия с нашим API.
@@ -173,12 +173,12 @@ curl_close($curl);
 
 ```php
 <?php
-// refresh_token, полученный при завершении авторизации
+// refresh_token received at the end of the authorization
 $refreshToken = 'm0APA99Ee7E6jNryVBrZ4qlktsEiwgspKEAotaze';
 
 $requestParams = [
-    'client_id' => 'ely', // Ваш ClientId, полученный при регистрации
-    'client_secret' => 'Pk4uCtZw5WVlSUpvteJuTZkVqHXZ6aNtTaLPXa7X', // Ваш ClientSecret, полученный при регистрации
+    'client_id' => 'ely', // Your ClientId received during the registration
+    'client_secret' => 'Pk4uCtZw5WVlSUpvteJuTZkVqHXZ6aNtTaLPXa7X', // Your ClientSecret received during the registration
     'scope' => 'account_info account_email',
     'refresh_token' => $refreshToken,
     'grant_type' => 'refresh_token',

@@ -10,8 +10,8 @@
 * В случае стандартной ошибки, вы получите следующие данные:
     ```json
     {
-        "error": "Краткое описание ошибки",
-        "errorMessage": "Более длинное описание ошибки на английском языке, пригодное для отображения пользователю."
+        "error": "Short description of the error",
+        "errorMessage": "Longer description of the error in English, suitable for displaying to the user."
     }
     ```
 
@@ -69,21 +69,21 @@
 Если все данные будут переданы верно, вы получите следующий ответ:
 ```json
 {
-    "accessToken": "Длинная_строка_содержащая_access_token",
-    "clientToken": "Переданный_в_запросе_client_token",
+    "accessToken": "Long_string_containing_access_token",
+    "clientToken": "Client_token_passed_in_the_request",
     "availableProfiles": [
         {
-            "id": "UUID_пользователя_без_дефисов",
-            "name": "Текущий_username_пользователя"
+            "id": "User_UUID_without_hyphens",
+            "name": "Current_username_of_the_user"
         }
     ],
     "selectedProfile": {
-        "id": "UUID_пользователя_без_дефисов",
-        "name": "Текущий_username_пользователя"
+        "id": "User_UUID_without_hyphens",
+        "name": "Current_username_of_the_user"
     },
-    "user": { /* Только если передан параметр requestUser */
-        "id": "UUID_пользователя_без_дефисов",
-        "username": "Текущий_username_пользователя",
+    "user": { /* Only if the requestUser parameter was passed */
+        "id": "User_UUID_without_hyphens",
+        "username": "Current_username_of_the_user",
         "properties": [
             {
                 "name": "preferredLanguage",
@@ -113,15 +113,15 @@
 Успешный ответ:
 ```json
 {
-    "accessToken": "Новая_длинная_строка_ содержащая_access_token",
-    "clientToken": "Переданный_в_запросе_client_token",
+    "accessToken": "New_long_string_containing_access_token",
+    "clientToken": "Client_token_passed_in_the_request",
     "selectedProfile": {
-        "id": "UUID_пользователя_без_дефисов",
-        "name": "Текущий_username_пользователя"
+        "id": "User_UUID_without_hyphens",
+        "name": "Current_username_of_the_user"
     },
-    "user": { /* Только если передан параметр requestUser */
-        "id": "UUID_пользователя_без_дефисов",
-        "username": "Текущий_username_пользователя",
+    "user": { /* Only if the requestUser parameter was passed */
+        "id": "User_UUID_without_hyphens",
+        "username": "Current_username_of_the_user",
         "properties": [
             {
                 "name": "preferredLanguage",
@@ -239,6 +239,10 @@ Ely.by поддерживает библиотеку authlib-injector. Это н
 * Minecraft 1.7.2 - [authlib 1.3](/authlib/authlib-1.3.jar)
 
 Для установки вам необходимо заменить оригинальную библиотеку, располагающуюся по пути `<директория установки minecraft>/libraries/com/mojang/authlib/`. Убедитесь в том, что версии скачанного и заменяемого файлов совпадают.
+
+:::warning
+Многие лаунчеры и скрипты запуска серверов проверяют целостность файлов игры при запуске и могут не допускать подобную модификацию.
+:::
 
 ## Установка authlib на сервер {#install-server}
 Сервер также использует **authlib** для выполнения авторизации игрока, поэтому соответствующие изменения должны быть также применены и к нему. Ниже приведены инструкции по установки **authlib** для различных реализаций сервера Minecraft.
