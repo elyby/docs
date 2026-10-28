@@ -99,9 +99,8 @@ const config: Config = {
         // Replace with your project's social card
         image: 'img/docusaurus-social-card.jpg',
         navbar: {
-            title: 'Документация Ely.by',
             logo: {
-                alt: 'Логотип Ely.by',
+                alt: 'Документация Ely.by',
                 src: 'img/logo.svg',
             },
             items: [

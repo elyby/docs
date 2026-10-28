@@ -29,3 +29,7 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
+/* The logo is monochrome: #1c1c1c turns into #e3e3e3, the navbar text color of the dark theme */
+[data-theme='dark'] .navbar__logo img {
+  filter: invert(1);
+}
