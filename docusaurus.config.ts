@@ -185,8 +185,20 @@ const config: Config = {
     } satisfies Preset.ThemeConfig,
 
     plugins: [
-        'docusaurus-plugin-image-zoom'
-    ]
+        'docusaurus-plugin-image-zoom',
+        // Icons in addition to the "favicon" above. Unlike the "headTags" option, a plugin knows the base url
+        // of the locale being built (/ru/, /en/), where the static files are located
+        (context) => ({
+            name: 'site-icons',
+            injectHtmlTags: () => ({
+                headTags: [
+                    {tagName: 'link', attributes: {rel: 'icon', type: 'image/svg+xml', href: `${context.baseUrl}img/favicon.svg`}},
+                    {tagName: 'link', attributes: {rel: 'apple-touch-icon', href: `${context.baseUrl}img/apple-touch-icon.png`}},
+                    {tagName: 'link', attributes: {rel: 'manifest', href: `${context.baseUrl}site.webmanifest`}},
+                ],
+            }),
+        }),
+    ],
 };
 
 export default config;

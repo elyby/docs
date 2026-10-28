@@ -42,6 +42,9 @@ cpSync(join(projectDir, 'root'), buildDir, {recursive: true});
 // GitHub Pages only serves the 404.html from the site root
 copyFileSync(join(buildDir, DEFAULT_PREFIX, '404.html'), join(buildDir, '404.html'));
 
+// Browsers and other clients request /favicon.ico when a page doesn't declare its icons
+copyFileSync(join(buildDir, DEFAULT_PREFIX, 'img', 'favicon.ico'), join(buildDir, 'favicon.ico'));
+
 // The site root redirects to the documentation in the browser's language
 const languagesMap = Object.fromEntries([
     ...RUSSIAN_SPEAKING.map((lang) => [lang, DEFAULT_PREFIX]),
@@ -55,6 +58,8 @@ writeFileSync(join(buildDir, 'index.html'), `<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ely.by Documentation</title>
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+    <link rel="icon" href="/${DEFAULT_PREFIX}/img/favicon.svg" type="image/svg+xml">
 ${locales.map(({prefix, lang}) => `    <link rel="alternate" hreflang="${lang}" href="${SITE_URL}/${prefix}/">`).join('\n')}
     <link rel="alternate" hreflang="x-default" href="${SITE_URL}/${DEFAULT_PREFIX}/">
     <script>
