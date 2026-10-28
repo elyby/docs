@@ -55,6 +55,10 @@ const config: Config = {
 
     onBrokenLinks: 'throw',
 
+    customFields: {
+        buildYear: new Date().getFullYear(),
+    },
+
     markdown: {
         hooks: {
             onBrokenMarkdownLinks: 'throw',
@@ -147,7 +151,9 @@ const config: Config = {
                     ],
                 },
             ],
-            copyright: `Copyright © ${new Date().getFullYear()} Ely.by. Built with Docusaurus.`,
+            // {year} is replaced with the build year by the swizzled Footer/Copyright component, so the translatable
+            // string doesn't change every year
+            copyright: 'Copyright © {year} Ely.by. Built with Docusaurus.',
         },
         prism: {
             theme: prismThemes.github,
