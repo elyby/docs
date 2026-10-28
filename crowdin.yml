@@ -1,0 +1,25 @@
+# Russian is the source language. Translations to other languages are downloaded during the CI build.
+# The Russian UI strings (navbar, footer) must be generated before uploading the sources:
+#   npm run write-translations -- --locale ru --override
+base_url: https://ely.crowdin.com
+project_id: 2
+api_token_env: CROWDIN_PERSONAL_TOKEN
+preserve_hierarchy: true
+
+files:
+  # Documentation pages
+  - source: /docs/**/*
+    translation: /i18n/%two_letters_code%/docusaurus-plugin-content-docs/current/**/%original_file_name%
+    # Crowdin language => Docusaurus locale (i18n directory name). Must match the localeConfigs
+    # in docusaurus.config.ts and LOCALES_MAPPING in scripts/crowdin-locales.mjs
+    languages_mapping: &languages_mapping
+      two_letters_code:
+        zh-CN: zh-Hans
+
+  # UI strings: navbar, footer, etc.
+  - source: /i18n/ru/**/*.json
+    translation: /i18n/%two_letters_code%/**/%original_file_name%
+    languages_mapping: *languages_mapping
+    ignore:
+      # Strings of the Docusaurus theme itself, they already have translations to most languages
+      - /i18n/ru/code.json

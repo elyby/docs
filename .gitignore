@@ -18,3 +18,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Translations are downloaded from Crowdin during the CI build and the Russian UI source strings are generated
+# by "npm run write-translations -- --locale ru --override"
+/i18n/

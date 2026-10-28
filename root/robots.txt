@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://docs.ely.by/ru/sitemap.xml
-Sitemap: https://docs.ely.by/en/sitemap.xml

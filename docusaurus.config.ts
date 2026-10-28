@@ -1,8 +1,38 @@
 import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
+import type {Config, I18nLocaleConfig} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
+
+// All locales the documentation can be built for. Translations are downloaded from Crowdin during the CI build
+const localeConfigs: Record<string, Partial<I18nLocaleConfig>> = {
+    ru: {
+        baseUrl: '/ru/',
+    },
+    en: {
+        baseUrl: '/en/',
+    },
+    'zh-Hans': {
+        baseUrl: '/zh/',
+        htmlLang: 'zh-CN',
+    },
+};
+
+// Locales to build. CI publishes only translations with enough progress (see scripts/crowdin-locales.mjs)
+// and passes them via the DOCS_LOCALES env variable, e.g. "ru,en,zh-Hans"
+const locales = process.env.DOCS_LOCALES
+    ? process.env.DOCS_LOCALES.split(',').map((locale) => locale.trim()).filter(Boolean)
+    : ['ru', 'en'];
+
+for (const locale of locales) {
+    if (!(locale in localeConfigs)) {
+        throw new Error(`Unknown locale "${locale}" in DOCS_LOCALES. Add it to the localeConfigs in docusaurus.config.ts`);
+    }
+}
+
+if (!locales.includes('ru')) {
+    locales.unshift('ru');
+}
 
 const config: Config = {
     title: 'Документация Ely.by',
@@ -31,22 +61,12 @@ const config: Config = {
         },
     },
 
-    // Even if you don't use internationalization, you can use this field to set
-    // useful metadata like html lang. For example, if your site is Chinese, you
-    // may want to replace "en" with "zh-Hans".
     i18n: {
         defaultLocale: 'ru',
-        locales: ['en', 'ru'],
+        locales: locales as [string, ...string[]],
         // Each locale lives under its own prefix to preserve the URLs of the old documentation.
         // The site root is assembled by the "postbuild" script (see scripts/postbuild.mjs)
-        localeConfigs: {
-            ru: {
-                baseUrl: '/ru/',
-            },
-            en: {
-                baseUrl: '/en/',
-            },
-        },
+        localeConfigs: Object.fromEntries(locales.map((locale) => [locale, localeConfigs[locale]])),
     },
 
     presets: [
