@@ -29,6 +29,7 @@
         "@docusaurus/module-type-aliases": "^3.9",
         "@docusaurus/tsconfig": "^3.9",
         "@docusaurus/types": "^3.9",
+        "@types/mdast": "^4",
         "typescript": "^5"
     },
     "browserslist": {

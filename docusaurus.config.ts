@@ -1,6 +1,7 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config, I18nLocaleConfig} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import remarkFigure from './src/remark/figure';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -79,6 +80,8 @@ const config: Config = {
             {
                 docs: {
                     routeBasePath: '/',
+                    // Must run before the default plugins, which turn images into JSX elements
+                    beforeDefaultRemarkPlugins: [remarkFigure],
                     // Please change this to your repo.
                     // Remove this to remove the "edit this page" links.
                     // editUrl:
