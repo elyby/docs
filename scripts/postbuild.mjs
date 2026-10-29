@@ -1,9 +1,9 @@
 // Assembles the site root after "docusaurus build".
 // Every locale is built into its own build/<prefix>/ directory (see i18n.localeConfigs in
 // docusaurus.config.ts), so files that must live in the site root are placed here.
-import {cpSync, copyFileSync, existsSync, readdirSync, readFileSync, rmSync, writeFileSync} from 'node:fs';
-import {dirname, join} from 'node:path';
-import {fileURLToPath} from 'node:url';
+import { cpSync, copyFileSync, existsSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const SITE_URL = 'https://docs.ely.by';
 const DEFAULT_PREFIX = 'ru';

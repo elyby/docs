@@ -1,9 +1,7 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config, I18nLocaleConfig} from '@docusaurus/types';
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config, I18nLocaleConfig } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import remarkFigure from './src/remark/figure';
-
-// This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 // All locales the documentation can be built for. Translations are downloaded from Crowdin during the CI build
 const localeConfigs: Record<string, Partial<I18nLocaleConfig>> = {
@@ -131,10 +129,6 @@ const config: Config = {
                     title: 'Сообщество',
                     items: [
                         {
-                            label: 'X (Twitter)',
-                            href: 'https://x.com/erickskrauch',
-                        },
-                        {
                             label: 'YouTube',
                             href: 'https://www.youtube.com/c/ElyByOfficial',
                         },
@@ -149,9 +143,8 @@ const config: Config = {
                     ],
                 },
             ],
-            // {year} is replaced with the build year by the swizzled Footer/Copyright component, so the translatable
-            // string doesn't change every year
-            copyright: 'Copyright © {year} Ely.by. Built with Docusaurus.',
+            // {year} is replaced with the build year by the swizzled Footer/Copyright component
+            copyright: 'Ely.by © {year}. Создано с использованием Docusaurus.',
         },
         prism: {
             theme: prismThemes.github,

@@ -1,4 +1,4 @@
-import type {Image, Paragraph, Parent, Root} from 'mdast';
+import type { Image, Paragraph, Parent, Root } from 'mdast';
 
 // Turns a paragraph that contains only an image with a title into a figure with a caption:
 //
