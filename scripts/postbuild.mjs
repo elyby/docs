@@ -1,7 +1,7 @@
 // Assembles the site root after "docusaurus build".
 // Every locale is built into its own build/<prefix>/ directory (see i18n.localeConfigs in
 // docusaurus.config.ts), so files that must live in the site root are placed here.
-import { cpSync, copyFileSync, existsSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -35,9 +35,6 @@ function languageName(lang) {
 
     return name.charAt(0).toLocaleUpperCase(lang) + name.slice(1);
 }
-
-// CNAME and .nojekyll
-cpSync(join(projectDir, 'root'), buildDir, {recursive: true});
 
 // GitHub Pages only serves the 404.html from the site root
 copyFileSync(join(buildDir, DEFAULT_PREFIX, '404.html'), join(buildDir, '404.html'));

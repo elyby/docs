@@ -3,13 +3,10 @@ name: CI
 on:
   push:
   pull_request:
-  schedule:
-    # Nightly build to publish fresh translations from Crowdin
-    - cron: '0 2 * * *'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -20,10 +17,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -35,19 +32,15 @@ jobs:
         run: npm run write-translations -- --locale ru --override
 
       - name: Push and pull strings from the Crowdin
-        uses: crowdin/github-action@v2
+        uses: crowdin/github-action@v3
         if: github.ref == 'refs/heads/master'
         with:
-          upload_sources: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
-          upload_translations: false
           download_translations: true
           push_translations: false
+          # Run as the owner of the workspace instead of root, so the downloaded files belong to the runner user
+          user: auto
         env:
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
-
-      - name: Fix permissions to the i18n dir
-        if: github.ref == 'refs/heads/master'
-        run: sudo chown -R "$USER:$USER" i18n
 
       - name: Detect locales to publish
         if: github.ref == 'refs/heads/master'
@@ -61,41 +54,31 @@ jobs:
       - name: Build docs
         run: npm run build
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        if: github.ref == 'refs/heads/master'
         with:
-          name: build
           path: build
-          include-hidden-files: true
-          retention-days: 7
 
-      - id: detect-diffs
-        name: Detect diffs
-        if: github.event_name == 'schedule'
-        run: |
-          git fetch origin
-          if [[ -z "$(git ls-remote --heads origin gh-pages)" ]]; then
-            echo "::warning::gh-pages branch doesn't exist"
-            echo "should-continue=false" >> "$GITHUB_OUTPUT"
-            exit
-          fi
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
 
-          tmp_dir=$(mktemp -du)
-          git worktree add "$tmp_dir" origin/gh-pages
+    permissions:
+      pages: write
+      id-token: write
 
-          if diff -qrbB --exclude=.git build "$tmp_dir" > /dev/null; then
-            echo "should-continue=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "should-continue=true" >> "$GITHUB_OUTPUT"
-          fi
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
-      - name: Deploy to the GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        if: |
-          (github.event_name == 'push' && github.ref == 'refs/heads/master') ||
-          (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/master') ||
-          (github.event_name == 'schedule' && steps.detect-diffs.outputs.should-continue == 'true')
-        with:
-          branch: gh-pages
-          folder: build
-          single-commit: true
+    # Never cancel a deployment in progress
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+
+    steps:
+      - id: deployment
+        name: Deploy to the GitHub Pages
+        uses: actions/deploy-pages@v5
